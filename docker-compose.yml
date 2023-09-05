@@ -1,0 +1,49 @@
+version: '3'
+services:
+  zoom-white:
+    build: ./
+    ports: 
+      - 9001:80
+    volumes:
+      - ./:/usr/share/nginx/html
+    container_name: app-zoom-white
+    restart: always
+    networks:
+      - app-network
+
+  zoom_white_db:
+    image: mysql:8.1
+
+    ports:
+      - 33061:3306
+    environment:
+      MYSQL_DATABASE: zoom_white_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - .docker/mysql:/var/lib/mysql
+    container_name: zoom_white_db
+    restart: always
+    networks:
+      - app-network
+  
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - .docker/rabbitmq/data/:/var/lib/rabbitmq
+      - .docker/rabbitmq/log/:/var/log/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: 12345
+    restart: always
+    networks:
+      - app-network
+    
+
+networks:
+  app-network:
+    driver: bridge
