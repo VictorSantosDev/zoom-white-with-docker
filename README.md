@@ -8,6 +8,8 @@
 
 - docker container exec app-zoom-white php artisan migrate
 
+- docker container exec app-zoom-white php artisan jwt:secret
+
 ```
 
 ---
