@@ -18,10 +18,33 @@ class AdminUserService
 
     public function create(User $user): User
     {
+        $this->adminSendingEmail->sendEmailUserCreated($user);
+
         $this->existUser($user);
         $userCreated = $this->userEntityInterface->create($user);
         $this->adminSendingEmail->sendEmailUserCreated($user);
         return $userCreated;
+    }
+
+    public function list(
+        ?string $name,
+        ?string $email,
+        ?string $phone,
+        ?string $cpf,
+        ?string $active
+    ): array {
+        return $this->userRepositoryInterface->listWithFilter(
+            name: $name,
+            email: $email,
+            phone: $phone,
+            cpf: $cpf,
+            active: $active
+        );
+    }
+
+    public function show(?int $id): User
+    {
+        return $this->userRepositoryInterface->getByIdTryFrom($id);
     }
 
     private function existUser(User $user): void

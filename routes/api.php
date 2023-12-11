@@ -27,6 +27,8 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('user')->middleware('auth:admin')->group(function () {
             Route::post('create', [AdminUserController::class, 'createAction'])->name('admin-user-create');
+            Route::get('list', [AdminUserController::class, 'listAction'])->name('admin-user-list');
+            Route::get('show/{id}', [AdminUserController::class, 'showAction'])->name('admin-user-show');
         });
     });
 });

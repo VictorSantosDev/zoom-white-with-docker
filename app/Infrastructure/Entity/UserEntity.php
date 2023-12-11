@@ -25,9 +25,9 @@ class UserEntity implements UserEntityInterface
             'birthDate' => $user->getBirthDate(),
             'password' => password_hash($user->getPassword(), PASSWORD_DEFAULT),
             'emailVerifiedAt' => $user->getEmailVerifiedAt(),
-            'createdAt' => $user->getCreatedAt(),
-            'updatedAt' => $user->getUpdatedAt(),
-            'deletedAt' => $user->getDeletedAt(),
+            'created_at' => $user->getCreatedAt(),
+            'updated_at' => $user->getUpdatedAt(),
+            'deleted_at' => $user->getDeletedAt(),
         ]);
 
         return new User(
