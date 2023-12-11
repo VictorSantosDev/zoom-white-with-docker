@@ -54,7 +54,7 @@ class User implements JsonSerializable
         return $this->cpf;
     }
 
-    private function getBirthDate(): string
+    public function getBirthDate(): string
     {
         return $this->birthDate;
     }
@@ -87,14 +87,13 @@ class User implements JsonSerializable
     public function jsonSerialize(): mixed
     {
         return [
-            'id' => $this->getId(),
+            'id' => $this->getId()->get(),
             'name' => $this->getName(),
             'email' => $this->getEmail(),
             'phone' => $this->getPhone(),
             'active' => $this->getActive(),
             'cpf' => $this->getCpf(),
             'birthDate' => $this->getBirthDate(),
-            'password' => $this->getPassword(),
             'emailVerifiedAt' => $this->getEmailVerifiedAt(),
             'createdAt' => $this->getCreatedAt(),
             'updatedAt' => $this->getUpdatedAt(),

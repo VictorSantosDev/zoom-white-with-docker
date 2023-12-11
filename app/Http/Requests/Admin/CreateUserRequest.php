@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Closure;
 use Exception;
+use Illuminate\Support\Str;
 
 class CreateUserRequest extends FormRequest
 {
@@ -36,8 +37,8 @@ class CreateUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'required' => 'O campo :attributes é obrigatório',
-            'email' => 'O campo :attributes é inválido',
+            'required' => 'O campo :attribute é obrigatório',
+            'email' => 'O campo :attribute é inválido',
             'phone' => 'O campo suporta no máximo 11 caracteres',
             'cpf' => 'O documento é inválido',
             'birthDate' => 'Data de aniversário é inválida',
@@ -46,6 +47,9 @@ class CreateUserRequest extends FormRequest
 
     public function data(): User
     {
+        $symbol = ['@', '#', '$', '&'];
+        $password = Str::random(4) . $symbol[rand(0, 3)] . Str::random(3);
+
         return new User(
             id: null,
             name: $this->input('name'),
@@ -54,7 +58,7 @@ class CreateUserRequest extends FormRequest
             active: Active::ACTIVE,
             cpf: $this->input('cpf'),
             birthDate: $this->input('birthDate'),
-            password: null,
+            password: $password,
             emailVerifiedAt: null,
             createdAt: now(),
             updatedAt: now(),

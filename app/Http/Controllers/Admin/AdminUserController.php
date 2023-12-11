@@ -22,7 +22,7 @@ class AdminUserController extends Controller
             $output = $this->adminUserService->create($request->data());
 
             return response()->json([
-                'data' => $output
+                'data' => $output->jsonSerialize()
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return response()->json([

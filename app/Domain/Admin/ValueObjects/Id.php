@@ -9,7 +9,7 @@ class Id
     ) {
     }
 
-    public function getId()
+    public function get(): ?int
     {
         return $this->id;
     }
