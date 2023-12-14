@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminEstablishmentController;
 use App\Http\Controllers\Admin\AdminUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,8 +28,14 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('user')->middleware('auth:admin')->group(function () {
             Route::post('create', [AdminUserController::class, 'createAction'])->name('admin-user-create');
+            Route::put('update', [AdminUserController::class, 'updateAction'])->name('admin-user-update');
             Route::get('list', [AdminUserController::class, 'listAction'])->name('admin-user-list');
             Route::get('show/{id}', [AdminUserController::class, 'showAction'])->name('admin-user-show');
+            Route::delete('delete/{id}', [AdminUserController::class, 'deleteAction'])->name('admin-user-delete');
+        });
+
+        Route::prefix('establishment')->middleware('auth:admin')->group(function () {
+            Route::post('create', [AdminEstablishmentController::class, 'createAction'])->name('admin-establishment-create');
         });
     });
 });

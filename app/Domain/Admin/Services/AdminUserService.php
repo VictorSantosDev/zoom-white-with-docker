@@ -12,18 +12,29 @@ class AdminUserService
     public function __construct(
         private UserEntityInterface $userEntityInterface,
         private UserRepositoryInterface $userRepositoryInterface,
-        private AdminSendingEmail $adminSendingEmail
+        private AdminSendingEmailService $adminSendingEmailService
     ) {
     }
 
     public function create(User $user): User
     {
-        $this->adminSendingEmail->sendEmailUserCreated($user);
-
         $this->existUser($user);
         $userCreated = $this->userEntityInterface->create($user);
-        $this->adminSendingEmail->sendEmailUserCreated($user);
+        $this->adminSendingEmailService->sendEmailUserCreated($user);
         return $userCreated;
+    }
+
+    public function update(User $user): User
+    {
+        $this->existUserForUpdate($user);
+        $userCurrent = $this->userRepositoryInterface->getByIdTryFrom($user->getId()->get());
+        $userUpdated = $this->userEntityInterface->update($user);
+
+        if ($userUpdated->getEmail() !== $userCurrent->getEmail()) {
+            $this->adminSendingEmailService->sendEmailUserCreated($userUpdated);
+        }
+
+        return $userUpdated;
     }
 
     public function list(
@@ -47,6 +58,11 @@ class AdminUserService
         return $this->userRepositoryInterface->getByIdTryFrom($id);
     }
 
+    public function delete(?int $id): bool
+    {
+        return $this->userEntityInterface->delete($id);
+    }
+
     private function existUser(User $user): void
     {
         $existCpf = $this->userRepositoryInterface->cpfExist($user->getCpf());
@@ -64,5 +80,15 @@ class AdminUserService
         if ($existPhone instanceof User) {
             throw new Exception('Já existe um usuário cadastrado com esse número de telefone');
         }
+    }
+
+    private function existUserForUpdate(User $user): void
+    {
+        $this->userRepositoryInterface->cpfOrEmailOrPhoneExistDuplicate(
+            $user->getId()->get(),
+            $user->getCpf(),
+            $user->getEmail(),
+            $user->getPhone(),
+        );
     }
 }

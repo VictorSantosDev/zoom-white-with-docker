@@ -17,4 +17,10 @@ interface UserRepositoryInterface
         ?string $active,
     ): array;
     public function getByIdTryFrom(?int $id): User;
+    public function cpfOrEmailOrPhoneExistDuplicate(
+        ?int $id,
+        ?string $cpf,
+        ?string $email,
+        ?string $phone
+    ): void;
 }

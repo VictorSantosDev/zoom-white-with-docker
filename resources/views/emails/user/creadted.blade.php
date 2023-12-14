@@ -1,12 +1,16 @@
 <x-mail::message>
-# Introduction
+# Parabéns, {{ $name }} você já tem acesso a plataforma.
 
-The body of your message.
+Para conseguir acessar o {{ config('app.name') }}, utilize a senha abaixo.
 
-<x-mail::button :url="''">
-Button Text
+<x-mail::panel>
+<strong>SENHA:</strong> {{ $password }}
+</x-mail::panel>
+
+<x-mail::button :url="$url">
+Acessar a Plataforma
 </x-mail::button>
 
-Thanks,<br>
+Obrigado,<br>
 {{ config('app.name') }}
 </x-mail::message>

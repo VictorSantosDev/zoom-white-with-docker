@@ -45,4 +45,39 @@ class UserEntity implements UserEntityInterface
             deletedAt: $user->getDeletedAt(),
         );
     }
+
+    public function update(User $user): User
+    {
+        $row = $this->db::where('id', $user->getId()->get())->where('active', 1)->first();
+
+        $row->name = $user->getName();
+        $row->email = $user->getEmail();
+        $row->phone = $user->getPhone();
+        $row->active = $user->getActive()->value;
+        $row->cpf = $user->getCpf();
+        $row->birthDate = $user->getBirthDate();
+        $row->updated_at = $user->getUpdatedAt();
+        $row->save();
+
+        return new User(
+            id: new Id($row->id),
+            name: $user->getName(),
+            email: $user->getEmail(),
+            phone: $user->getPhone(),
+            active: $user->getActive(),
+            cpf: $user->getCpf(),
+            birthDate: $user->getBirthDate(),
+            password: $user->getPassword(),
+            emailVerifiedAt: $user->getEmailVerifiedAt(),
+            createdAt: $user->getCreatedAt(),
+            updatedAt: $user->getUpdatedAt(),
+            deletedAt: $user->getDeletedAt(),
+        );
+    }
+
+    public function delete(?int $id): bool
+    {
+        $this->db::where('id', $id)->delete();
+        return true;
+    }
 }

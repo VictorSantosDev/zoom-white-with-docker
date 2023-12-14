@@ -6,6 +6,7 @@ use App\Domain\Admin\Services\AdminUserService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CreateUserRequest;
 use App\Http\Requests\Admin\ListUserRequest;
+use App\Http\Requests\Admin\UpdateUserRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -21,6 +22,21 @@ class AdminUserController extends Controller
     {
         try {
             $output = $this->adminUserService->create($request->data());
+
+            return response()->json([
+                'data' => $output->jsonSerialize()
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public function updateAction(UpdateUserRequest $request): JsonResponse
+    {
+        try {
+            $output = $this->adminUserService->update($request->data());
 
             return response()->json([
                 'data' => $output->jsonSerialize()
@@ -60,6 +76,21 @@ class AdminUserController extends Controller
 
             return response()->json([
                 'data' => $output->jsonSerialize()
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public function deleteAction(?int $id): JsonResponse
+    {
+        try {
+            $output = $this->adminUserService->delete($id);
+
+            return response()->json([
+                'data' => $output
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return response()->json([

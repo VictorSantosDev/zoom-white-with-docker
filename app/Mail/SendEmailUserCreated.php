@@ -17,9 +17,11 @@ class SendEmailUserCreated extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
-    {
-        //
+    public function __construct(
+        private string $email,
+        private string $name,
+        private string $password
+    ) {
     }
 
     /**
@@ -28,8 +30,9 @@ class SendEmailUserCreated extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('victor_santos1162@hotmail.com', 'Victor Test'),
-            subject: 'Send Email User Created',
+            from: new Address(env('MAIL_FROM_ADDRESS')),
+            to: $this->email,
+            subject: 'Você foi cadastrado no ' . env('APP_NAME', 'Zoom White'),
         );
     }
 
@@ -41,7 +44,9 @@ class SendEmailUserCreated extends Mailable
         return new Content(
             markdown: 'emails.user.creadted',
             with: [
-                'url' => 'https://www.google.com.br/',
+                'name' => $this->name,
+                'password' => $this->password,
+                'url' => config('app.url', 'https://zoomwhite.com.br/'),
             ],
         );
     }

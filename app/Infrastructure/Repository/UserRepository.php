@@ -118,7 +118,7 @@ class UserRepository implements UserRepositoryInterface
             $row = $row->where('active', (int) $active);
         }
 
-        return $row->paginate(10)->toArray();
+        return $row->orderBy('updated_at', 'desc')->paginate(10)->toArray();
     }
 
     public function getByIdTryFrom(?int $id): User
@@ -145,5 +145,45 @@ class UserRepository implements UserRepositoryInterface
             updatedAt: $row->updated_at,
             deletedAt: $row->deleted_at,
         );
+    }
+
+    public function cpfOrEmailOrPhoneExistDuplicate(
+        ?int $id,
+        ?string $cpf,
+        ?string $email,
+        ?string $phone
+    ): void {
+
+        // $row = ;
+
+        if (
+            $this->db::where('active', Active::ACTIVE->value)
+            ->where('id', '<>', $id)
+            ->where('cpf', $cpf)
+            ->withTrashed()
+            ->first()
+        ) {
+            throw new Exception('Documento já cadastrado');
+        }
+
+        if (
+            $this->db::where('active', Active::ACTIVE->value)
+            ->where('id', '<>', $id)
+            ->where('email', $email)
+            ->withTrashed()
+            ->first()
+        ) {
+            throw new Exception('E-mail já cadastrado');
+        }
+
+        if (
+            $this->db::where('active', Active::ACTIVE->value)
+            ->where('id', '<>', $id)
+            ->where('phone', $phone)
+            ->withTrashed()
+            ->first()
+        ) {
+            throw new Exception('Número de telefone já cadastrado');
+        }
     }
 }
