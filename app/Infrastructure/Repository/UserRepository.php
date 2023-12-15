@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Repository;
 
 use App\Domain\Admin\Entity\User;
@@ -34,9 +36,9 @@ class UserRepository implements UserRepositoryInterface
             birthDate: $row->birthDate,
             password: $row->password,
             emailVerifiedAt: $row->emailVerifiedAt,
-            createdAt: $row->createdAt,
-            updatedAt: $row->updatedAt,
-            deletedAt: $row->deletedAt,
+            createdAt: $row->created_at?->format('Y-m-d H:m:s'),
+            updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
+            deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
         );
     }
 
@@ -58,9 +60,9 @@ class UserRepository implements UserRepositoryInterface
             birthDate: $row->birthDate,
             password: $row->password,
             emailVerifiedAt: $row->emailVerifiedAt,
-            createdAt: $row->created_at,
-            updatedAt: $row->updated_at,
-            deletedAt: $row->deleted_at,
+            createdAt: $row->created_at?->format('Y-m-d H:m:s'),
+            updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
+            deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
         );
     }
 
@@ -82,9 +84,9 @@ class UserRepository implements UserRepositoryInterface
             birthDate: $row->birthDate,
             password: $row->password,
             emailVerifiedAt: $row->emailVerifiedAt,
-            createdAt: $row->created_at,
-            updatedAt: $row->updated_at,
-            deletedAt: $row->deleted_at,
+            createdAt: $row->created_at?->format('Y-m-d H:m:s'),
+            updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
+            deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
         );
     }
 
@@ -141,9 +143,9 @@ class UserRepository implements UserRepositoryInterface
             birthDate: $row->birthDate,
             password: $row->password,
             emailVerifiedAt: $row->emailVerifiedAt,
-            createdAt: $row->created_at,
-            updatedAt: $row->updated_at,
-            deletedAt: $row->deleted_at,
+            createdAt: $row->created_at?->format('Y-m-d H:m:s'),
+            updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
+            deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
         );
     }
 
@@ -153,9 +155,6 @@ class UserRepository implements UserRepositoryInterface
         ?string $email,
         ?string $phone
     ): void {
-
-        // $row = ;
-
         if (
             $this->db::where('active', Active::ACTIVE->value)
             ->where('id', '<>', $id)

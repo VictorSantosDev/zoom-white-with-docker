@@ -45,17 +45,20 @@ class CreateEstablishmentRequest extends FormRequest
             'required' => 'O campo :attribute é obrigatório',
             'max' => 'O campo :attribute aceita no máximo :max caracteres',
             'min' => 'O campo :attribute aceita no minímo :min caracteres',
+            'type.in' => 'O campo type só aceita esses valores CAR_WASH, PARKING, CAR_WASH_AND_PARKING',
         ];
     }
 
-    public function data(): Establishment
+    public function dataEstablishment(): Establishment
     {
         return new Establishment(
             id: null,
+            userId: new Id($this->input('userId')),
             nameByCompany: $this->input('nameByCompany'),
             document: $this->input('document'),
             type: TypeEstablishment::tryFrom($this->input('type')),
             corSystem: $this->input('corSystem'),
+            pathLogo: null,
             active: Active::ACTIVE,
             createdAt: now(),
             updatedAt: now(),

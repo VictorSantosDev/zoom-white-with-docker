@@ -11,7 +11,7 @@ class Address implements JsonSerializable
     public function __construct(
         private ?Id $id,
         private ?Id $userId,
-        private ?string $establishmentId,
+        private ?Id $establishmentId,
         private ?string $postalCode,
         private ?string $street,
         private ?string $neighborhood,
@@ -99,9 +99,9 @@ class Address implements JsonSerializable
     public function jsonSerialize(): mixed
     {
         return [
-            'id' => $this->getId(),
-            'userId' => $this->getUserId(),
-            'establishmentId' => $this->getEstablishmentId(),
+            'id' => $this->getId()?->get(),
+            'userId' => $this->getUserId()?->get(),
+            'establishmentId' => $this->getEstablishmentId()?->get(),
             'postalCode' => $this->getPostalCode(),
             'street' => $this->getStreet(),
             'neighborhood' => $this->getNeighborhood(),

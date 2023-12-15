@@ -63,6 +63,11 @@ class AdminUserService
         return $this->userEntityInterface->delete($id);
     }
 
+    public function findUserById(?int $id): User
+    {
+        return $this->userRepositoryInterface->getByIdTryFrom($id);
+    }
+
     private function existUser(User $user): void
     {
         $existCpf = $this->userRepositoryInterface->cpfExist($user->getCpf());

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('establishments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('name_by_company', 255);
             $table->string('document', 14);
             $table->enum('type', [
@@ -24,6 +25,8 @@ return new class extends Migration
             $table->boolean('active')->default(1)->comment('1 - ativo | 0 - inativo');
             $table->timestamps();
             $table->softDeletesTz();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

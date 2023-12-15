@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Domain\Admin\Entity\User;
 use App\Domain\Admin\Services\AdminUserService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CreateUserRequest;

@@ -13,10 +13,12 @@ class Establishment implements JsonSerializable
 {
     public function __construct(
         private ?Id $id,
+        private Id $userId,
         private string $nameByCompany,
         private string $document,
         private TypeEstablishment $type,
         private string $corSystem,
+        private ?string $pathLogo,
         private Active $active,
         private ?string $createdAt,
         private ?string $updatedAt,
@@ -27,6 +29,11 @@ class Establishment implements JsonSerializable
     public function getId(): ?Id
     {
         return $this->id;
+    }
+
+    public function getUserId(): Id
+    {
+        return $this->userId;
     }
 
     public function getNameByCompany(): string
@@ -47,6 +54,11 @@ class Establishment implements JsonSerializable
     public function getCorSystem(): string
     {
         return $this->corSystem;
+    }
+
+    public function getPathLogo(): ?string
+    {
+        return $this->pathLogo;
     }
 
     public function getActive(): Active
@@ -72,11 +84,13 @@ class Establishment implements JsonSerializable
     public function jsonSerialize(): mixed
     {
         return [
-            'id' => $this->getId()->get(),
+            'id' => $this->getId()?->get(),
+            'userId' => $this->getUserId()->get(),
             'nameByCompany' => $this->getNameByCompany(),
             'document' => $this->getDocument(),
             'type' => $this->getType()->value,
             'corSystem' => $this->getCorSystem(),
+            'pathLogo' => $this->getPathLogo(),
             'active' => $this->getActive()->value,
             'createdAt' => $this->getCreatedAt(),
             'updatedAt' => $this->getUpdatedAt(),

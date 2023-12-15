@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('city', 255)->nullable();
             $table->string('number', 100)->nullable();
             $table->string('complement', 100)->nullable();
+            $table->boolean('active')->default(1)->comment('1 - ativo | 0 - inativo');
             $table->timestamps();
             $table->softDeletesTz();
 
