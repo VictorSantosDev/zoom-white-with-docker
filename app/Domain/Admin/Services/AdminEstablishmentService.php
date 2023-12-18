@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Admin\Services;
 
 use App\Domain\Address\Entity\Address;
@@ -20,7 +22,7 @@ class AdminEstablishmentService
         Establishment $establishment,
         Address $address
     ): array {
-        $user = $this->adminUserService->findUserById($establishment->getUserId()->get());
+        $this->adminUserService->findUserById($establishment->getUserId()->get());
 
         $establishmentCreated = $this->establishmentService->create($establishment);
 
@@ -32,6 +34,22 @@ class AdminEstablishmentService
         return [
             'establishment' => $establishmentCreated->jsonSerialize(),
             'address' => $addressCreated->jsonSerialize(),
+        ];
+    }
+
+    public function update(
+        Establishment $establishment,
+        Address $address
+    ): array {
+        $establishmentUpdated = $this->establishmentService->update($establishment);
+        $addressUpdated = $this->addressService->updateByEstablishment(
+            $address,
+            $establishmentUpdated->getId()->get()
+        );
+
+        return [
+            'establishment' => $establishmentUpdated->jsonSerialize(),
+            'address' => $addressUpdated->jsonSerialize(),
         ];
     }
 
@@ -51,8 +69,13 @@ class AdminEstablishmentService
         );
     }
 
-    public function show(int $id): Establishment
+    public function show(int $id): array
     {
         return $this->establishmentService->show($id);
+    }
+
+    public function delete(int $id): bool
+    {
+        return $this->establishmentService->delete($id);
     }
 }

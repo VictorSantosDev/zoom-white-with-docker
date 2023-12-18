@@ -36,8 +36,10 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('establishment')->middleware('auth:admin')->group(function () {
             Route::post('create', [AdminEstablishmentController::class, 'createAction'])->name('admin-establishment-create');
+            Route::put('update', [AdminEstablishmentController::class, 'updateAction'])->name('admin-establishment-update');
             Route::get('list-by-user', [AdminEstablishmentController::class, 'listByUserAction'])->name('admin-establishment-list-by-user');
             Route::get('/show/{id}', [AdminEstablishmentController::class, 'showAction'])->name('admin-establishment-show');
+            Route::delete('/delete/{id}', [AdminEstablishmentController::class, 'deleteAction'])->name('admin-establishment-delete');
         });
     });
 });

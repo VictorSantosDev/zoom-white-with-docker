@@ -9,11 +9,12 @@ use App\Domain\Establishment\Entity\Establishment;
 interface EstablishmentRepositoryInterface
 {
     public function findEstablishmentByDocument(int $userId, string $document): ?Establishment;
+    public function findEstablishmentByOtherDocument(int $establishmentId, string $document): ?Establishment;
     public function listEstablishmentByUserId(
         int $userId,
         ?string $nameByCompany,
         ?string $document,
         ?string $type
     ): array;
-    public function getByIdTryFrom(int $id): Establishment;
+    public function getByIdTryFrom(int $id): array;
 }

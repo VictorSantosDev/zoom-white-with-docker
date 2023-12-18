@@ -8,6 +8,7 @@ use App\Domain\Admin\Entity\User;
 use App\Domain\Admin\Infrastructure\Entity\UserEntityInterface;
 use App\Domain\Admin\ValueObjects\Id;
 use App\Models\User as EntityUser;
+use Exception;
 
 class UserEntity implements UserEntityInterface
 {
@@ -77,9 +78,14 @@ class UserEntity implements UserEntityInterface
         );
     }
 
-    public function delete(?int $id): bool
+    public function delete(int $id): bool
     {
-        $this->db::where('id', $id)->delete();
+        $delete = $this->db::where('id', $id)->delete();
+
+        if ($delete === 0) {
+            throw new Exception('Não foi possível excluir esse usuário');
+        }
+
         return true;
     }
 }

@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Establishment extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'establishments';
 
@@ -23,4 +25,9 @@ class Establishment extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function address(): HasMany
+    {
+        return $this->hasMany(Address::class, 'establishment_id', 'id');
+    }
 }

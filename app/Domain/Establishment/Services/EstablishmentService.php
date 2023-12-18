@@ -23,6 +23,12 @@ class EstablishmentService
         return $this->establishmentEntityInterface->create($establishment);
     }
 
+    public function update(Establishment $establishment): Establishment
+    {
+        $this->existByUserWithOtherDocument($establishment->getId()->get(), $establishment->getDocument());
+        return $this->establishmentEntityInterface->update($establishment);
+    }
+
     public function listEstablishmentByUserId(
         int $userId,
         ?string $nameByCompany,
@@ -37,15 +43,32 @@ class EstablishmentService
         );
     }
 
-    public function show(int $id): Establishment
+    public function show(int $id): array
     {
         return $this->establishmentRepositoryInterface->getByIdTryFrom($id);
+    }
+
+    public function delete(int $id)
+    {
+        return $this->establishmentEntityInterface->delete($id);
     }
 
     private function existByUserWithDocument(int $userId, string $document): void
     {
         $establishment = $this->establishmentRepositoryInterface->findEstablishmentByDocument(
             $userId,
+            $document
+        );
+
+        if ($establishment) {
+            throw new Exception('Já existe uma empresa com esse documento cadastrado para esse usuário');
+        }
+    }
+
+    private function existByUserWithOtherDocument(int $establishmentId, string $document): void
+    {
+        $establishment = $this->establishmentRepositoryInterface->findEstablishmentByOtherDocument(
+            $establishmentId,
             $document
         );
 

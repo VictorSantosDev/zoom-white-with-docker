@@ -9,4 +9,5 @@ use App\Domain\Address\Entity\Address;
 interface AddressEntityInterface
 {
     public function createAddressEstablishment(Address $address, int $establishmentId): Address;
+    public function updateAddressEstablishment(Address $address, int $establishmentId): Address;
 }

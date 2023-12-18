@@ -6,6 +6,7 @@ use App\Domain\Admin\Services\AdminEstablishmentService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CreateEstablishmentRequest;
 use App\Http\Requests\Admin\ListEstablishmentByUserRequest;
+use App\Http\Requests\Admin\UpdateEstablishmentRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -23,6 +24,27 @@ class AdminEstablishmentController extends Controller
         try {
             DB::beginTransaction();
             $output = $this->adminEstablishmentService->create(
+                $request->dataEstablishment(),
+                $request->dataAddress(),
+            );
+
+            DB::commit();
+            return response()->json([
+                'data' => $output
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'error' => $e->getMessage()
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public function updateAction(UpdateEstablishmentRequest $request): JsonResponse
+    {
+        try {
+            DB::beginTransaction();
+            $output = $this->adminEstablishmentService->update(
                 $request->dataEstablishment(),
                 $request->dataAddress(),
             );
@@ -70,7 +92,25 @@ class AdminEstablishmentController extends Controller
 
             DB::commit();
             return response()->json([
-                'data' => $output->jsonSerialize()
+                'data' => $output
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'error' => $e->getMessage()
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public function deleteAction(int $id): JsonResponse
+    {
+        try {
+            DB::beginTransaction();
+            $output = $this->adminEstablishmentService->delete($id);
+
+            DB::commit();
+            return response()->json([
+                'data' => $output
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             DB::rollBack();
