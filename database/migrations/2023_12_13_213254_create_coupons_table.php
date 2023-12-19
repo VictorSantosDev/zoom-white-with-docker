@@ -17,8 +17,24 @@ return new class extends Migration
             $table->string('name_by_company', 20);
             $table->time('opening_hours_start');
             $table->time('opening_hours_end');
-            $table->date('opening_date_start');
-            $table->time('opening_date_end');
+            $table->enum('days_of_the_week_start', [
+                'MONDAY',
+                'THIRD',
+                'WEDNESDAY',
+                'THURSDAY',
+                'FRIDAY',
+                'SATURDAY',
+                'SUNDAY',
+            ]);
+            $table->enum('days_of_the_week_end', [
+                'MONDAY',
+                'THIRD',
+                'WEDNESDAY',
+                'THURSDAY',
+                'FRIDAY',
+                'SATURDAY',
+                'SUNDAY',
+            ]);
             $table->text('info')->nullable();
             $table->timestamps();
             $table->softDeletesTz();

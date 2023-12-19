@@ -1,21 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminCouponsController;
 use App\Http\Controllers\Admin\AdminEstablishmentController;
 use App\Http\Controllers\Admin\AdminUserController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
 Route::prefix('v1')->group(function () {
     Route::prefix('admin')->group(function () {
@@ -40,6 +29,13 @@ Route::prefix('v1')->group(function () {
             Route::get('list-by-user', [AdminEstablishmentController::class, 'listByUserAction'])->name('admin-establishment-list-by-user');
             Route::get('/show/{id}', [AdminEstablishmentController::class, 'showAction'])->name('admin-establishment-show');
             Route::delete('/delete/{id}', [AdminEstablishmentController::class, 'deleteAction'])->name('admin-establishment-delete');
+        });
+
+        Route::prefix('coupons')->middleware('auth:admin')->group(function () {
+            Route::post('create', [AdminCouponsController::class, 'createAction'])->name('admin-coupons-create');
+            Route::put('update', [AdminCouponsController::class, 'updateAction'])->name('admin-coupons-update');
+            Route::get('/show/{id}', [AdminCouponsController::class, 'showAction'])->name('admin-coupons-show');
+            Route::delete('/delete/{id}', [AdminCouponsController::class, 'deleteAction'])->name('admin-coupons-delete');
         });
     });
 });

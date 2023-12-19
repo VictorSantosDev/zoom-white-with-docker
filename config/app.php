@@ -168,6 +168,7 @@ return [
         App\Providers\AdminUserProvider::class,
         App\Providers\EstablishmentProvider::class,
         App\Providers\AddressProvider::class,
+        App\Providers\CouponsProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
