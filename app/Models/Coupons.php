@@ -21,6 +21,7 @@ class Coupons extends Model
         'days_of_the_week_start',
         'days_of_the_week_end',
         'info',
+        'active',
         'created_at',
         'updated_at',
         'deleted_at',

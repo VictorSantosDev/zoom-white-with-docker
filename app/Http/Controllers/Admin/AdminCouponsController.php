@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Domain\Admin\Services\AdminCuponsService;
+use App\Domain\Admin\Services\AdminCouponsService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CreateCouponsRequest;
+use App\Http\Requests\Admin\EnableOrDisableCouponsRequest;
+use App\Http\Requests\Admin\UpdateCouponRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,7 +14,7 @@ use Illuminate\Http\Request;
 class AdminCouponsController extends Controller
 {
     public function __construct(
-        private AdminCuponsService $adminCuponsService
+        private AdminCouponsService $adminCuponsService
     ) {
     }
 
@@ -31,13 +33,13 @@ class AdminCouponsController extends Controller
         }
     }
 
-    public function updateAction(): JsonResponse
+    public function updateAction(UpdateCouponRequest $request): JsonResponse
     {
         try {
-            $output = $this->adminCuponsService->update();
+            $output = $this->adminCuponsService->update($request->data());
 
             return response()->json([
-                'data' => $output
+                'data' => $output->jsonSerialize()
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return response()->json([
@@ -46,13 +48,13 @@ class AdminCouponsController extends Controller
         }
     }
 
-    public function showAction(): JsonResponse
+    public function showAction(int $id): JsonResponse
     {
         try {
-            $output = $this->adminCuponsService->show();
+            $output = $this->adminCuponsService->show($id);
 
             return response()->json([
-                'data' => $output
+                'data' => $output->jsonSerialize()
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return response()->json([
@@ -61,10 +63,13 @@ class AdminCouponsController extends Controller
         }
     }
 
-    public function deleteAction(): JsonResponse
+    public function enableOrDisableAction(EnableOrDisableCouponsRequest $request): JsonResponse
     {
         try {
-            $output = $this->adminCuponsService->delete();
+            $output = $this->adminCuponsService->enableOrDisable(
+                $request->input('couponsId'),
+                $request->input('active')
+            );
 
             return response()->json([
                 'data' => $output

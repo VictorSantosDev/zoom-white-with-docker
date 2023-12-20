@@ -5,6 +5,7 @@ namespace App\Infrastructure\Repository;
 use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\Coupons\Entity\Coupons;
 use App\Domain\Coupons\Infrastructure\Repository\CouponsRepositoryInterface;
+use App\Domain\Enum\Active;
 use App\Domain\Enum\DaysOfTheWeek;
 use App\Models\Coupons as ModelCoupons;
 use Exception;
@@ -16,9 +17,9 @@ class CouponsRepository implements CouponsRepositoryInterface
     ) {
     }
 
-    public function getByEstablishmentIdTryFrom(int $establishmentId)
+    public function getByIdTryFrom(int $id): Coupons
     {
-        $row = $this->db::where('id', $establishmentId)->first();
+        $row = $this->db::where('id', $id)->first();
 
         if (!$row) {
             throw new Exception('Cupom não encontrado');
@@ -33,6 +34,7 @@ class CouponsRepository implements CouponsRepositoryInterface
             daysOfTheWeekStart: DaysOfTheWeek::tryFrom($row->days_of_the_week_start),
             daysOfTheWeekEnd: DaysOfTheWeek::tryFrom($row->days_of_the_week_end),
             info: $row?->info,
+            active: Active::tryFrom($row->active),
             createdAt: $row->created_at?->format('Y-m-d H:m:s'),
             updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
             deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
@@ -56,6 +58,7 @@ class CouponsRepository implements CouponsRepositoryInterface
             daysOfTheWeekStart: DaysOfTheWeek::tryFrom($row->days_of_the_week_start),
             daysOfTheWeekEnd: DaysOfTheWeek::tryFrom($row->days_of_the_week_end),
             info: $row?->info,
+            active: Active::tryFrom($row->active),
             createdAt: $row->created_at?->format('Y-m-d H:m:s'),
             updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
             deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),

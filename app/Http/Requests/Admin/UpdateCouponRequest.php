@@ -8,7 +8,7 @@ use App\Domain\Enum\Active;
 use App\Domain\Enum\DaysOfTheWeek;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCouponsRequest extends FormRequest
+class UpdateCouponRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -18,7 +18,7 @@ class CreateCouponsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'establishmentId' => 'required|integer',
+            'couponsId' => 'required|integer',
             'nameByCompany' => 'required|string',
             'openingHoursStart' => 'required|string',
             'openingHoursEnd' => 'required|string',
@@ -53,8 +53,8 @@ class CreateCouponsRequest extends FormRequest
     public function data(): Coupons
     {
         return new Coupons(
-            id: null,
-            establishmentId: new Id($this->input('establishmentId')),
+            id: new Id($this->input('couponsId')),
+            establishmentId: new Id(null),
             nameByCompany: $this->input('nameByCompany'),
             openingHoursStart: $this->input('openingHoursStart'),
             openingHoursEnd: $this->input('openingHoursEnd'),

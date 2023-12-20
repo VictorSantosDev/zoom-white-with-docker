@@ -3,6 +3,7 @@
 namespace App\Domain\Coupons\Entity;
 
 use App\Domain\Admin\ValueObjects\Id;
+use App\Domain\Enum\Active;
 use App\Domain\Enum\DaysOfTheWeek;
 use JsonSerializable;
 
@@ -17,6 +18,7 @@ class Coupons implements JsonSerializable
         private DaysOfTheWeek $daysOfTheWeekStart,
         private DaysOfTheWeek $daysOfTheWeekEnd,
         private ?string $info,
+        private Active $active,
         private ?string $createdAt,
         private ?string $updatedAt,
         private ?string $deletedAt
@@ -63,6 +65,11 @@ class Coupons implements JsonSerializable
         return $this->info;
     }
 
+    public function getActive(): Active
+    {
+        return $this->active;
+    }
+
     public function getCreatedAt(): ?string
     {
         return $this->createdAt;
@@ -89,6 +96,7 @@ class Coupons implements JsonSerializable
             'daysOfTheWeekStart' => $this->getDaysOfTheWeekStart()->value,
             'daysOfTheWeekEnd' => $this->getDaysOfTheWeekEnd()->value,
             'info' => $this->getInfo(),
+            'active' => $this->getActive()->value,
             'createdAt' => $this->getCreatedAt(),
             'updatedAt' => $this->getUpdatedAt(),
             'deletedAt' => $this->getDeletedAt(),

@@ -6,6 +6,6 @@ use App\Domain\Coupons\Entity\Coupons;
 
 interface CouponsRepositoryInterface
 {
-    public function getByEstablishmentIdTryFrom(int $establishmentId);
+    public function getByIdTryFrom(int $id): Coupons;
     public function getByEstablishmentId(int $establishmentId): ?Coupons;
 }

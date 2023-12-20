@@ -34,8 +34,8 @@ Route::prefix('v1')->group(function () {
         Route::prefix('coupons')->middleware('auth:admin')->group(function () {
             Route::post('create', [AdminCouponsController::class, 'createAction'])->name('admin-coupons-create');
             Route::put('update', [AdminCouponsController::class, 'updateAction'])->name('admin-coupons-update');
+            Route::put('enable-or-disable', [AdminCouponsController::class, 'enableOrDisableAction'])->name('admin-coupons-enable-or-disable');
             Route::get('/show/{id}', [AdminCouponsController::class, 'showAction'])->name('admin-coupons-show');
-            Route::delete('/delete/{id}', [AdminCouponsController::class, 'deleteAction'])->name('admin-coupons-delete');
         });
     });
 });

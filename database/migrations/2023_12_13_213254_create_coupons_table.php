@@ -36,6 +36,7 @@ return new class extends Migration
                 'SUNDAY',
             ]);
             $table->text('info')->nullable();
+            $table->boolean('active')->default(1)->comment('1 - ativo | 0 - inativo');
             $table->timestamps();
             $table->softDeletesTz();
 
