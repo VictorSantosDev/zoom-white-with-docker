@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminCouponsController;
 use App\Http\Controllers\Admin\AdminEstablishmentController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\User\UserAuthController;
 
 Route::prefix('v1')->group(function () {
     Route::prefix('admin')->group(function () {
@@ -36,6 +37,15 @@ Route::prefix('v1')->group(function () {
             Route::put('update', [AdminCouponsController::class, 'updateAction'])->name('admin-coupons-update');
             Route::put('enable-or-disable', [AdminCouponsController::class, 'enableOrDisableAction'])->name('admin-coupons-enable-or-disable');
             Route::get('/show/{id}', [AdminCouponsController::class, 'showAction'])->name('admin-coupons-show');
+        });
+    });
+
+    Route::prefix('user')->group(function () {
+        Route::prefix('auth')->group(function () {
+            Route::post('login', [UserAuthController::class, 'login'])->name('admin-auth-login');
+            Route::middleware('auth:users')->post('logout', [UserAuthController::class, 'logout'])->name('admin-auth-logout');
+            Route::middleware('auth:users')->post('refresh', [UserAuthController::class, 'refresh'])->name('admin-auth-refresh');
+            Route::middleware('auth:users')->post('me', [UserAuthController::class, 'me'])->name('admin-auth-me');
         });
     });
 });

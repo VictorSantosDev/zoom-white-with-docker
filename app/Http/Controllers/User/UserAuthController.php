@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
-use App\Domain\Admin\Services\AdminService;
+use App\Domain\User\Services\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Login\LoginRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class AdminAuthController extends Controller
+class UserAuthController extends Controller
 {
     public function __construct(
-        private AdminService $adminService
+        private UserService $adminService
     ) {
     }
 
