@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminCouponsController;
 use App\Http\Controllers\Admin\AdminEstablishmentController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\User\UserAuthController;
+use App\Http\Controllers\User\UserWashingController;
 
 Route::prefix('v1')->group(function () {
     Route::prefix('admin')->group(function () {
@@ -42,10 +43,14 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('user')->group(function () {
         Route::prefix('auth')->group(function () {
-            Route::post('login', [UserAuthController::class, 'login'])->name('admin-auth-login');
-            Route::middleware('auth:users')->post('logout', [UserAuthController::class, 'logout'])->name('admin-auth-logout');
-            Route::middleware('auth:users')->post('refresh', [UserAuthController::class, 'refresh'])->name('admin-auth-refresh');
-            Route::middleware('auth:users')->post('me', [UserAuthController::class, 'me'])->name('admin-auth-me');
+            Route::post('login', [UserAuthController::class, 'login'])->name('users-auth-login');
+            Route::middleware('auth:users')->post('logout', [UserAuthController::class, 'logout'])->name('users-auth-logout');
+            Route::middleware('auth:users')->post('refresh', [UserAuthController::class, 'refresh'])->name('users-auth-refresh');
+            Route::middleware('auth:users')->post('me', [UserAuthController::class, 'me'])->name('users-auth-me');
+        });
+
+        Route::prefix('washing')->middleware('auth:users')->group(function () {
+            Route::middleware('auth:users')->post('create', [UserWashingController::class, 'createAction'])->name('user-washing-create');
         });
     });
 });
