@@ -19,7 +19,7 @@ class CreateWashingRequest extends FormRequest
         return [
             'establishmentId' => 'required|integer',
             'name' => 'required|string|max:50',
-            'price' => 'required|integer|max:10|min:1',
+            'price' => 'required|integer|max_digits:10',
         ];
     }
 
@@ -28,7 +28,7 @@ class CreateWashingRequest extends FormRequest
         return [
             'integer' => 'O campo :attribute aceita somente números inteiros',
             'required' => 'O campo :attribute é obrigatório',
-            'max' => 'O campo :attribute aceita no máximo :max caracteres',
+            'max_digits' => 'O campo :attribute aceita no máximo :max_digits caracteres',
         ];
     }
 
@@ -42,7 +42,7 @@ class CreateWashingRequest extends FormRequest
             active: Active::ACTIVE,
             createdAt: now(),
             updatedAt: now(),
-            deletedAt: now()
+            deletedAt: null
         );
     }
 }

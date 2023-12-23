@@ -51,6 +51,9 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('washing')->middleware('auth:users')->group(function () {
             Route::middleware('auth:users')->post('create', [UserWashingController::class, 'createAction'])->name('user-washing-create');
+            Route::middleware('auth:users')->get('show/{id}', [UserWashingController::class, 'showAction'])->name('user-washing-show');
+            Route::middleware('auth:users')->get('list', [UserWashingController::class, 'listAction'])->name('user-washing-list');
+            Route::middleware('auth:users')->delete('delete/{id}', [UserWashingController::class, 'deleteAction'])->name('user-washing-delete');
         });
     });
 });

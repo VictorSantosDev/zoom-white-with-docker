@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('establishment_id');
             $table->string('name', 50);
-            $table->integer('price', 10);
+            $table->integer('price');
             $table->boolean('active')->default(1);
             $table->timestamps();
             $table->softDeletesTz();

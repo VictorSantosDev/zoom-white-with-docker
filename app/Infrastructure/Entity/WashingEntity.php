@@ -6,6 +6,7 @@ use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\Washing\Entity\Washing;
 use App\Domain\Washing\Infrastructure\Entity\WashingEntityInterface;
 use App\Models\Washing as ModelWashing;
+use Exception;
 
 class WashingEntity implements WashingEntityInterface
 {
@@ -36,5 +37,16 @@ class WashingEntity implements WashingEntityInterface
             updatedAt: $washing->getUpdatedAt(),
             deletedAt: $washing->getDeletedAt(),
         );
+    }
+
+    public function delete(int $id): bool
+    {
+        $delete = $this->db::where('id', $id)->delete();
+
+        if ($delete === 0) {
+            throw new Exception('Não foi possível excluir essa lavagem');
+        }
+
+        return true;
     }
 }

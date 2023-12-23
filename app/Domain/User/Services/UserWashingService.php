@@ -14,9 +14,27 @@ class UserWashingService
     ) {
     }
 
-    public function create(Washing $washing)
+    public function create(Washing $washing): Washing
     {
         $this->establishmentService->show($washing->getEstablishmentId()?->get());
-        $this->washingService->create($washing);
+        return $this->washingService->create($washing);
+    }
+
+    public function show(int $id)
+    {
+        return $this->washingService->show($id);
+    }
+
+    public function list(
+        int $establishmentId,
+        ?string $name,
+        ?string $active
+    ) {
+        return $this->washingService->listWashing($establishmentId, $name, $active);
+    }
+
+    public function delete(int $id): bool
+    {
+        return $this->washingService->delete($id);
     }
 }
