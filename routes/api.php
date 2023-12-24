@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminCouponsController;
 use App\Http\Controllers\Admin\AdminEstablishmentController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\User\UserAuthController;
+use App\Http\Controllers\User\UserParkingPriceController;
 use App\Http\Controllers\User\UserWashingController;
 
 Route::prefix('v1')->group(function () {
@@ -54,6 +55,10 @@ Route::prefix('v1')->group(function () {
             Route::middleware('auth:users')->get('show/{id}', [UserWashingController::class, 'showAction'])->name('user-washing-show');
             Route::middleware('auth:users')->get('list', [UserWashingController::class, 'listAction'])->name('user-washing-list');
             Route::middleware('auth:users')->delete('delete/{id}', [UserWashingController::class, 'deleteAction'])->name('user-washing-delete');
+        });
+
+        Route::prefix('parking-price')->middleware('auth:users')->group(function () {
+            Route::middleware('auth:users')->post('create', [UserParkingPriceController::class, 'createParkingPriceAction'])->name('user-parking-create-price');
         });
     });
 });
