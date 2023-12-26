@@ -5,8 +5,10 @@ namespace App\Http\Controllers\User;
 use App\Domain\User\Services\UserParkingPriceService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Parking\CreateParkingPriceRequest;
+use App\Http\Requests\Parking\UpdateParkinPriceRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class UserParkingPriceController extends Controller
 {
@@ -15,13 +17,43 @@ class UserParkingPriceController extends Controller
     ) {
     }
 
-    public function createParkingPriceAction(CreateParkingPriceRequest $request)
+    public function createParkingPriceAction(CreateParkingPriceRequest $request): JsonResponse
     {
         try {
             $output = $this->userParkingPriceService->createParkingPrice($request->data());
 
             return response()->json([
-                'data' => $output
+                'data' => $output->jsonSerialize()
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public function updateParkingPriceAction(UpdateParkinPriceRequest $request): JsonResponse
+    {
+        try {
+            $output = $this->userParkingPriceService->updateParkingPrice($request->data());
+
+            return response()->json([
+                'data' => $output->jsonSerialize()
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public function showParkingPriceAction(Request $request): JsonResponse
+    {
+        try {
+            $output = $this->userParkingPriceService->showParkingPrice($request->input('establishmentId'));
+
+            return response()->json([
+                'data' => $output->jsonSerialize()
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return response()->json([

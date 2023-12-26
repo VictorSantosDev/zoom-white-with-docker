@@ -59,6 +59,8 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('parking-price')->middleware('auth:users')->group(function () {
             Route::middleware('auth:users')->post('create', [UserParkingPriceController::class, 'createParkingPriceAction'])->name('user-parking-create-price');
+            Route::middleware('auth:users')->put('update', [UserParkingPriceController::class, 'updateParkingPriceAction'])->name('user-parking-update-price');
+            Route::middleware('auth:users')->get('show', [UserParkingPriceController::class, 'showParkingPriceAction'])->name('user-parking-show-price');
         });
     });
 });

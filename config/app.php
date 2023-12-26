@@ -170,6 +170,7 @@ return [
         App\Providers\AddressProvider::class,
         App\Providers\CouponsProvider::class,
         App\Providers\WashingProvider::class,
+        App\Providers\ParkingPriceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,

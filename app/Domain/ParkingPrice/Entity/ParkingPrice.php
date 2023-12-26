@@ -14,7 +14,7 @@ class ParkingPrice implements JsonSerializable
         private int $priceByHour,
         private int $chargeEveryHour,
         private int $pricePerHour,
-        private bool $hasOtherNightPrice,
+        private int $hasOtherNightPrice,
         private ?int $priceByHourNight,
         private ?string $startOfAdditional,
         private ?string $endOfAdditional,
@@ -54,7 +54,7 @@ class ParkingPrice implements JsonSerializable
         return $this->pricePerHour;
     }
 
-    public function getHasOtherNightPrice(): bool
+    public function getHasOtherNightPrice(): int
     {
         return $this->hasOtherNightPrice;
     }

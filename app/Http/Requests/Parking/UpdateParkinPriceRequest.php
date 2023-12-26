@@ -6,7 +6,7 @@ use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\ParkingPrice\Entity\ParkingPrice;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateParkingPriceRequest extends FormRequest
+class UpdateParkinPriceRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -22,9 +22,9 @@ class CreateParkingPriceRequest extends FormRequest
             'chargeEveryHour' => 'required|integer|max_digits:2',
             'pricePerHour' => 'required|integer',
             'hasOtherNightPrice' => 'required|boolean',
-            'priceByHourNight' => 'required_if:hasOtherNightPrice,true|integer',
-            'startOfAdditional' => 'required_if:hasOtherNightPrice,true|string',
-            'endOfAdditional' => 'required_if:hasOtherNightPrice,true|string'
+            'priceByHourNight' => 'required_if:hasOtherNightPrice,1|integer',
+            'startOfAdditional' => 'required_if:hasOtherNightPrice,1|string',
+            'endOfAdditional' => 'required_if:hasOtherNightPrice,1|string'
         ];
     }
 
@@ -52,7 +52,7 @@ class CreateParkingPriceRequest extends FormRequest
             priceByHourNight: $this->input('priceByHourNight'),
             startOfAdditional: $this->input('startOfAdditional'),
             endOfAdditional: $this->input('endOfAdditional'),
-            createdAt: now(),
+            createdAt: null,
             updatedAt: now(),
             deletedAt: null
         );

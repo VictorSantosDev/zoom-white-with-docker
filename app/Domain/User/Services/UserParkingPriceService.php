@@ -16,4 +16,14 @@ class UserParkingPriceService
     {
         return $this->parkingPriceService->createParkingPrice($parkingPrice);
     }
+
+    public function updateParkingPrice(ParkingPrice $parkingPrice): ParkingPrice
+    {
+        return $this->parkingPriceService->updateParkingPrice($parkingPrice);
+    }
+
+    public function showParkingPrice(?int $establishmentId): ParkingPrice
+    {
+        return $this->parkingPriceService->showParkingPrice($establishmentId);
+    }
 }
