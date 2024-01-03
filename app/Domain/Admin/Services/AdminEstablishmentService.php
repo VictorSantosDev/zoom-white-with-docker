@@ -6,6 +6,7 @@ namespace App\Domain\Admin\Services;
 
 use App\Domain\Address\Entity\Address;
 use App\Domain\Address\Services\AddressService;
+use App\Domain\Employee\Services\EmployeeService;
 use App\Domain\Establishment\Entity\Establishment;
 use App\Domain\Establishment\Services\EstablishmentService;
 
@@ -14,7 +15,8 @@ class AdminEstablishmentService
     public function __construct(
         private EstablishmentService $establishmentService,
         private AdminUserService $adminUserService,
-        private AddressService $addressService
+        private AddressService $addressService,
+        private EmployeeService $employeeService
     ) {
     }
 
@@ -22,7 +24,7 @@ class AdminEstablishmentService
         Establishment $establishment,
         Address $address
     ): array {
-        $this->adminUserService->findUserById($establishment->getUserId()->get());
+        $user = $this->adminUserService->findUserById($establishment->getUserId()->get());
 
         $establishmentCreated = $this->establishmentService->create($establishment);
 
@@ -30,6 +32,8 @@ class AdminEstablishmentService
             $address,
             $establishmentCreated->getId()->get()
         );
+
+        $this->employeeService->createEmployeeAdmin($user, $establishmentCreated->getId());
 
         return [
             'establishment' => $establishmentCreated->jsonSerialize(),

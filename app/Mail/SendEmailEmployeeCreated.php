@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Address;
 
-class SendEmailUserCreated extends Mailable
+class SendEmailEmployeeCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,6 +18,7 @@ class SendEmailUserCreated extends Mailable
      * Create a new message instance.
      */
     public function __construct(
+        private string $registration,
         private string $email,
         private string $name,
         private string $password
@@ -32,7 +33,7 @@ class SendEmailUserCreated extends Mailable
         return new Envelope(
             from: new Address(env('MAIL_FROM_ADDRESS')),
             to: $this->email,
-            subject: 'Você foi cadastrado no ' . env('APP_NAME', 'Zoom White'),
+            subject: 'Acesso para o sistema ' . env('APP_NAME', 'Zoom White'),
         );
     }
 
@@ -42,8 +43,9 @@ class SendEmailUserCreated extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.user.created',
+            markdown: 'emails.employee.created',
             with: [
+                'registration' => $this->registration,
                 'name' => $this->name,
                 'password' => $this->password,
                 'url' => config('app.url', 'https://zoomwhite.com.br/'),
