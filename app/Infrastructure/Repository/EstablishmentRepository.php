@@ -32,7 +32,7 @@ class EstablishmentRepository implements EstablishmentRepositoryInterface
 
         return new Establishment(
             id: new Id($row->id),
-            userId: new Id($row->id),
+            userId: new Id($row->user_id),
             nameByCompany: $row->name_by_company,
             document: $row->document,
             type: TypeEstablishment::tryFrom($row->type),
@@ -59,7 +59,7 @@ class EstablishmentRepository implements EstablishmentRepositoryInterface
 
         return new Establishment(
             id: new Id($row->id),
-            userId: new Id($row->id),
+            userId: new Id($row->user_id),
             nameByCompany: $row->name_by_company,
             document: $row->document,
             type: TypeEstablishment::tryFrom($row->type),
@@ -110,7 +110,7 @@ class EstablishmentRepository implements EstablishmentRepositoryInterface
         return [
             'establishment' => new Establishment(
                 id: new Id($row->id),
-                userId: new Id($row->id),
+                userId: new Id($row->user_id),
                 nameByCompany: $row->name_by_company,
                 document: $row->document,
                 type: TypeEstablishment::tryFrom($row->type),

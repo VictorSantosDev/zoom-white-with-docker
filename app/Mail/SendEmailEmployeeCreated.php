@@ -33,7 +33,7 @@ class SendEmailEmployeeCreated extends Mailable
         return new Envelope(
             from: new Address(env('MAIL_FROM_ADDRESS')),
             to: $this->email,
-            subject: 'Acesso para o sistema ' . env('APP_NAME', 'Zoom White'),
+            subject: 'Acesso para o sistema ' . env('APP_NAME', 'STEPCAR'),
         );
     }
 

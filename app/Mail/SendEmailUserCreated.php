@@ -32,7 +32,7 @@ class SendEmailUserCreated extends Mailable
         return new Envelope(
             from: new Address(env('MAIL_FROM_ADDRESS')),
             to: $this->email,
-            subject: 'Você foi cadastrado no ' . env('APP_NAME', 'Zoom White'),
+            subject: 'Você foi cadastrado no ' . env('APP_NAME', 'STEPCAR'),
         );
     }
 

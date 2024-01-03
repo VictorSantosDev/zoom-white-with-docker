@@ -40,7 +40,7 @@ class EmployeeService
             email: $user->getEmail(),
             password: $password
         );
-        dd('passou');
+
         return $employeeCreated;
     }
 
