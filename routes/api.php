@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminCouponsController;
 use App\Http\Controllers\Admin\AdminEstablishmentController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\User\UserAuthController;
+use App\Http\Controllers\User\UserEmployeeController;
 use App\Http\Controllers\User\UserParkingPriceController;
 use App\Http\Controllers\User\UserWashingController;
 
@@ -51,16 +52,20 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('washing')->middleware('auth:users')->group(function () {
-            Route::middleware('auth:users')->post('create', [UserWashingController::class, 'createAction'])->name('user-washing-create');
-            Route::middleware('auth:users')->get('show/{id}', [UserWashingController::class, 'showAction'])->name('user-washing-show');
-            Route::middleware('auth:users')->get('list', [UserWashingController::class, 'listAction'])->name('user-washing-list');
-            Route::middleware('auth:users')->delete('delete/{id}', [UserWashingController::class, 'deleteAction'])->name('user-washing-delete');
+            Route::post('create', [UserWashingController::class, 'createAction'])->name('user-washing-create');
+            Route::get('show/{id}', [UserWashingController::class, 'showAction'])->name('user-washing-show');
+            Route::get('list', [UserWashingController::class, 'listAction'])->name('user-washing-list');
+            Route::delete('delete/{id}', [UserWashingController::class, 'deleteAction'])->name('user-washing-delete');
         });
 
         Route::prefix('parking-price')->middleware('auth:users')->group(function () {
-            Route::middleware('auth:users')->post('create', [UserParkingPriceController::class, 'createParkingPriceAction'])->name('user-parking-create-price');
-            Route::middleware('auth:users')->put('update', [UserParkingPriceController::class, 'updateParkingPriceAction'])->name('user-parking-update-price');
-            Route::middleware('auth:users')->get('show', [UserParkingPriceController::class, 'showParkingPriceAction'])->name('user-parking-show-price');
+            Route::post('create', [UserParkingPriceController::class, 'createParkingPriceAction'])->name('user-parking-create-price');
+            Route::put('update', [UserParkingPriceController::class, 'updateParkingPriceAction'])->name('user-parking-update-price');
+            Route::get('show', [UserParkingPriceController::class, 'showParkingPriceAction'])->name('user-parking-show-price');
+        });
+
+        Route::prefix('employee')->middleware('auth:users')->group(function () {
+            Route::post('create', [UserEmployeeController::class, 'createEmployeeAction'])->name('user-employee-create');
         });
     });
 });

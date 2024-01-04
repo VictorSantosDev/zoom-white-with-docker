@@ -8,7 +8,6 @@ use App\Domain\Employee\Entity\Employee;
 use App\Domain\Employee\Factory\EmployeeFactory;
 use App\Domain\Employee\Infrastructure\Entity\EmployeeEntityInterface;
 use App\Domain\Employee\Infrastructure\Repository\EmployeeRepositoryInterface;
-use Exception;
 use Illuminate\Support\Str;
 
 class EmployeeService
@@ -20,9 +19,14 @@ class EmployeeService
     ) {
     }
 
+    public function createEmployee(Employee $employee, string $password)
+    {
+        dd('continuar');
+    }
+
     public function createEmployeeAdmin(User $user, Id $establishmentId)
     {
-        $registration = $this->generateEgistration();
+        $registration = $this->generateRegistration();
         $symbol = ['@', '#', '$', '&'];
         $password = Str::random(4) . $symbol[rand(0, 3)] . Str::random(3);
 
@@ -44,7 +48,7 @@ class EmployeeService
         return $employeeCreated;
     }
 
-    private function generateEgistration(): string
+    private function generateRegistration(): string
     {
         $registration = (string) rand(0000000, 9999999);
 

@@ -15,11 +15,6 @@ class EmployeeRepository implements EmployeeRepositoryInterface
     ) {
     }
 
-    public function getByIdTryFrom(): Employee
-    {
-        dd('get');
-    }
-
     public function getByRegistration(string $registration): ?Employee
     {
         $row = $this->db::where('registration', $registration)->first();
