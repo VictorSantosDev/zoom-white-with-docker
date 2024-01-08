@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminCouponsController;
 use App\Http\Controllers\Admin\AdminEstablishmentController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Employee\EmployeeAuthController;
+use App\Http\Controllers\Employee\EmployeeWashingVehicleController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\UserParkingPriceController;
 use App\Http\Controllers\User\UserWashingController;
@@ -61,6 +63,19 @@ Route::prefix('v1')->group(function () {
             Route::middleware('auth:users')->post('create', [UserParkingPriceController::class, 'createParkingPriceAction'])->name('user-parking-create-price');
             Route::middleware('auth:users')->put('update', [UserParkingPriceController::class, 'updateParkingPriceAction'])->name('user-parking-update-price');
             Route::middleware('auth:users')->get('show', [UserParkingPriceController::class, 'showParkingPriceAction'])->name('user-parking-show-price');
+        });
+    });
+
+    Route::prefix('employee')->group(function () {
+        Route::prefix('auth')->group(function () {
+            Route::post('login', [EmployeeAuthController::class, 'login'])->name('employee-auth-login');
+            Route::middleware('auth:employee')->post('logout', [EmployeeAuthController::class, 'logout'])->name('employee-auth-logout');
+            Route::middleware('auth:employee')->post('refresh', [EmployeeAuthController::class, 'refresh'])->name('employee-auth-refresh');
+            Route::middleware('auth:employee')->post('me', [EmployeeAuthController::class, 'me'])->name('employee-auth-me');
+        });
+
+        Route::prefix('washing-vehicle')->middleware('auth:employee')->group(function () {
+            Route::post('create', [EmployeeWashingVehicleController::class, 'createAction'])->name('employee-washing-vehicle-create');
         });
     });
 });

@@ -6,6 +6,7 @@ use App\Domain\Washing\Entity\Washing;
 use App\Domain\Washing\Infrastructure\Entity\WashingEntityInterface;
 use App\Domain\Washing\Infrastructure\Repository\WashingRepositoryInterface;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 
 class WashingService
 {
@@ -47,5 +48,10 @@ class WashingService
     public function delete(int $id): bool
     {
         return $this->washingEntityInterface->delete($id);
+    }
+
+    public function findAllWashingIds(array $washingIds): Collection
+    {
+        return $this->washingRepositoryInterface->getAllWashingByIds($washingIds);
     }
 }

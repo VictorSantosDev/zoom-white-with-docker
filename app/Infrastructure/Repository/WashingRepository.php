@@ -8,6 +8,7 @@ use App\Domain\Washing\Entity\Washing;
 use App\Domain\Washing\Infrastructure\Repository\WashingRepositoryInterface;
 use App\Models\Washing as ModelWashing;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 
 class WashingRepository implements WashingRepositoryInterface
 {
@@ -55,5 +56,11 @@ class WashingRepository implements WashingRepositoryInterface
         }
 
         return $row->paginate(10)->toArray();
+    }
+
+    public function getAllWashingByIds(array $washingIds): Collection
+    {
+        $rows = $this->db::whereIn('id', $washingIds)->get();
+        return $rows;
     }
 }
