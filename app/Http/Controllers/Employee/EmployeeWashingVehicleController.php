@@ -8,6 +8,7 @@ use App\Http\Requests\WashingVehicle\CreateWashingVehicleRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeWashingVehicleController extends Controller
 {
@@ -19,6 +20,7 @@ class EmployeeWashingVehicleController extends Controller
     public function createAction(CreateWashingVehicleRequest $request)
     {
         try {
+            DB::beginTransaction();
             $output = $this->employeeWashingVehicle->create(
                 $request->input('estableshimentId'),
                 $request->input('washingIds'),
@@ -26,11 +28,12 @@ class EmployeeWashingVehicleController extends Controller
                 $request->input('model'),
                 $request->input('color')
             );
-
+            DB::commit();
             return response()->json([
-                'data' => $output
+                'data' => $output->jsonSerialize()
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'error' => $e->getMessage()
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);

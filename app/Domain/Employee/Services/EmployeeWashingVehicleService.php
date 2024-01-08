@@ -2,6 +2,7 @@
 
 namespace App\Domain\Employee\Services;
 
+use App\Domain\WashingVehicle\Entity\WashingVehicle;
 use App\Domain\WashingVehicle\Services\WashingVehicleService;
 
 class EmployeeWashingVehicleService
@@ -17,8 +18,8 @@ class EmployeeWashingVehicleService
         string $plate,
         string $model,
         string $color
-    ) {
-        $this->washingVehicleService->create(
+    ): WashingVehicle {
+        return $this->washingVehicleService->create(
             $estableshimentId,
             $washingIds,
             $plate,
