@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Employee;
 use App\Domain\Employee\Services\EmployeeWashingVehicleService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WashingVehicle\CreateWashingVehicleRequest;
+use App\Http\Requests\WashingVehicle\UpdateWashingVehicleRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -23,6 +24,29 @@ class EmployeeWashingVehicleController extends Controller
             DB::beginTransaction();
             $output = $this->employeeWashingVehicle->create(
                 $request->input('estableshimentId'),
+                $request->input('washingIds'),
+                $request->input('plate'),
+                $request->input('model'),
+                $request->input('color')
+            );
+            DB::commit();
+            return response()->json([
+                'data' => $output->jsonSerialize()
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'error' => $e->getMessage()
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public function updateAction(UpdateWashingVehicleRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+            $output = $this->employeeWashingVehicle->update(
+                $request->input('washingVehicleId'),
                 $request->input('washingIds'),
                 $request->input('plate'),
                 $request->input('model'),

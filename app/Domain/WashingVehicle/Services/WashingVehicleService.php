@@ -7,6 +7,7 @@ use App\Domain\Washing\Services\WashingService;
 use App\Domain\WashingVehicle\Entity\WashingVehicle;
 use App\Domain\WashingVehicle\Factory\WashingVehicleFactory;
 use App\Domain\WashingVehicle\Infrastructure\Entity\WashingVehicleEntityInterface;
+use App\Domain\WashingVehicle\Infrastructure\Repository\WashingVehicleRepositoryInterface;
 use App\Domain\WashingVehicleHasWashing\Services\WashingVehicleHasWashingService;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -17,7 +18,8 @@ class WashingVehicleService
         private EstablishmentService $establishmentService,
         private WashingService $washingService,
         private WashingVehicleHasWashingService $washingVehicleHasWashingService,
-        private WashingVehicleEntityInterface $washingVehicleEntity
+        private WashingVehicleEntityInterface $washingVehicleEntity,
+        private WashingVehicleRepositoryInterface $washingVehicleRepository
     ) {
     }
 
@@ -52,6 +54,36 @@ class WashingVehicleService
         return $washingVehicle;
     }
 
+    public function update(
+        int $washingVehicleId,
+        array $washingIds,
+        string $plate,
+        string $model,
+        string $color
+    ): WashingVehicle {
+        $washingVehicle = $this->washingVehicleRepository->getByIdTryFrom($washingVehicleId);
+        $washingCollect = $this->washingService->findAllWashingIds($washingIds);
+        $pricesByWashigs = $this->sumPriceWashing($washingCollect->toArray());
+
+        $washingVehicleUpdate = WashingVehicleFactory::createWashingVehicle(
+            establishmentId: $washingVehicle->getEstablishmentId()->get(),
+            employeeId: $washingVehicle->getEmployeeId()->get(),
+            plate: $plate,
+            model: $model,
+            color: $color,
+            price: $pricesByWashigs
+        );
+
+        $washingVehicleUpdated = $this->washingVehicleEntity->update(
+            $washingVehicle->getId()->get(),
+            $washingVehicleUpdate
+        );
+
+        $this->updateWashingVehicleHasWashing($washingVehicleId, $washingCollect->toArray());
+
+        return $washingVehicleUpdated;
+    }
+
     private function saveWashingVehicleHasWashing(
         int $washingVehicleId,
         array $washingCollect
@@ -62,6 +94,16 @@ class WashingVehicleService
                 washingId: $washing['id']
             );
         }
+    }
+
+    private function updateWashingVehicleHasWashing(
+        int $washingVehicleId,
+        array $washingCollect
+    ): void {
+        $this->washingVehicleHasWashingService->updateByWashingVehicle(
+            $washingVehicleId,
+            $washingCollect
+        );
     }
 
     private function sumPriceWashing(array $washings): int

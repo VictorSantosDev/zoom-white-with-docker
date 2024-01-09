@@ -33,4 +33,20 @@ class WashingVehicleHasWashingEntity implements WashingVehicleHasWashingEntityIn
             deletedAt: $washingVehicleHasWashing->getDeletedAt()
         );
     }
+
+    public function deleteAllByWashingVehicleId(int $washingVehicleId): bool
+    {
+        $row = $this->db::where('washing_vehicle_id', $washingVehicleId)->get();
+        $row->each->delete();
+
+        return true;
+    }
+
+    public function deleteByWashingIds(array $washingIds): bool
+    {
+        $rows = $this->db::whereIn('washing_id', $washingIds)->get();
+        $rows->each->delete();
+
+        return true;
+    }
 }

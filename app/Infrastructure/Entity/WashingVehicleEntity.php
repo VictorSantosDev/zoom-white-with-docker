@@ -41,4 +41,29 @@ class WashingVehicleEntity implements WashingVehicleEntityInterface
             deletedAt: $washingVehicle->getDeletedAt(),
         );
     }
+
+    public function update(int $washingVehicleId, WashingVehicle $washingVehicle): WashingVehicle
+    {
+        $row = $this->db::where('id', $washingVehicleId)->first();
+
+        $row->plate = $washingVehicle->getPlate();
+        $row->model = $washingVehicle->getModel();
+        $row->color = $washingVehicle->getColor();
+        $row->price = $washingVehicle->getPrice();
+        $row->updated_at = $washingVehicle->getUpdatedAt();
+        $row->save();
+
+        return new WashingVehicle(
+            id: new Id($row->id),
+            establishmentId: new Id($row->establishment_id),
+            employeeId: new Id($row->employee_id),
+            plate: $washingVehicle->getPlate(),
+            model: $washingVehicle->getModel(),
+            color: $washingVehicle->getColor(),
+            price: $washingVehicle->getPrice(),
+            createdAt: $row->created_at?->format('Y-m-d H:m:s'),
+            updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
+            deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
+        );
+    }
 }

@@ -11,4 +11,10 @@ class WashingVehicleHasWashingRepository implements WashingVehicleHasWashingRepo
         private ModelsWashingVehicleHasWashing $db
     ) {
     }
+
+    public function getAllByWashingVehicleId(int $washingVehicleId): array
+    {
+        $rows = $this->db::where('washing_vehicle_id', $washingVehicleId)->get()->toArray();
+        return $rows;
+    }
 }

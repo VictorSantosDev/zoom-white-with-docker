@@ -7,4 +7,5 @@ use App\Domain\WashingVehicle\Entity\WashingVehicle;
 interface WashingVehicleEntityInterface
 {
     public function create(WashingVehicle $washingVehicle): WashingVehicle;
+    public function update(int $washingVehicleId, WashingVehicle $washingVehicle): WashingVehicle;
 }

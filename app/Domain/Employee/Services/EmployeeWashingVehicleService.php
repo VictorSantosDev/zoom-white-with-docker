@@ -27,4 +27,20 @@ class EmployeeWashingVehicleService
             $color
         );
     }
+
+    public function update(
+        int $washingVehicleId,
+        array $washingIds,
+        string $plate,
+        string $model,
+        string $color
+    ): WashingVehicle {
+        return $this->washingVehicleService->update(
+            $washingVehicleId,
+            $washingIds,
+            $plate,
+            $model,
+            $color
+        );
+    }
 }
