@@ -32,6 +32,7 @@ class WashingVehicleService
     ): WashingVehicle {
         $employee = auth('employee')->user();
         $estableshiment = $this->establishmentService->show($estableshimentId);
+        $this->isYourEstableshiment($employee->establishment_id, $estableshiment['establishment']->getId()->get());
         $washingCollect = $this->washingService->findAllWashingIds($washingIds);
         $pricesByWashigs = $this->sumPriceWashing($washingCollect->toArray());
 
@@ -61,7 +62,9 @@ class WashingVehicleService
         string $model,
         string $color
     ): WashingVehicle {
+        $employee = auth('employee')->user();
         $washingVehicle = $this->washingVehicleRepository->getByIdTryFrom($washingVehicleId);
+        $this->isYourEstableshiment($employee->establishment_id, $washingVehicle->getEstablishmentId()->get());
         $washingCollect = $this->washingService->findAllWashingIds($washingIds);
         $pricesByWashigs = $this->sumPriceWashing($washingCollect->toArray());
 
@@ -82,6 +85,26 @@ class WashingVehicleService
         $this->updateWashingVehicleHasWashing($washingVehicleId, $washingCollect->toArray());
 
         return $washingVehicleUpdated;
+    }
+
+    public function show(int $washingVehicleId): WashingVehicle
+    {
+        $employee = auth('employee')->user();
+        $washingVehicle = $this->washingVehicleRepository->getByIdTryFrom($washingVehicleId);
+        $this->isYourEstableshiment($employee->establishment_id, $washingVehicle->getEstablishmentId()->get());
+
+        return $washingVehicle;
+    }
+
+    public function listAction(
+        int $establishmentId,
+        ?int $employeeId,
+        string $plate,
+        string $model,
+        string $color,
+        ?int $price,
+        ?int $limitPerPage
+    ) {
     }
 
     private function saveWashingVehicleHasWashing(
@@ -119,5 +142,14 @@ class WashingVehicleService
         }
 
         return $price;
+    }
+
+    private function isYourEstableshiment(
+        int $employeeEstableshimentId,
+        int $estableshimentId
+    ): void {
+        if ($employeeEstableshimentId !== $estableshimentId) {
+            throw new Exception('O usuário não pertence a esse estabelecimento.');
+        }
     }
 }

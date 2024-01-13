@@ -43,4 +43,29 @@ class EmployeeWashingVehicleService
             $color
         );
     }
+
+    public function show(int $washingVehicleId): WashingVehicle
+    {
+        return $this->washingVehicleService->show($washingVehicleId);
+    }
+
+    public function listAction(
+        int $establishmentId,
+        ?int $employeeId,
+        string $plate,
+        string $model,
+        string $color,
+        ?int $price,
+        ?int $limitPerPage
+    ) {
+        return $this->washingVehicleService->listAction(
+            $establishmentId,
+            $employeeId,
+            $plate,
+            $model,
+            $color,
+            $price,
+            $limitPerPage
+        );
+    }
 }
