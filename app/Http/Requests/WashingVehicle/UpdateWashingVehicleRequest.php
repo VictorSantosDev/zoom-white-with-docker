@@ -15,7 +15,7 @@ class UpdateWashingVehicleRequest extends FormRequest
     {
         return [
             'washingVehicleId' => 'required',
-            'washingIds' => 'required|array',
+            'washingIds' => 'nullable|array',
             'plate' => 'required|min:7|max:8',
             'model' => 'required|max:20',
             'color' => 'required|max:20'

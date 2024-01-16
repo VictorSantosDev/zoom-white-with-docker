@@ -99,12 +99,32 @@ class WashingVehicleService
     public function listAction(
         int $establishmentId,
         ?int $employeeId,
-        string $plate,
-        string $model,
-        string $color,
+        ?string $plate,
+        ?string $model,
+        ?string $color,
         ?int $price,
-        ?int $limitPerPage
-    ) {
+        int $limitPerPage
+    ): array {
+        $employee = auth('employee')->user();
+        $this->isYourEstableshiment($employee->establishment_id, $establishmentId);
+
+        return $this->washingVehicleRepository->listWashingVehicleByEstablishmentId(
+            $establishmentId,
+            $employeeId,
+            $plate,
+            $model,
+            $color,
+            $price,
+            $limitPerPage
+        );
+    }
+
+    public function delete(int $washingVehicleId): bool
+    {
+        $employee = auth('employee')->user();
+        $washingVehicle = $this->washingVehicleRepository->getByIdTryFrom($washingVehicleId);
+        $this->isYourEstableshiment($employee->establishment_id, $washingVehicle->getEstablishmentId()->get());
+        return $this->washingVehicleEntity->delete($washingVehicleId);
     }
 
     private function saveWashingVehicleHasWashing(
@@ -131,9 +151,10 @@ class WashingVehicleService
 
     private function sumPriceWashing(array $washings): int
     {
-        if (empty($washings)) {
-            throw new Exception('Não foi possível encontrar as lavagens');
-        }
+        /** @ not used validation down */
+        // if (empty($washings)) {
+        //     throw new Exception('Não foi possível encontrar as lavagens');
+        // }
 
         $price = 0;
 

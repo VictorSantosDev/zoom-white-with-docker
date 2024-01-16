@@ -77,8 +77,9 @@ Route::prefix('v1')->group(function () {
         Route::prefix('washing-vehicle')->middleware('auth:employee')->group(function () {
             Route::post('create', [EmployeeWashingVehicleController::class, 'createAction'])->name('employee-washing-vehicle-create');
             Route::put('update', [EmployeeWashingVehicleController::class, 'updateAction'])->name('employee-washing-vehicle-update');
-            Route::get('show/{washingVehicleId}', [EmployeeWashingVehicleController::class, 'showAction'])->name('employee-washing-vehicle-show');
+            Route::get('show/{id}', [EmployeeWashingVehicleController::class, 'showAction'])->name('employee-washing-vehicle-show');
             Route::get('list', [EmployeeWashingVehicleController::class, 'listAction'])->name('employee-washing-vehicle-list');
+            Route::delete('/delete/{id}', [EmployeeWashingVehicleController::class, 'deleteAction'])->name('employee-washing-vehicle-delete');
         });
     });
 });

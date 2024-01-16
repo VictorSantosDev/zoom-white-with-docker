@@ -52,11 +52,11 @@ class EmployeeWashingVehicleService
     public function listAction(
         int $establishmentId,
         ?int $employeeId,
-        string $plate,
-        string $model,
-        string $color,
+        ?string $plate,
+        ?string $model,
+        ?string $color,
         ?int $price,
-        ?int $limitPerPage
+        int $limitPerPage
     ) {
         return $this->washingVehicleService->listAction(
             $establishmentId,
@@ -67,5 +67,10 @@ class EmployeeWashingVehicleService
             $price,
             $limitPerPage
         );
+    }
+
+    public function delete(int $washingVehicleId): bool
+    {
+        return $this->washingVehicleService->delete($washingVehicleId);
     }
 }

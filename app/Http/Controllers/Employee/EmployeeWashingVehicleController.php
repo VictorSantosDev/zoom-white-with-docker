@@ -65,11 +65,11 @@ class EmployeeWashingVehicleController extends Controller
         }
     }
 
-    public function showAction(int $washingVehicleId): JsonResponse
+    public function showAction(int $id): JsonResponse
     {
         try {
             DB::beginTransaction();
-            $output = $this->employeeWashingVehicle->show($washingVehicleId);
+            $output = $this->employeeWashingVehicle->show($id);
             DB::commit();
             return response()->json([
                 'data' => $output->jsonSerialize()
@@ -87,17 +87,34 @@ class EmployeeWashingVehicleController extends Controller
         try {
             DB::beginTransaction();
             $output = $this->employeeWashingVehicle->listAction(
-                $this->input('establishmentId'),
-                $this->input('employeeId', null),
-                $this->input('plate', null),
-                $this->input('model', null),
-                $this->input('color', null),
-                $this->input('price', null),
-                $this->input('limitPerPage', 10)
+                $request->input('establishmentId'),
+                $request->input('employeeId', null),
+                $request->input('plate', null),
+                $request->input('model', null),
+                $request->input('color', null),
+                $request->input('price', null),
+                $request->input('limitPerPage', 10)
             );
             DB::commit();
             return response()->json([
-                'data' => $output->jsonSerialize()
+                'data' => $output
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'error' => $e->getMessage()
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public function deleteAction(int $id): JsonResponse
+    {
+        try {
+            DB::beginTransaction();
+            $output = $this->employeeWashingVehicle->delete($id);
+            DB::commit();
+            return response()->json([
+                'data' => $output
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             DB::rollBack();

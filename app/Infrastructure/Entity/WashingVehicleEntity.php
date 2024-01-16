@@ -6,6 +6,7 @@ use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\WashingVehicle\Entity\WashingVehicle;
 use App\Domain\WashingVehicle\Infrastructure\Entity\WashingVehicleEntityInterface;
 use App\Models\WashingVehicle as ModelsWashingVehicle;
+use Exception;
 
 class WashingVehicleEntity implements WashingVehicleEntityInterface
 {
@@ -65,5 +66,16 @@ class WashingVehicleEntity implements WashingVehicleEntityInterface
             updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
             deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
         );
+    }
+
+    public function delete(int $washingVehicleId): bool
+    {
+        $delete = $this->db::where('id', $washingVehicleId)->delete();
+
+        if ($delete === 0) {
+            throw new Exception('Não foi possível excluir à lavagem do veiculo');
+        }
+
+        return true;
     }
 }

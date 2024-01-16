@@ -20,7 +20,7 @@ class WashingVehicleRepository implements WashingVehicleRepositoryInterface
         $row = $this->db::where('id', $washingVehicleId)->first();
 
         if (!$row) {
-            throw new Exception('Lavagem do veículo não contrada.');
+            throw new Exception('Lavagem do veículo não encontrada.');
         }
 
         return new WashingVehicle(
@@ -35,5 +35,39 @@ class WashingVehicleRepository implements WashingVehicleRepositoryInterface
             updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
             deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
         );
+    }
+
+    public function listWashingVehicleByEstablishmentId(
+        int $establishmentId,
+        ?int $employeeId,
+        ?string $plate,
+        ?string $model,
+        ?string $color,
+        ?int $price,
+        ?int $limitPerPage
+    ): array {
+        $row = $this->db::where('establishment_id', $establishmentId);
+
+        if ($employeeId) {
+            $row = $row->where('employee_id', $employeeId);
+        }
+
+        if ($plate) {
+            $row = $row->where('plate', $plate);
+        }
+
+        if ($model) {
+            $row = $row->where('model', $model);
+        }
+
+        if ($color) {
+            $row = $row->where('color', $color);
+        }
+
+        if ($price) {
+            $row = $row->where('price', $price);
+        }
+
+        return $row->paginate($limitPerPage)->toArray();
     }
 }
