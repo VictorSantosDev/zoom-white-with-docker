@@ -19,6 +19,11 @@ class AddressService
         return $this->addressEntityInterface->createAddressEstablishment($address, $establishmentId);
     }
 
+    public function createAddressCompany(Address $address, int $companyId): Address
+    {
+        return $this->addressEntityInterface->createAddressCompany($address, $companyId);
+    }
+
     public function updateByEstablishment(Address $address, int $establishmentId): Address
     {
         return $this->addressEntityInterface->updateAddressEstablishment($address, $establishmentId);

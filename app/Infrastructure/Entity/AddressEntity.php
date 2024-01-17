@@ -53,6 +53,43 @@ class AddressEntity implements AddressEntityInterface
         );
     }
 
+    public function createAddressCompany(Address $address, int $companyId): Address
+    {
+        /** @todo criar o campo para o companyId */
+        $row = $this->db::create([
+            'user_id' => $address->getUserId()?->get(),
+            'establishment_id' => $address->getEstablishmentId(),
+            'postal_code' => $address->getPostalCode(),
+            'street' => $address->getStreet(),
+            'neighborhood' => $address->getNeighborhood(),
+            'state' => $address->getState(),
+            'city' => $address->getCity(),
+            'number' => $address->getNumber(),
+            'complement' => $address->getComplement(),
+            'active' => $address->getActive()->value,
+            'created_at' => $address->getCreatedAt(),
+            'updated_at' => $address->getUpdatedAt(),
+            'deleted_at' => $address->getDeletedAt(),
+        ]);
+
+        return new Address(
+            id: new Id($row->id),
+            userId: $address->getUserId(),
+            establishmentId: $address->getEstablishmentId(),
+            postalCode: $address->getPostalCode(),
+            street: $address->getStreet(),
+            neighborhood: $address->getNeighborhood(),
+            state: $address->getState(),
+            city: $address->getCity(),
+            number: $address->getNumber(),
+            complement: $address->getComplement(),
+            active: $address->getActive(),
+            createdAt: $address->getCreatedAt(),
+            updatedAt: $address->getUpdatedAt(),
+            deletedAt: $address->getDeletedAt(),
+        );
+    }
+
     public function updateAddressEstablishment(Address $address, int $establishmentId): Address
     {
         $row = $this->db::where('establishment_id', $establishmentId)->first();
