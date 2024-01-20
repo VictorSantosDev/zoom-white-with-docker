@@ -67,9 +67,9 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('company')->middleware('auth:users')->group(function () {
-            Route::post('create', [UserCompanyController::class, 'createAction'])->name('user-company-price');
-            Route::put('update', [UserCompanyController::class, 'updateAction'])->name('user-company-price');
-            Route::get('show/{id}', [UserCompanyController::class, 'showAction'])->name('user-company-price');
+            Route::post('create', [UserCompanyController::class, 'createAction'])->name('user-company-create');
+            Route::put('update', [UserCompanyController::class, 'updateAction'])->name('user-company-update');
+            Route::get('show/{id}', [UserCompanyController::class, 'showAction'])->name('user-company-show');
             Route::get('list', [UserCompanyController::class, 'listAction'])->name('user-company-list');
             Route::delete('delete/{id}', [UserCompanyController::class, 'deleteAction'])->name('user-company-delete');
         });

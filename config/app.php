@@ -174,6 +174,7 @@ return [
         App\Providers\EmployeeProvider::class,
         App\Providers\WashingVehicleProvider::class,
         App\Providers\WashingVehicleHasWashingProvider::class,
+        App\Providers\CompanyProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,

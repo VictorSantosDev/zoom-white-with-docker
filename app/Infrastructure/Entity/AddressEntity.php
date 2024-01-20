@@ -22,6 +22,7 @@ class AddressEntity implements AddressEntityInterface
         $row = $this->db::create([
             'user_id' => $address->getUserId()?->get(),
             'establishment_id' => $establishmentId,
+            'company_id' => $address->getCompanyId(),
             'postal_code' => $address->getPostalCode(),
             'street' => $address->getStreet(),
             'neighborhood' => $address->getNeighborhood(),
@@ -39,6 +40,7 @@ class AddressEntity implements AddressEntityInterface
             id: new Id($row->id),
             userId: $address->getUserId(),
             establishmentId: new Id($establishmentId),
+            companyId: new Id($address->getCompanyId()),
             postalCode: $address->getPostalCode(),
             street: $address->getStreet(),
             neighborhood: $address->getNeighborhood(),
@@ -55,10 +57,10 @@ class AddressEntity implements AddressEntityInterface
 
     public function createAddressCompany(Address $address, int $companyId): Address
     {
-        /** @todo criar o campo para o companyId */
         $row = $this->db::create([
             'user_id' => $address->getUserId()?->get(),
             'establishment_id' => $address->getEstablishmentId(),
+            'company_id' => $companyId,
             'postal_code' => $address->getPostalCode(),
             'street' => $address->getStreet(),
             'neighborhood' => $address->getNeighborhood(),
@@ -76,6 +78,7 @@ class AddressEntity implements AddressEntityInterface
             id: new Id($row->id),
             userId: $address->getUserId(),
             establishmentId: $address->getEstablishmentId(),
+            companyId: new Id($companyId),
             postalCode: $address->getPostalCode(),
             street: $address->getStreet(),
             neighborhood: $address->getNeighborhood(),
@@ -112,6 +115,7 @@ class AddressEntity implements AddressEntityInterface
             id: new Id($row->id),
             userId: $address->getUserId(),
             establishmentId: new Id($establishmentId),
+            companyId: $address->getCompanyId(),
             postalCode: $address->getPostalCode(),
             street: $address->getStreet(),
             neighborhood: $address->getNeighborhood(),

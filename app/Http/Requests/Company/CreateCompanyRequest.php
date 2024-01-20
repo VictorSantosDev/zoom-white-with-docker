@@ -19,12 +19,12 @@ class CreateCompanyRequest extends FormRequest
     {
         return [
             'establishmentId' => 'required|integer',
-            'companyName' => 'required|string',
-            'fantasyName' => 'nullable|string',
+            'companyName' => 'required|string|max:150',
+            'fantasyName' => 'nullable|string|max:150',
             'document' => 'required|cpf_ou_cnpj',
             'phone' => 'required|min:11|max:11',
             'email' => 'email|max:255',
-            'closingDate' => 'required|string|date',
+            'closingDate' => 'required|integer|between:0,31',
             'address.postalcode' => 'required|max:8|min:8',
             'address.street' => 'required|max:255',
             'address.neighborhood' => 'required|max:255',
@@ -72,6 +72,7 @@ class CreateCompanyRequest extends FormRequest
             id: null,
             userId: null,
             establishmentId: null,
+            companyId: null,
             postalCode: $this->input('address.postalCode'),
             street: $this->input('address.street'),
             neighborhood: $this->input('address.neighborhood'),

@@ -8,6 +8,7 @@ use App\Http\Requests\Company\CreateCompanyRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserCompanyController extends Controller
 {
@@ -19,15 +20,18 @@ class UserCompanyController extends Controller
     public function createAction(CreateCompanyRequest $request): JsonResponse
     {
         try {
+            DB::beginTransaction();
             $output = $this->userCompanyService->create(
                 $request->dataCompany(),
                 $request->dataAddress()
             );
 
+            DB::commit();
             return response()->json([
                 'data' => $output->jsonSerialize()
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'error' => $e->getMessage()
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);

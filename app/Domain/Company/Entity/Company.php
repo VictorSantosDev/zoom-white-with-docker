@@ -15,7 +15,7 @@ class Company implements JsonSerializable
         private ?string $document,
         private ?string $phone,
         private ?string $email,
-        private ?string $closingDate,
+        private ?int $closingDate,
         private ?string $createdAt,
         private ?string $updatedAt,
         private ?string $deletedAt
@@ -57,7 +57,7 @@ class Company implements JsonSerializable
         return $this->email;
     }
 
-    public function getClosingDate(): ?string
+    public function getClosingDate(): ?int
     {
         return $this->closingDate;
     }

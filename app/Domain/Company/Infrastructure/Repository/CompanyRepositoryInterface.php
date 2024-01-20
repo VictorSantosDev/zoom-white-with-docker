@@ -7,5 +7,5 @@ use App\Domain\Company\Entity\Company;
 interface CompanyRepositoryInterface
 {
     public function getByIdTryFrom(?int $id): Company;
-    public function findByDocument(?string $document): Company;
+    public function existCompany(Company $company): ?Company;
 }

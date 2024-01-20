@@ -21,18 +21,28 @@ class CompanyService
     public function create(
         Company $company,
         Address $address
-    ) {
-        /** @todo validar se a company já é cadastrada com esse documento. */
+    ): Company {
+        // $user = auth('users')->user();
+        // $this->isYourEstableshiment($employee->establishment_id, $company->getEstablishmentId()->get());
+        $this->validateCompany($company);
         $company = $this->companyEntity->create($company);
         $address = $this->addressService->createAddressCompany($address, $company->getId()->get());
-
         return $company;
     }
 
-    private function validateCompany(Company $company)
+    private function validateCompany(Company $company): void
     {
-        if ($this->companyRepositoryInterface->findByDocument($company->getDocument())) {
+        if ($this->companyRepositoryInterface->existCompany($company)) {
             throw new Exception('Já existe uma empresa com esse documento');
         }
     }
+
+    // private function isYourEstableshiment(
+    //     int $employeeEstableshimentId,
+    //     int $estableshimentId
+    // ): void {
+    //     if ($employeeEstableshimentId !== $estableshimentId) {
+    //         throw new Exception('O usuário não pertence a esse estabelecimento.');
+    //     }
+    // }
 }

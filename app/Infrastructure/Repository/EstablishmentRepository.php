@@ -125,6 +125,7 @@ class EstablishmentRepository implements EstablishmentRepositoryInterface
                 id: new Id($rowAddress?->id),
                 userId: new Id($rowAddress?->user_id),
                 establishmentId: new Id($rowAddress?->establishment_id),
+                companyId: new Id($rowAddress?->company_id),
                 postalCode: $rowAddress?->postal_code,
                 street: $rowAddress?->street,
                 neighborhood: $rowAddress?->neighborhood,

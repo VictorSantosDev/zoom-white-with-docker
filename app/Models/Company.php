@@ -6,25 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Address extends Model
+class Company extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'address';
+    protected $table = 'company';
 
     protected $fillable = [
         'id',
-        'user_id',
         'establishment_id',
-        'company_id',
-        'postal_code',
-        'street',
-        'neighborhood',
-        'state',
-        'city',
-        'number',
-        'complement',
-        'active',
+        'company_name',
+        'fantasy_name',
+        'document',
+        'phone',
+        'email',
+        'closing_date',
         'created_at',
         'updated_at',
         'deleted_at',

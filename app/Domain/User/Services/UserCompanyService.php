@@ -16,7 +16,7 @@ class UserCompanyService
     public function create(
         Company $company,
         Address $address
-    ) {
+    ): Company {
         return $this->companyService->create($company, $address);
     }
 

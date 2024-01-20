@@ -12,6 +12,7 @@ class Address implements JsonSerializable
         private ?Id $id,
         private ?Id $userId,
         private ?Id $establishmentId,
+        private ?Id $companyId,
         private ?string $postalCode,
         private ?string $street,
         private ?string $neighborhood,
@@ -39,6 +40,11 @@ class Address implements JsonSerializable
     public function getEstablishmentId(): ?Id
     {
         return $this->establishmentId;
+    }
+
+    public function getCompanyId(): ?Id
+    {
+        return $this->companyId;
     }
 
     public function getPostalCode(): ?string
@@ -102,6 +108,7 @@ class Address implements JsonSerializable
             'id' => $this->getId()?->get(),
             'userId' => $this->getUserId()?->get(),
             'establishmentId' => $this->getEstablishmentId()?->get(),
+            'companyId' => $this->getCompanyId()?->get(),
             'postalCode' => $this->getPostalCode(),
             'street' => $this->getStreet(),
             'neighborhood' => $this->getNeighborhood(),

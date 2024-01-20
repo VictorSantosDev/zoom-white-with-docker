@@ -72,6 +72,7 @@ class CreateEstablishmentRequest extends FormRequest
             id: null,
             userId: null,
             establishmentId: null,
+            companyId: null,
             postalCode: $this->input('address.postalcode'),
             street: $this->input('address.street'),
             neighborhood: $this->input('address.neighborhood'),
