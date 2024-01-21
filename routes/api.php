@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Employee\EmployeeAuthController;
 use App\Http\Controllers\Employee\EmployeeWashingVehicleController;
 use App\Http\Controllers\User\UserAuthController;
+use App\Http\Controllers\User\UserCategoryController;
 use App\Http\Controllers\User\UserCompanyController;
 use App\Http\Controllers\User\UserParkingPriceController;
 use App\Http\Controllers\User\UserWashingController;
@@ -51,6 +52,14 @@ Route::prefix('v1')->group(function () {
             Route::middleware('auth:users')->post('logout', [UserAuthController::class, 'logout'])->name('users-auth-logout');
             Route::middleware('auth:users')->post('refresh', [UserAuthController::class, 'refresh'])->name('users-auth-refresh');
             Route::middleware('auth:users')->post('me', [UserAuthController::class, 'me'])->name('users-auth-me');
+        });
+
+        Route::prefix('category')->middleware('auth:users')->group(function () {
+            Route::post('create', [UserCategoryController::class, 'createAction'])->name('user-category-create');
+            Route::get('update', [UserCategoryController::class, 'updateAction'])->name('user-category-update');
+            Route::get('show/{id}', [UserCategoryController::class, 'showAction'])->name('user-category-show');
+            Route::get('list', [UserCategoryController::class, 'listAction'])->name('user-category-list');
+            Route::delete('delete/{id}', [UserCategoryController::class, 'deleteAction'])->name('user-category-delete');
         });
 
         Route::prefix('washing')->middleware('auth:users')->group(function () {
