@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Domain\User\Services\UserCategoryService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\CreateCategoryRequest;
+use App\Http\Requests\Category\ListCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -61,13 +62,28 @@ class UserCategoryController extends Controller
         }
     }
 
-    public function deleteAction(): JsonResponse
+    public function listAction(ListCategoryRequest $request)
     {
         try {
-            $output = $this->userCategoryService->login(
-                $request->input('email'),
-                $request->input('password')
+            $output = $this->userCategoryService->list(
+                $request->input('establishmentId'),
+                $request->input('name', null)
             );
+
+            return response()->json([
+                'data' => $output
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public function deleteAction(int $id): JsonResponse
+    {
+        try {
+            $output = $this->userCategoryService->delete($id);
 
             return response()->json([
                 'data' => $output

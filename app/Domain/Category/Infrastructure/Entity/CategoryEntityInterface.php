@@ -8,4 +8,5 @@ interface CategoryEntityInterface
 {
     public function create(Category $category): Category;
     public function update(Category $category): Category;
+    public function delete(int $id): bool;
 }

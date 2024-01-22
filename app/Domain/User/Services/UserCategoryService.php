@@ -26,4 +26,16 @@ class UserCategoryService
     {
         return $this->categoryService->show($id);
     }
+
+    public function list(
+        int $establishmentId,
+        ?string $name
+    ): array {
+        return $this->categoryService->list($establishmentId, $name);
+    }
+
+    public function delete(int $id): bool
+    {
+        return $this->categoryService->delete($id);
+    }
 }

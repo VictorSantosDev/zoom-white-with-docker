@@ -5,12 +5,13 @@ namespace App\Infrastructure\Entity;
 use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\Category\Entity\Category;
 use App\Domain\Category\Infrastructure\Entity\CategoryEntityInterface;
+use App\Models\Category as ModelsCategory;
 use Exception;
 
 class CategoryEntity implements CategoryEntityInterface
 {
     public function __construct(
-        private $db
+        private ModelsCategory $db
     ) {
     }
 
@@ -51,7 +52,7 @@ class CategoryEntity implements CategoryEntityInterface
 
         return new Category(
             id: new Id($row->id),
-            establishmentId: $category->getEstablishmentId(),
+            establishmentId: new Id($row->establishment_id),
             name: $category->getName(),
             numberIcon: $category->getNumberIcon(),
             active: $category->getActive(),
@@ -59,5 +60,16 @@ class CategoryEntity implements CategoryEntityInterface
             updatedAt: $category->getUpdatedAt(),
             deletedAt: $category->getDeletedAt()
         );
+    }
+
+    public function delete(int $id): bool
+    {
+        $delete = $this->db::where('id', $id)->delete();
+
+        if ($delete === 0) {
+            throw new Exception('Não foi possível excluir essa categoria');
+        }
+
+        return true;
     }
 }

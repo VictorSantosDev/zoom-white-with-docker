@@ -31,4 +31,16 @@ class CategoryService
     {
         return $this->categoryRepositoryInterface->getByIdTryFrom($id);
     }
+
+    public function list(
+        int $establishmentId,
+        ?string $name
+    ): array {
+        return $this->categoryRepositoryInterface->listCategoryByEstablishmentId($establishmentId, $name);
+    }
+
+    public function delete(int $id): bool
+    {
+        return $this->categoryEntityInterface->delete($id);
+    }
 }

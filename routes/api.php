@@ -56,7 +56,7 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('category')->middleware('auth:users')->group(function () {
             Route::post('create', [UserCategoryController::class, 'createAction'])->name('user-category-create');
-            Route::get('update', [UserCategoryController::class, 'updateAction'])->name('user-category-update');
+            Route::put('update', [UserCategoryController::class, 'updateAction'])->name('user-category-update');
             Route::get('show/{id}', [UserCategoryController::class, 'showAction'])->name('user-category-show');
             Route::get('list', [UserCategoryController::class, 'listAction'])->name('user-category-list');
             Route::delete('delete/{id}', [UserCategoryController::class, 'deleteAction'])->name('user-category-delete');

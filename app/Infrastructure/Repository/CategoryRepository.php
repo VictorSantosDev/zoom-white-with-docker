@@ -6,12 +6,13 @@ use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\Category\Entity\Category;
 use App\Domain\Category\Infrastructure\Repository\CategoryRepositoryInterface;
 use App\Domain\Enum\Active;
+use App\Models\Category as ModelsCategory;
 use Exception;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
     public function __construct(
-        private $db
+        private ModelsCategory $db
     ) {
     }
 
@@ -33,5 +34,16 @@ class CategoryRepository implements CategoryRepositoryInterface
             updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
             deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
         );
+    }
+
+    public function listCategoryByEstablishmentId(int $establishmentId, ?string $name): array
+    {
+        $row = $this->db::where('establishment_id', $establishmentId);
+
+        if ($name) {
+            $row = $row->where('name', 'LIKE', "$name%");
+        }
+
+        return $row->paginate(10)->toArray();
     }
 }

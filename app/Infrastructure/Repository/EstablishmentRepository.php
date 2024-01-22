@@ -81,11 +81,11 @@ class EstablishmentRepository implements EstablishmentRepositoryInterface
         $row = $this->db::where('user_id', $userId);
 
         if ($nameByCompany) {
-            $row = $this->db->where('name_by_company', 'LIKE', "%$nameByCompany");
+            $row = $this->db->where('name_by_company', 'LIKE', "$nameByCompany%");
         }
 
         if ($document) {
-            $row = $this->db->where('document', 'LIKE', "%$document");
+            $row = $this->db->where('document', 'LIKE', "$document%");
         }
 
         if ($type) {

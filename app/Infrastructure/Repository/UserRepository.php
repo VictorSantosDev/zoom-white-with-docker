@@ -101,19 +101,19 @@ class UserRepository implements UserRepositoryInterface
         $row = $this->db;
 
         if ($name) {
-            $row = $row->where('name', 'LIKE', "%$name");
+            $row = $row->where('name', 'LIKE', "$name%");
         }
 
         if ($email) {
-            $row = $row->where('email', 'LIKE', "%$email");
+            $row = $row->where('email', 'LIKE', "$email%");
         }
 
         if ($phone) {
-            $row = $row->where('phone', 'LIKE', "%$phone");
+            $row = $row->where('phone', 'LIKE', "$phone%");
         }
 
         if ($cpf) {
-            $row = $row->where('cpf', 'LIKE', "%$cpf");
+            $row = $row->where('cpf', 'LIKE', "$cpf%");
         }
 
         if ($active) {

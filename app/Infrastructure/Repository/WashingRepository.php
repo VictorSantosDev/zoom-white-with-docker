@@ -48,7 +48,7 @@ class WashingRepository implements WashingRepositoryInterface
         $row = $this->db::where('establishment_id', $establishmentId);
 
         if ($name) {
-            $row = $row->where('name', 'LIKE', "%$name");
+            $row = $row->where('name', 'LIKE', "$name%");
         }
 
         if ($active) {
