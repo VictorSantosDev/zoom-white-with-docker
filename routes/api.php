@@ -11,6 +11,7 @@ use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\UserCategoryController;
 use App\Http\Controllers\User\UserCompanyController;
 use App\Http\Controllers\User\UserParkingPriceController;
+use App\Http\Controllers\User\UserServiceController;
 use App\Http\Controllers\User\UserWashingController;
 
 Route::prefix('v1')->group(function () {
@@ -60,6 +61,13 @@ Route::prefix('v1')->group(function () {
             Route::get('show/{id}', [UserCategoryController::class, 'showAction'])->name('user-category-show');
             Route::get('list', [UserCategoryController::class, 'listAction'])->name('user-category-list');
             Route::delete('delete/{id}', [UserCategoryController::class, 'deleteAction'])->name('user-category-delete');
+        });
+
+        Route::prefix('service')->middleware('auth:users')->group(function () {
+            Route::post('create', [UserServiceController::class, 'createAction'])->name('user-service-create');
+            Route::get('show/{id}', [UserServiceController::class, 'showAction'])->name('user-service-show');
+            Route::get('list', [UserServiceController::class, 'listAction'])->name('user-service-list');
+            Route::delete('delete/{id}', [UserServiceController::class, 'deleteAction'])->name('user-service-delete');
         });
 
         Route::prefix('washing')->middleware('auth:users')->group(function () {
