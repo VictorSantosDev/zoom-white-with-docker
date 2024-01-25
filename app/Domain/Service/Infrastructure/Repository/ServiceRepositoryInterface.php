@@ -3,6 +3,7 @@
 namespace App\Domain\Service\Infrastructure\Repository;
 
 use App\Domain\Service\Entity\ServiceEntity;
+use Illuminate\Database\Eloquent\Collection;
 
 interface ServiceRepositoryInterface
 {
@@ -13,4 +14,5 @@ interface ServiceRepositoryInterface
         ?int $price,
         ?int $limitPerPage
     ): array;
+    public function getByServiceIds(array $serviceIds): Collection;
 }

@@ -5,6 +5,7 @@ namespace App\Domain\Service\Services;
 use App\Domain\Service\Entity\ServiceEntity;
 use App\Domain\Service\Infrastructure\Entity\ServiceEntityInterface;
 use App\Domain\Service\Infrastructure\Repository\ServiceRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class ServiceMain
 {
@@ -41,5 +42,10 @@ class ServiceMain
     public function delete(int $id): bool
     {
         return $this->serviceEntityInterface->delete($id);
+    }
+
+    public function findServiceIds(array $serviceIds): Collection
+    {
+        return $this->serviceRepositoryInterface->getByServiceIds($serviceIds);
     }
 }

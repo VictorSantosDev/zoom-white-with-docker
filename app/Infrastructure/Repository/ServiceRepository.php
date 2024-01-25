@@ -8,6 +8,7 @@ use App\Domain\Service\Entity\ServiceEntity;
 use App\Domain\Service\Infrastructure\Repository\ServiceRepositoryInterface;
 use App\Models\Service as ModelService;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 
 class ServiceRepository implements ServiceRepositoryInterface
 {
@@ -54,5 +55,10 @@ class ServiceRepository implements ServiceRepositoryInterface
         }
 
         return $row->paginate($limitPerPage)->toArray();
+    }
+
+    public function getByServiceIds(array $serviceIds): Collection
+    {
+        return $this->db::whereIn('id', $serviceIds)->get();
     }
 }

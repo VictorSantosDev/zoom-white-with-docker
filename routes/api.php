@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminCouponsController;
 use App\Http\Controllers\Admin\AdminEstablishmentController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Employee\EmployeeAuthController;
+use App\Http\Controllers\Employee\EmployeeVehicleController;
 use App\Http\Controllers\Employee\EmployeeWashingVehicleController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\UserCategoryController;
@@ -106,6 +107,14 @@ Route::prefix('v1')->group(function () {
             Route::get('show/{id}', [EmployeeWashingVehicleController::class, 'showAction'])->name('employee-washing-vehicle-show');
             Route::get('list', [EmployeeWashingVehicleController::class, 'listAction'])->name('employee-washing-vehicle-list');
             Route::delete('/delete/{id}', [EmployeeWashingVehicleController::class, 'deleteAction'])->name('employee-washing-vehicle-delete');
+        });
+
+        Route::prefix('vehicle')->middleware('auth:employee')->group(function () {
+            Route::post('create', [EmployeeVehicleController::class, 'createAction'])->name('employee-vehicle-create');
+            Route::put('update', [EmployeeVehicleController::class, 'updateAction'])->name('employee-vehicle-update');
+            Route::get('show/{id}', [EmployeeVehicleController::class, 'showAction'])->name('employee-vehicle-show');
+            Route::get('list', [EmployeeVehicleController::class, 'listAction'])->name('employee-vehicle-list');
+            Route::delete('/delete/{id}', [EmployeeVehicleController::class, 'deleteAction'])->name('employee-vehicle-delete');
         });
     });
 });
