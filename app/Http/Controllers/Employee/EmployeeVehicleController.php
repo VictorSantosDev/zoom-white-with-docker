@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Employee;
 use App\Domain\Employee\Services\EmployeeVehicleService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Vehicle\CreateVehicleRequest;
+use App\Http\Requests\Vehicle\ListVehicleRequest;
 use App\Http\Requests\Vehicle\UpdateVehicleRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -58,17 +59,11 @@ class EmployeeVehicleController extends Controller
         }
     }
 
-    public function showAction(): JsonResponse
+    public function showAction(int $id): JsonResponse
     {
         try {
             DB::beginTransaction();
-            $output = $this->employeeVehicleService->create(
-                $request->input('estableshimentId'),
-                $request->input('washingIds'),
-                $request->input('plate'),
-                $request->input('model'),
-                $request->input('color')
-            );
+            $output = $this->employeeVehicleService->show($id);
             DB::commit();
             return response()->json([
                 'data' => $output->jsonSerialize()
@@ -81,20 +76,23 @@ class EmployeeVehicleController extends Controller
         }
     }
 
-    public function listAction(): JsonResponse
+    public function listAction(ListVehicleRequest $request): JsonResponse
     {
         try {
             DB::beginTransaction();
-            $output = $this->employeeVehicleService->create(
-                $request->input('estableshimentId'),
-                $request->input('washingIds'),
+            $output = $this->employeeVehicleService->list(
+                $request->input('establishmentId'),
+                $request->input('companyId'),
+                $request->input('employeeId'),
                 $request->input('plate'),
                 $request->input('model'),
-                $request->input('color')
+                $request->input('color'),
+                $request->input('price'),
+                $request->input('limitPerPage', 10)
             );
             DB::commit();
             return response()->json([
-                'data' => $output->jsonSerialize()
+                'data' => $output
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             DB::rollBack();
@@ -104,20 +102,14 @@ class EmployeeVehicleController extends Controller
         }
     }
 
-    public function deleteAction(): JsonResponse
+    public function deleteAction(int $id): JsonResponse
     {
         try {
             DB::beginTransaction();
-            $output = $this->employeeVehicleService->create(
-                $request->input('estableshimentId'),
-                $request->input('washingIds'),
-                $request->input('plate'),
-                $request->input('model'),
-                $request->input('color')
-            );
+            $output = $this->employeeVehicleService->delete($id);
             DB::commit();
             return response()->json([
-                'data' => $output->jsonSerialize()
+                'data' => $output
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             DB::rollBack();

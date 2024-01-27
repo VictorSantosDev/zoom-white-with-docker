@@ -6,6 +6,7 @@ use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\Vehicle\Entity\Vehicle;
 use App\Domain\Vehicle\Infrastructure\Entity\VehicleEntityInterface;
 use App\Models\Vehicle as ModelVehicle;
+use Exception;
 
 class VehicleEntity implements VehicleEntityInterface
 {
@@ -42,5 +43,41 @@ class VehicleEntity implements VehicleEntityInterface
             updatedAt: $vehicle->getUpdatedAt(),
             deletedAt: $vehicle->getDeletedAt()
         );
+    }
+
+    public function update(Vehicle $vehicle): Vehicle
+    {
+        $row = $this->db::where('id', $vehicle->getId()->get())->first();
+
+        $row->plate = $vehicle->getPlate();
+        $row->model = $vehicle->getModel();
+        $row->color = $vehicle->getColor();
+        $row->price = $vehicle->getPrice();
+        $row->save();
+
+        return new Vehicle(
+            id: new Id($row->id),
+            establishmentId: new Id($row->establishment_id),
+            employeeId: new Id($row->employee_id),
+            companyId: new Id($row->company_id),
+            plate: $vehicle->getPlate(),
+            model: $vehicle->getModel(),
+            color: $vehicle->getColor(),
+            price: $vehicle->getPrice(),
+            createdAt: $vehicle->getCreatedAt(),
+            updatedAt: $vehicle->getUpdatedAt(),
+            deletedAt: $vehicle->getDeletedAt()
+        );
+    }
+
+    public function delete(int $id): bool
+    {
+        $delete = $this->db::where('id', $id)->delete();
+
+        if ($delete === 0) {
+            throw new Exception('Não foi possível excluir esse veículo');
+        }
+
+        return true;
     }
 }

@@ -33,4 +33,12 @@ class ServiceHasVehicleEntity implements ServiceHasVehicleEntityInterface
             deletedAt: $serviceHasVehicle->getDeletedAt()
         );
     }
+
+    public function deleteByServiceIds(array $servicesIds): bool
+    {
+        $rows = $this->db::whereIn('service_id', $servicesIds)->get();
+        $rows->each->delete();
+
+        return true;
+    }
 }
