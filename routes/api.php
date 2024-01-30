@@ -109,7 +109,7 @@ Route::prefix('v1')->group(function () {
             Route::delete('/delete/{id}', [EmployeeWashingVehicleController::class, 'deleteAction'])->name('employee-washing-vehicle-delete');
         });
 
-        Route::prefix('vehicle')->middleware('auth:employee')->group(function () {
+        Route::prefix('vehicle')->middleware('auth:users')->group(function () {
             Route::post('create', [EmployeeVehicleController::class, 'createAction'])->name('employee-vehicle-create');
             Route::put('update', [EmployeeVehicleController::class, 'updateAction'])->name('employee-vehicle-update');
             Route::get('show/{id}', [EmployeeVehicleController::class, 'showAction'])->name('employee-vehicle-show');

@@ -6,10 +6,10 @@ use App\Domain\Employee\Services\EmployeeVehicleService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Vehicle\CreateVehicleRequest;
 use App\Http\Requests\Vehicle\ListVehicleRequest;
+use App\Http\Requests\Vehicle\ShowRequest;
 use App\Http\Requests\Vehicle\UpdateVehicleRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class EmployeeVehicleController extends Controller
@@ -59,7 +59,7 @@ class EmployeeVehicleController extends Controller
         }
     }
 
-    public function showAction(int $id): JsonResponse
+    public function showAction(ShowRequest $request, int $id): JsonResponse
     {
         try {
             DB::beginTransaction();
