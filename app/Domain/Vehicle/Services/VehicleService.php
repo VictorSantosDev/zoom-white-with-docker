@@ -23,15 +23,15 @@ class VehicleService
 
     public function create(Vehicle $vehicle, array $serviceIds): Vehicle
     {
-        $employee = auth('employee')->user();
-        $this->establishmentService->show($employee->establishment_id);
+        $user = auth('users')->user();
+        $this->establishmentService->findEstablishmentByUserId($user->id);
         $serviceCollect = $this->serviceMain->findServiceIds($serviceIds);
         $price = $this->sumServices($serviceCollect->toArray());
         $vehicle = $this->vehicleEntityInterface->create(
             VehicleFactory::create(
                 vehicle: $vehicle,
                 price: $price,
-                employeeId: $employee->id
+                userId: $user->id
             )
         );
         $this->saveServiceHasVehicle($serviceCollect->toArray(), $vehicle);
@@ -40,7 +40,8 @@ class VehicleService
 
     public function update(Vehicle $vehicle, array $serviceIds): Vehicle
     {
-        $employee = auth('employee')->user();
+        $user = auth('users')->user();
+        $this->establishmentService->findEstablishmentByUserId($user->id);
         $this->vehicleRepositoryInterface->getByIdTryFrom(
             $vehicle->getId()->get()
         );
@@ -50,7 +51,7 @@ class VehicleService
             VehicleFactory::create(
                 vehicle: $vehicle,
                 price: $price,
-                employeeId: $employee->id
+                userId: $user->id
             )
         );
 
@@ -70,7 +71,7 @@ class VehicleService
     public function list(
         int $establishmentId,
         ?int $companyId,
-        ?int $employeeId,
+        ?int $userId,
         ?string $plate,
         ?string $model,
         ?string $color,
@@ -80,7 +81,7 @@ class VehicleService
         return $this->vehicleRepositoryInterface->list(
             $establishmentId,
             $companyId,
-            $employeeId,
+            $userId,
             $plate,
             $model,
             $color,

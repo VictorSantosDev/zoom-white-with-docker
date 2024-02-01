@@ -10,7 +10,7 @@ interface VehicleRepositoryInterface
     public function list(
         int $establishmentId,
         ?int $companyId,
-        ?int $employeeId,
+        ?int $userId,
         ?string $plate,
         ?string $model,
         ?string $color,

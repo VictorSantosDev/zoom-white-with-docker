@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests\Vehicle;
 
+use App\Utils\Permissions\CheckPermission;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ListVehicleRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return CheckPermission::checkPermission('api_list_vehicle');
     }
 
     public function rules(): array
@@ -16,7 +17,7 @@ class ListVehicleRequest extends FormRequest
         return [
             'establishmentId' => 'required|integer',
             'companyId' => 'nullable|integer',
-            'employeeId' => 'nullable|integer',
+            'userId' => 'nullable|integer',
             'plate' => 'nullable|string',
             'model' => 'nullable|string',
             'color' => 'nullable|string',

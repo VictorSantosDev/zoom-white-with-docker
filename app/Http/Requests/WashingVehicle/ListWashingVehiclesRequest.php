@@ -8,14 +8,14 @@ class ListWashingVehiclesRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     public function rules(): array
     {
         return [
             'establishmentId' => 'required|integer',
-            'employeeId' => 'nullable|integer',
+            'userId' => 'nullable|integer',
             'plate' => 'nullable|string',
             'model' => 'nullable|string',
             'color' => 'nullable|string',

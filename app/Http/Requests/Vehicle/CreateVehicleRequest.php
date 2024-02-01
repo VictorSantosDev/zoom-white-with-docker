@@ -4,13 +4,14 @@ namespace App\Http\Requests\Vehicle;
 
 use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\Vehicle\Entity\Vehicle;
+use App\Utils\Permissions\CheckPermission;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateVehicleRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return CheckPermission::checkPermission('api_create_vehicle');
     }
 
     public function rules(): array
@@ -35,7 +36,7 @@ class CreateVehicleRequest extends FormRequest
         return new Vehicle(
             id: null,
             establishmentId: new Id($this->input('establishmentId')),
-            employeeId: new Id(null),
+            userId: new Id(null),
             companyId: new Id($this->input('companyId')),
             plate: $this->input('plate'),
             model: $this->input('model'),

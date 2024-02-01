@@ -19,7 +19,7 @@ class VehicleEntity implements VehicleEntityInterface
     {
         $row = $this->db::create([
             'establishment_id' => $vehicle->getEstablishmentId()->get(),
-            'employee_id' => $vehicle->getEmployeeId()->get(),
+            'user_id' => $vehicle->getUserId()->get(),
             'company_id' => $vehicle->getCompanyId()?->get(),
             'plate' => $vehicle->getPlate(),
             'model' => $vehicle->getModel(),
@@ -33,7 +33,7 @@ class VehicleEntity implements VehicleEntityInterface
         return new Vehicle(
             id: new Id($row->id),
             establishmentId: $vehicle->getEstablishmentId(),
-            employeeId: $vehicle->getEmployeeId(),
+            userId: $vehicle->getUserId(),
             companyId: $vehicle->getCompanyId(),
             plate: $vehicle->getPlate(),
             model: $vehicle->getModel(),
@@ -58,7 +58,7 @@ class VehicleEntity implements VehicleEntityInterface
         return new Vehicle(
             id: new Id($row->id),
             establishmentId: new Id($row->establishment_id),
-            employeeId: new Id($row->employee_id),
+            userId: new Id($row->user_id),
             companyId: new Id($row->company_id),
             plate: $vehicle->getPlate(),
             model: $vehicle->getModel(),

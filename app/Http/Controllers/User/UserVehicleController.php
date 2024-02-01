@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Employee;
+namespace App\Http\Controllers\User;
 
-use App\Domain\Employee\Services\EmployeeVehicleService;
+use App\Domain\User\Services\UserVehicleService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Vehicle\CreateVehicleRequest;
 use App\Http\Requests\Vehicle\DeleteRequest;
@@ -11,12 +11,13 @@ use App\Http\Requests\Vehicle\ShowRequest;
 use App\Http\Requests\Vehicle\UpdateVehicleRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class EmployeeVehicleController extends Controller
+class UserVehicleController extends Controller
 {
     public function __construct(
-        private EmployeeVehicleService $employeeVehicleService
+        private UserVehicleService $userVehicleService
     ) {
     }
 
@@ -24,7 +25,7 @@ class EmployeeVehicleController extends Controller
     {
         try {
             DB::beginTransaction();
-            $output = $this->employeeVehicleService->create(
+            $output = $this->userVehicleService->create(
                 $request->data(),
                 $request->input('serviceIds', [])
             );
@@ -44,7 +45,7 @@ class EmployeeVehicleController extends Controller
     {
         try {
             DB::beginTransaction();
-            $output = $this->employeeVehicleService->update(
+            $output = $this->userVehicleService->update(
                 $request->data(),
                 $request->input('serviceIds', [])
             );
@@ -64,7 +65,7 @@ class EmployeeVehicleController extends Controller
     {
         try {
             DB::beginTransaction();
-            $output = $this->employeeVehicleService->show($id);
+            $output = $this->userVehicleService->show($id);
             DB::commit();
             return response()->json([
                 'data' => $output->jsonSerialize()
@@ -81,7 +82,7 @@ class EmployeeVehicleController extends Controller
     {
         try {
             DB::beginTransaction();
-            $output = $this->employeeVehicleService->list(
+            $output = $this->userVehicleService->list(
                 $request->input('establishmentId'),
                 $request->input('companyId'),
                 $request->input('userId'),
@@ -107,7 +108,7 @@ class EmployeeVehicleController extends Controller
     {
         try {
             DB::beginTransaction();
-            $output = $this->employeeVehicleService->delete($id);
+            $output = $this->userVehicleService->delete($id);
             DB::commit();
             return response()->json([
                 'data' => $output

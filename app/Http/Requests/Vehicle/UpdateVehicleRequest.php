@@ -4,13 +4,14 @@ namespace App\Http\Requests\Vehicle;
 
 use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\Vehicle\Entity\Vehicle;
+use App\Utils\Permissions\CheckPermission;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateVehicleRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return CheckPermission::checkPermission('api_update_vehicle');
     }
 
     public function rules(): array
@@ -39,7 +40,7 @@ class UpdateVehicleRequest extends FormRequest
         return new Vehicle(
             id: new Id($this->input('vehicleId')),
             establishmentId: new Id(null),
-            employeeId: new Id(null),
+            userId: new Id(null),
             companyId: new Id(null),
             plate: $this->input('plate'),
             model: $this->input('model'),

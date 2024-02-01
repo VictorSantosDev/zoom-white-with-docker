@@ -10,12 +10,12 @@ class VehicleFactory
     static function create(
         Vehicle $vehicle,
         int $price,
-        int $employeeId
+        int $userId
     ): Vehicle {
         return new Vehicle(
             id: $vehicle->getId(),
             establishmentId: $vehicle->getEstablishmentId(),
-            employeeId: new Id($employeeId),
+            userId: new Id($userId),
             companyId: $vehicle->getCompanyId(),
             plate: $vehicle->getPlate(),
             model: $vehicle->getModel(),
