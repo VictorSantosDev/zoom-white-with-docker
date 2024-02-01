@@ -26,7 +26,7 @@ class VehicleRepository implements VehicleRepositoryInterface
         return new Vehicle(
             id: new Id($row->id),
             establishmentId: new Id($row->establishment_id),
-            employeeId: new Id($row->employee_id),
+            userId: new Id($row->user_id),
             companyId: new Id($row->company_id),
             plate: $row->plate,
             model: $row->model,
@@ -41,7 +41,7 @@ class VehicleRepository implements VehicleRepositoryInterface
     public function list(
         int $establishmentId,
         ?int $companyId,
-        ?int $employeeId,
+        ?int $userId,
         ?string $plate,
         ?string $model,
         ?string $color,
@@ -54,8 +54,8 @@ class VehicleRepository implements VehicleRepositoryInterface
             $row = $row->where('company_id', $companyId);
         }
 
-        if ($employeeId) {
-            $row = $row->where('employee_id', $employeeId);
+        if ($userId) {
+            $row = $row->where('user_id', $userId);
         }
 
         if ($plate) {

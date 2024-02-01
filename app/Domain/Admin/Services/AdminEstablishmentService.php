@@ -24,7 +24,7 @@ class AdminEstablishmentService
         Establishment $establishment,
         Address $address
     ): array {
-        $user = $this->adminUserService->findUserById($establishment->getUserId()->get());
+        $this->adminUserService->findUserById($establishment->getUserId()->get());
 
         $establishmentCreated = $this->establishmentService->create($establishment);
 
@@ -33,7 +33,8 @@ class AdminEstablishmentService
             $establishmentCreated->getId()->get()
         );
 
-        $this->employeeService->createEmployeeAdmin($user, $establishmentCreated->getId());
+        /** @not used createEmployee */
+        // $this->employeeService->createEmployeeAdmin($user, $establishmentCreated->getId());
 
         return [
             'establishment' => $establishmentCreated->jsonSerialize(),

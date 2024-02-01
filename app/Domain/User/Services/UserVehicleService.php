@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\Employee\Services;
+namespace App\Domain\User\Services;
 
 use App\Domain\Vehicle\Entity\Vehicle;
 use App\Domain\Vehicle\Services\VehicleService;
 
-class EmployeeVehicleService
+class UserVehicleService
 {
     public function __construct(
         private VehicleService $vehicleService

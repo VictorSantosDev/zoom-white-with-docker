@@ -10,7 +10,7 @@ class Vehicle implements JsonSerializable
     public function __construct(
         private ?Id $id,
         private Id $establishmentId,
-        private Id $employeeId,
+        private Id $userId,
         private ?Id $companyId,
         private string $plate,
         private string $model,
@@ -32,9 +32,9 @@ class Vehicle implements JsonSerializable
         return $this->establishmentId;
     }
 
-    public function getEmployeeId(): Id
+    public function getUserId(): Id
     {
-        return $this->employeeId;
+        return $this->userId;
     }
 
     public function getCompanyId(): ?Id
@@ -83,7 +83,7 @@ class Vehicle implements JsonSerializable
         return [
             'id' => $this->getId()?->get(),
             'establishmentId' => $this->getEstablishmentId()?->get(),
-            'employeeId' => $this->getEmployeeId()?->get(),
+            'userId' => $this->getUserId()?->get(),
             'companyId' => $this->getCompanyId()?->get(),
             'plate' => $this->getPlate(),
             'model' => $this->getModel(),

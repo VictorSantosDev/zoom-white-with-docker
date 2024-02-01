@@ -48,9 +48,14 @@ class EstablishmentService
         return $this->establishmentRepositoryInterface->getByIdTryFrom($id);
     }
 
-    public function delete(int $id)
+    public function delete(int $id): bool
     {
         return $this->establishmentEntityInterface->delete($id);
+    }
+
+    public function findEstablishmentByUserId(?int $userId): array
+    {
+        return $this->establishmentRepositoryInterface->getByUserIdTryFrom($userId);
     }
 
     private function existByUserWithDocument(int $userId, string $document): void
