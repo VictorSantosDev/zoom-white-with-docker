@@ -58,6 +58,14 @@ class EstablishmentService
         return $this->establishmentRepositoryInterface->getByUserIdTryFrom($userId);
     }
 
+    public function findEstablishmentByUserIdAndEstablishmentId(?int $userId, int $establishmentId)
+    {
+        return $this->establishmentRepositoryInterface->getByUserIdAndEstablishmentIdTryFrom(
+            $userId,
+            $establishmentId
+        );
+    }
+
     private function existByUserWithDocument(int $userId, string $document): void
     {
         $establishment = $this->establishmentRepositoryInterface->findEstablishmentByDocument(

@@ -5,9 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Domain\User\Services\UserVehicleService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Vehicle\CreateVehicleRequest;
-use App\Http\Requests\Vehicle\DeleteRequest;
+use App\Http\Requests\Vehicle\DeleteVehicleRequest;
 use App\Http\Requests\Vehicle\ListVehicleRequest;
-use App\Http\Requests\Vehicle\ShowRequest;
+use App\Http\Requests\Vehicle\ShowVehicleRequest;
 use App\Http\Requests\Vehicle\UpdateVehicleRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -61,7 +61,7 @@ class UserVehicleController extends Controller
         }
     }
 
-    public function showAction(ShowRequest $request, int $id): JsonResponse
+    public function showAction(ShowVehicleRequest $request, int $id): JsonResponse
     {
         try {
             DB::beginTransaction();
@@ -104,7 +104,7 @@ class UserVehicleController extends Controller
         }
     }
 
-    public function deleteAction(DeleteRequest $request, int $id): JsonResponse
+    public function deleteAction(DeleteVehicleRequest $request, int $id): JsonResponse
     {
         try {
             DB::beginTransaction();

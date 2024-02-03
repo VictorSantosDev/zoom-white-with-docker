@@ -5,7 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Domain\User\Services\UserServiceByCategoryService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Service\ListServiceRequest;
-use App\Http\Requests\Service\ServiceRequest;
+use App\Http\Requests\Service\CreateServiceRequest;
+use App\Http\Requests\Service\DeleteServiceRequest;
+use App\Http\Requests\Service\ShowServiceRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,7 +19,7 @@ class UserServiceController extends Controller
     ) {
     }
 
-    public function createAction(ServiceRequest $request): JsonResponse
+    public function createAction(CreateServiceRequest $request): JsonResponse
     {
         try {
             $output = $this->userServiceByCategoryService->create($request->data());
@@ -32,7 +34,7 @@ class UserServiceController extends Controller
         }
     }
 
-    public function showAction(int $id): JsonResponse
+    public function showAction(ShowServiceRequest $request, int $id): JsonResponse
     {
         try {
             $output = $this->userServiceByCategoryService->show($id);
@@ -67,7 +69,7 @@ class UserServiceController extends Controller
         }
     }
 
-    public function deleteAction(int $id): JsonResponse
+    public function deleteAction(DeleteServiceRequest $request, int $id): JsonResponse
     {
         try {
             $output = $this->userServiceByCategoryService->delete($id);

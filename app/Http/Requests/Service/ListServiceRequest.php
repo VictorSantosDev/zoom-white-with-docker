@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests\Service;
 
+use App\Utils\Permissions\CheckPermission;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ListServiceRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return CheckPermission::checkPermission('api_list_service');
     }
 
     public function rules(): array

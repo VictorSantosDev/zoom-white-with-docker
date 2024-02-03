@@ -9,17 +9,17 @@ use App\Domain\Enum\Active;
 use App\Utils\Permissions\CheckPermission;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCompanyRequest extends FormRequest
+class UpdateCompanyRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return CheckPermission::checkPermission('api_create_company');
+        return CheckPermission::checkPermission('api_update_company');
     }
 
     public function rules(): array
     {
         return [
-            'establishmentId' => 'required|integer',
+            'companyId' => 'required|integer',
             'companyName' => 'required|string|max:150',
             'fantasyName' => 'nullable|string|max:150',
             'document' => 'required|cpf_ou_cnpj',
@@ -45,16 +45,14 @@ class CreateCompanyRequest extends FormRequest
             'max' => 'O campo :attribute aceita no máximo :max caracteres',
             'min' => 'O campo :attribute aceita no minímo :min caracteres',
             'type.in' => 'O campo type só aceita esses valores CAR_WASH, PARKING, CAR_WASH_AND_PARKING',
-            'string' => 'O campo :attribute deve ser do tipo texto',
-            'date' => 'O campo :attribute deve ser uma data válida no formato 0000-00-00'
         ];
     }
 
     public function dataCompany(): Company
     {
         return new Company(
-            id: null,
-            establishmentId: new Id($this->input('establishmentId')),
+            id: new Id($this->input('companyId')),
+            establishmentId: new Id(null),
             companyName: $this->input('companyName'),
             fantasyName: $this->input('fantasyName'),
             document: $this->input('document'),

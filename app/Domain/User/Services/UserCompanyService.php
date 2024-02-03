@@ -20,8 +20,11 @@ class UserCompanyService
         return $this->companyService->create($company, $address);
     }
 
-    public function update()
-    {
+    public function update(
+        Company $company,
+        Address $address
+    ): Company {
+        return $this->companyService->update($company, $address);
     }
 
     public function show()

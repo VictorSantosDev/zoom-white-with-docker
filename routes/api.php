@@ -72,6 +72,7 @@ Route::prefix('v1')->group(function () {
             Route::delete('delete/{id}', [UserServiceController::class, 'deleteAction'])->name('user-service-delete');
         });
 
+        /** @not used route washing discontinued */
         Route::prefix('washing')->middleware('auth:users')->group(function () {
             Route::post('create', [UserWashingController::class, 'createAction'])->name('user-washing-create');
             Route::get('show/{id}', [UserWashingController::class, 'showAction'])->name('user-washing-show');
@@ -82,9 +83,10 @@ Route::prefix('v1')->group(function () {
         Route::prefix('parking-price')->middleware('auth:users')->group(function () {
             Route::post('create', [UserParkingPriceController::class, 'createParkingPriceAction'])->name('user-parking-create-price');
             Route::put('update', [UserParkingPriceController::class, 'updateParkingPriceAction'])->name('user-parking-update-price');
-            Route::get('show', [UserParkingPriceController::class, 'showParkingPriceAction'])->name('user-parking-show-price');
+            Route::get('show/{id}', [UserParkingPriceController::class, 'showParkingPriceAction'])->name('user-parking-show-price');
         });
 
+        /** @todo update, show, list, delete for company */
         Route::prefix('company')->middleware('auth:users')->group(function () {
             Route::post('create', [UserCompanyController::class, 'createAction'])->name('user-company-create');
             Route::put('update', [UserCompanyController::class, 'updateAction'])->name('user-company-update');

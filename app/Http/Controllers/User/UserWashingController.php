@@ -5,7 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Domain\User\Services\UserWashingService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Washing\CreateWashingRequest;
+use App\Http\Requests\Washing\DeleteWashingRequest;
 use App\Http\Requests\Washing\ListWashingByEstablishmentRequest;
+use App\Http\Requests\Washing\ShowWashingRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
@@ -31,7 +33,7 @@ class UserWashingController extends Controller
         }
     }
 
-    public function showAction(int $id): JsonResponse
+    public function showAction(ShowWashingRequest $request, int $id): JsonResponse
     {
         try {
             $output = $this->userWashingService->show($id);
@@ -65,7 +67,7 @@ class UserWashingController extends Controller
         }
     }
 
-    public function deleteAction(int $id): JsonResponse
+    public function deleteAction(DeleteWashingRequest $request, int $id): JsonResponse
     {
         try {
             $output = $this->userWashingService->delete($id);

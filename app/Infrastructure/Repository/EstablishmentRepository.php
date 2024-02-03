@@ -110,12 +110,28 @@ class EstablishmentRepository implements EstablishmentRepositoryInterface
         return $this->factoryEstablishment($row, $rowAddress);
     }
 
-    public function getByUserIdTryFrom(int $userId): array
+    public function getByUserIdTryFrom(?int $userId): array
     {
         $row = $this->db::with('address')->where('user_id', $userId)->first();
 
         if (!$row) {
             throw new Exception('Empresa não encontrado');
+        }
+
+        $rowAddress = $row->address?->first();
+
+        return $this->factoryEstablishment($row, $rowAddress);
+    }
+
+    public function getByUserIdAndEstablishmentIdTryFrom(?int $userId, ?int $establishmentId): ?array
+    {
+        $row = $this->db::with('address')
+            ->where('id', $establishmentId)
+            ->where('user_id', $userId)
+            ->first();
+
+        if (!$row) {
+            return null;
         }
 
         $rowAddress = $row->address?->first();

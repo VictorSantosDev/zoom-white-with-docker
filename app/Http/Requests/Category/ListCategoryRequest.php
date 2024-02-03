@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests\Category;
 
+use App\Utils\Permissions\CheckPermission;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ListCategoryRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return CheckPermission::checkPermission('api_list_category');
     }
 
     public function rules(): array

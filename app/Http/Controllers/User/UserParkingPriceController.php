@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Domain\User\Services\UserParkingPriceService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Parking\CreateParkingPriceRequest;
+use App\Http\Requests\Parking\ShowParkingRequest;
 use App\Http\Requests\Parking\UpdateParkinPriceRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -47,10 +48,10 @@ class UserParkingPriceController extends Controller
         }
     }
 
-    public function showParkingPriceAction(Request $request): JsonResponse
+    public function showParkingPriceAction(ShowParkingRequest $request, int $id): JsonResponse
     {
         try {
-            $output = $this->userParkingPriceService->showParkingPrice($request->input('establishmentId'));
+            $output = $this->userParkingPriceService->showParkingPrice($id);
 
             return response()->json([
                 'data' => $output->jsonSerialize()

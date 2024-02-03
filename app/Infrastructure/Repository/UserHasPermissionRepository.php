@@ -18,6 +18,7 @@ class UserHasPermissionRepository implements UserHasPermissionRepositoryInterfac
     {
         $row = $this->db::where('user_id', $userId)
             ->join('permissions', 'user_has_permission.permission_id', '=', 'permissions.id')
+            ->where('permissions.type', $type)
             ->first();
 
         if (!$row) {

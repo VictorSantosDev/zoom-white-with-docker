@@ -5,13 +5,14 @@ namespace App\Http\Requests\Category;
 use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\Category\Entity\Category;
 use App\Domain\Enum\Active;
+use App\Utils\Permissions\CheckPermission;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCategoryRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return CheckPermission::checkPermission('api_update_category');
     }
 
     public function rules(): array

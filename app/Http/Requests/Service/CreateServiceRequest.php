@@ -5,10 +5,16 @@ namespace App\Http\Requests\Service;
 use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\Enum\Active;
 use App\Domain\Service\Entity\ServiceEntity;
+use App\Utils\Permissions\CheckPermission;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ServiceRequest extends FormRequest
+class CreateServiceRequest extends FormRequest
 {
+    public function authorize(): bool
+    {
+        return CheckPermission::checkPermission('api_create_service');
+    }
+
     public function rules(): array
     {
         return [

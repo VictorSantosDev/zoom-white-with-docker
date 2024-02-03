@@ -6,6 +6,7 @@ use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\Company\Entity\Company;
 use App\Domain\Company\Infrastructure\Entity\CompanyEntityInterface;
 use App\Models\Company as ModelsCompany;
+use Exception;
 
 class CompanyEntity implements CompanyEntityInterface
 {
@@ -28,6 +29,37 @@ class CompanyEntity implements CompanyEntityInterface
             'updated_at' => $company->getUpdatedAt(),
             'deleted_at' => $company->getDeletedAt(),
         ]);
+
+        return new Company(
+            id: new Id($row->id),
+            establishmentId: $company->getEstablishmentId(),
+            companyName: $company->getCompanyName(),
+            fantasyName: $company->getFantasyName(),
+            document: $company->getDocument(),
+            phone: $company->getPhone(),
+            email: $company->getEmail(),
+            closingDate: $company->getClosingDate(),
+            createdAt: $row->created_at?->format('Y-m-d H:m:s'),
+            updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
+            deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
+        );
+    }
+
+    public function update(Company $company): Company
+    {
+        $row = $this->db::where('id', $company->getId()?->get())->first();
+
+        if (!$row) {
+            throw new Exception('Empresa não encontrada.');
+        }
+
+        $row->company_name = $company->getCompanyName();
+        $row->fantasy_name = $company->getFantasyName();
+        $row->document = $company->getDocument();
+        $row->phone = $company->getPhone();
+        $row->email = $company->getEmail();
+        $row->closing_date = $company->getClosingDate();
+        $row->save();
 
         return new Company(
             id: new Id($row->id),

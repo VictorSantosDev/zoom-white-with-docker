@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Domain\User\Services\UserCompanyService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\CreateCompanyRequest;
+use App\Http\Requests\Company\UpdateCompanyRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -38,15 +39,20 @@ class UserCompanyController extends Controller
         }
     }
 
-    public function updateAction(Request $request): JsonResponse
+    public function updateAction(UpdateCompanyRequest $request): JsonResponse
     {
         try {
-            $output = $this->userCompanyService->update($request->data());
-
+            DB::beginTransaction();
+            $output = $this->userCompanyService->update(
+                $request->dataCompany(),
+                $request->dataAddress()
+            );
+            DB::commit();
             return response()->json([
                 'data' => $output->jsonSerialize()
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'error' => $e->getMessage()
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);

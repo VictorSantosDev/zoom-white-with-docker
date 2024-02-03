@@ -4,13 +4,14 @@ namespace App\Http\Requests\Parking;
 
 use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\ParkingPrice\Entity\ParkingPrice;
+use App\Utils\Permissions\CheckPermission;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateParkinPriceRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return CheckPermission::checkPermission('api_update_parking_price');
     }
 
     public function rules(): array
