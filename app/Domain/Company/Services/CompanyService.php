@@ -37,7 +37,53 @@ class CompanyService
         Address $address
     ): Company {
         $user = auth('users')->user();
-        $companyCurrent = $this->companyRepositoryInterface->getByIdTryFrom($company->getId()->get());
+        $establishment = $this->establishmentService->findEstablishmentByUserId($user->id);
+        $this->validateDocumentCompanyExist($company, $establishment['establishment']->getId()->get());
+        $currentCompany = $this->companyRepositoryInterface->getByIdTryFrom($company->getId()->get());
+        $this->checkCompanyByEstablishment(
+            $establishment['establishment']->getId()->get(),
+            $currentCompany->getEstablishmentId()->get()
+        );
+        $company = $this->companyEntity->update($company);
+        $address = $this->addressService->updateAddressCompany($address, $company->getId()->get());
+        return $company;
+    }
+
+    public function show(int $id): Company
+    {
+        return $this->companyRepositoryInterface->getByIdTryFrom($id);
+    }
+
+    public function list(
+        int $establishmentId,
+        ?string $companyName,
+        ?string $fantasyName,
+        ?string $document,
+        ?string $phone,
+        ?string $email,
+        int $limitPerPage
+    ): array {
+        return $this->companyRepositoryInterface->list(
+            $establishmentId,
+            $companyName,
+            $fantasyName,
+            $document,
+            $phone,
+            $email,
+            $limitPerPage
+        );
+    }
+
+    public function delete(int $id): bool
+    {
+        return $this->companyEntity->delete($id);
+    }
+
+    private function validateDocumentCompanyExist(Company $company, int $establishmentId): void
+    {
+        if ($this->companyRepositoryInterface->existDocumentCompany($company, $establishmentId)) {
+            throw new Exception('Já existe uma empresa com esse documento');
+        }
     }
 
     private function validateCompany(Company $company): void
@@ -55,6 +101,13 @@ class CompanyService
         );
 
         if (!$establishment) {
+            throw new Exception('O usuário não pertence a esse estabelecimento.');
+        }
+    }
+
+    private function checkCompanyByEstablishment(int $establishmentId, int $establishmentIdByCompany): void
+    {
+        if ($establishmentId !== $establishmentIdByCompany) {
             throw new Exception('O usuário não pertence a esse estabelecimento.');
         }
     }

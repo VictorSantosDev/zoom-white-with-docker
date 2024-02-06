@@ -123,7 +123,7 @@ class EstablishmentRepository implements EstablishmentRepositoryInterface
         return $this->factoryEstablishment($row, $rowAddress);
     }
 
-    public function getByUserIdAndEstablishmentIdTryFrom(?int $userId, ?int $establishmentId): ?array
+    public function getByUserIdAndEstablishmentId(?int $userId, ?int $establishmentId): ?array
     {
         $row = $this->db::with('address')
             ->where('id', $establishmentId)

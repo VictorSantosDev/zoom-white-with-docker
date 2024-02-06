@@ -63,7 +63,7 @@ class CompanyEntity implements CompanyEntityInterface
 
         return new Company(
             id: new Id($row->id),
-            establishmentId: $company->getEstablishmentId(),
+            establishmentId: new Id($row->establishment_id),
             companyName: $company->getCompanyName(),
             fantasyName: $company->getFantasyName(),
             document: $company->getDocument(),
@@ -74,5 +74,16 @@ class CompanyEntity implements CompanyEntityInterface
             updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
             deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
         );
+    }
+
+    public function delete(int $id): bool
+    {
+        $delete = $this->db::where('id', $id)->delete();
+
+        if ($delete === 0) {
+            throw new Exception('Não foi possível excluir essa empresa');
+        }
+
+        return true;
     }
 }

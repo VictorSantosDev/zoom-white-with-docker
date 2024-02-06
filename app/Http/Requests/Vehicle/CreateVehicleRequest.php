@@ -28,9 +28,13 @@ class CreateVehicleRequest extends FormRequest
 
     public function messages(): array
     {
-        return [];
+        return [
+            'integer' => 'O campo :attribute aceita somente números inteiros',
+            'required' => 'O campo :attribute é obrigatório',
+            'max' => 'O campo :attribute pode ter no máximo :max caracteres',
+            'min' => 'O campo :attribute pode ter no minímo :min caracteres',
+        ];
     }
-
     public function data(): Vehicle
     {
         return new Vehicle(

@@ -27,15 +27,33 @@ class UserCompanyService
         return $this->companyService->update($company, $address);
     }
 
-    public function show()
+    public function show(int $id): Company
     {
+        return $this->companyService->show($id);
     }
 
-    public function list()
-    {
+    public function list(
+        int $establishmentId,
+        ?string $companyName,
+        ?string $fantasyName,
+        ?string $document,
+        ?string $phone,
+        ?string $email,
+        int $limitPerPage
+    ): array {
+        return $this->companyService->list(
+            $establishmentId,
+            $companyName,
+            $fantasyName,
+            $document,
+            $phone,
+            $email,
+            $limitPerPage
+        );
     }
 
-    public function delete()
+    public function delete(int $id): bool
     {
+        return $this->companyService->delete($id);
     }
 }

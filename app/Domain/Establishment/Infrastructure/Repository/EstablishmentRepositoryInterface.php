@@ -18,5 +18,5 @@ interface EstablishmentRepositoryInterface
     ): array;
     public function getByIdTryFrom(int $id): array;
     public function getByUserIdTryFrom(?int $userId): array;
-    public function getByUserIdAndEstablishmentIdTryFrom(?int $userId, ?int $establishmentId): ?array;
+    public function getByUserIdAndEstablishmentId(?int $userId, ?int $establishmentId): ?array;
 }

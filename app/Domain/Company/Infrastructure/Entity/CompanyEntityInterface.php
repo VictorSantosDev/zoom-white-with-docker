@@ -8,4 +8,5 @@ interface CompanyEntityInterface
 {
     public function create(Company $company): Company;
     public function update(Company $company): Company;
+    public function delete(int $id): bool;
 }

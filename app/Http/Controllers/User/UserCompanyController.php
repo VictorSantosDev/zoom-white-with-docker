@@ -5,6 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Domain\User\Services\UserCompanyService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\CreateCompanyRequest;
+use App\Http\Requests\Company\DeleteCompanyRequest;
+use App\Http\Requests\Company\ListCompanyRequest;
+use App\Http\Requests\Company\ShowCompanyRequest;
 use App\Http\Requests\Company\UpdateCompanyRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -59,7 +62,7 @@ class UserCompanyController extends Controller
         }
     }
 
-    public function showAction(int $id): JsonResponse
+    public function showAction(ShowCompanyRequest $request, int $id): JsonResponse
     {
         try {
             $output = $this->userCompanyService->show($id);
@@ -74,13 +77,21 @@ class UserCompanyController extends Controller
         }
     }
 
-    public function listAction(Request $request): JsonResponse
+    public function listAction(ListCompanyRequest $request): JsonResponse
     {
         try {
-            $output = $this->userCompanyService->list($request->all());
+            $output = $this->userCompanyService->list(
+                $request->input('establishmentId'),
+                $request->input('companyName', null),
+                $request->input('fantasyName', null),
+                $request->input('document', null),
+                $request->input('phone', null),
+                $request->input('email', null),
+                $request->input('limitPerPage', 10)
+            );
 
             return response()->json([
-                'data' => $output->jsonSerialize()
+                'data' => $output
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return response()->json([
@@ -89,13 +100,13 @@ class UserCompanyController extends Controller
         }
     }
 
-    public function deleteAction(int $id): JsonResponse
+    public function deleteAction(DeleteCompanyRequest $request, int $id): JsonResponse
     {
         try {
             $output = $this->userCompanyService->delete($id);
 
             return response()->json([
-                'data' => $output->jsonSerialize()
+                'data' => $output
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return response()->json([

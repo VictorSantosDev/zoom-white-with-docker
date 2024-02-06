@@ -129,4 +129,41 @@ class AddressEntity implements AddressEntityInterface
             deletedAt: $address->getDeletedAt(),
         );
     }
+
+    public function updateAddressCompany(Address $address, int $companyId): Address
+    {
+        $row = $this->db::where('company_id', $companyId)->first();
+
+        if (!$row) {
+            throw new Exception('Não foi encontrado endereço para essa empresa');
+        }
+
+        $row->postal_code = $address->getPostalCode();
+        $row->street = $address->getStreet();
+        $row->neighborhood = $address->getNeighborhood();
+        $row->state = $address->getState();
+        $row->city = $address->getCity();
+        $row->number = $address->getNumber();
+        $row->complement = $address->getComplement();
+        $row->updated_at = $address->getUpdatedAt();
+        $row->save();
+
+        return new Address(
+            id: new Id($row->id),
+            userId: $address->getUserId(),
+            establishmentId: $address->getEstablishmentId(),
+            companyId: new Id($row->company_id),
+            postalCode: $address->getPostalCode(),
+            street: $address->getStreet(),
+            neighborhood: $address->getNeighborhood(),
+            state: $address->getState(),
+            city: $address->getCity(),
+            number: $address->getNumber(),
+            complement: $address->getComplement(),
+            active: $address->getActive(),
+            createdAt: $address->getCreatedAt(),
+            updatedAt: $address->getUpdatedAt(),
+            deletedAt: $address->getDeletedAt(),
+        );
+    }
 }

@@ -58,9 +58,9 @@ class EstablishmentService
         return $this->establishmentRepositoryInterface->getByUserIdTryFrom($userId);
     }
 
-    public function findEstablishmentByUserIdAndEstablishmentId(?int $userId, int $establishmentId)
+    public function findEstablishmentByUserIdAndEstablishmentId(?int $userId, int $establishmentId): ?array
     {
-        return $this->establishmentRepositoryInterface->getByUserIdAndEstablishmentIdTryFrom(
+        return $this->establishmentRepositoryInterface->getByUserIdAndEstablishmentId(
             $userId,
             $establishmentId
         );
