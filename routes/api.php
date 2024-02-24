@@ -11,6 +11,7 @@ use App\Http\Controllers\Employee\EmployeeWashingVehicleController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\UserCategoryController;
 use App\Http\Controllers\User\UserCompanyController;
+use App\Http\Controllers\User\UserEstablishmentController;
 use App\Http\Controllers\User\UserParkingPriceController;
 use App\Http\Controllers\User\UserServiceController;
 use App\Http\Controllers\User\UserVehicleController;
@@ -55,6 +56,10 @@ Route::prefix('v1')->group(function () {
             Route::middleware('auth:users')->post('logout', [UserAuthController::class, 'logout'])->name('users-auth-logout');
             Route::middleware('auth:users')->post('refresh', [UserAuthController::class, 'refresh'])->name('users-auth-refresh');
             Route::middleware('auth:users')->post('me', [UserAuthController::class, 'me'])->name('users-auth-me');
+        });
+
+        Route::prefix('establishment')->middleware('auth:users')->group(function () {
+            Route::get('list-establishment-user', [UserEstablishmentController::class, 'listestablishmentAction'])->name('ist-establishment-user');
         });
 
         Route::prefix('category')->middleware('auth:users')->group(function () {

@@ -53,6 +53,11 @@ class EstablishmentService
         return $this->establishmentEntityInterface->delete($id);
     }
 
+    public function listEstablishmentByUser(int $userId): array
+    {
+        return $this->establishmentRepositoryInterface->listEstablishmentByUserId($userId, null, null, null);
+    }
+
     public function findEstablishmentByUserId(?int $userId): array
     {
         return $this->establishmentRepositoryInterface->getByUserIdTryFrom($userId);
