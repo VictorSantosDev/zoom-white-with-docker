@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Domain\User\Services\UserEstablishmentService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Establishment\ListEstablishmentUserRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class UserEstablishmentController extends Controller
     ) {
     }
 
-    public function listestablishmentAction(): JsonResponse
+    public function listEstablishmentAction(ListEstablishmentUserRequest $request): JsonResponse
     {
         try {
             $output = $this->userEstablishmentService->listEstablishmentByUser();

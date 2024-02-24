@@ -59,7 +59,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('establishment')->middleware('auth:users')->group(function () {
-            Route::get('list-establishment-user', [UserEstablishmentController::class, 'listestablishmentAction'])->name('ist-establishment-user');
+            Route::get('list-establishment-user', [UserEstablishmentController::class, 'listEstablishmentAction'])->name('ist-establishment-user');
         });
 
         Route::prefix('category')->middleware('auth:users')->group(function () {
