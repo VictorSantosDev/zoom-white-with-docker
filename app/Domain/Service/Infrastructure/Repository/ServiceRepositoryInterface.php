@@ -10,6 +10,7 @@ interface ServiceRepositoryInterface
     public function getByIdTryFrom(int $id): ServiceEntity;
     public function listServiceByEstablishmentId(
         int $establishmentId,
+        ?int $categoryId,
         ?string $name,
         ?int $price,
         ?int $limitPerPage

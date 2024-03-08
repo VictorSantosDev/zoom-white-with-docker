@@ -40,11 +40,16 @@ class ServiceRepository implements ServiceRepositoryInterface
 
     public function listServiceByEstablishmentId(
         int $establishmentId,
+        ?int $categoryId,
         ?string $name,
         ?int $price,
         ?int $limitPerPage = 10
     ): array {
         $row = $this->db::where('establishment_id', $establishmentId);
+
+        if ($categoryId) {
+            $row = $row->where('category_id', $categoryId);
+        }
 
         if ($name) {
             $row = $row->where('name', 'LIKE', "$name%");

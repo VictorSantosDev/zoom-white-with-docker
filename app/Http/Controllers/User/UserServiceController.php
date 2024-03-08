@@ -54,6 +54,7 @@ class UserServiceController extends Controller
         try {
             $output = $this->userServiceByCategoryService->list(
                 $request->input('establishmentId'),
+                $request->input('categoryId'),
                 $request->input('name', null),
                 $request->input('price', null),
                 $request->input('limitPerPage', 10)

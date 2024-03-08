@@ -44,6 +44,6 @@ class CategoryRepository implements CategoryRepositoryInterface
             $row = $row->where('name', 'LIKE', "$name%");
         }
 
-        return $row->paginate(10)->toArray();
+        return $row->orderBy('id', 'desc')->paginate(10)->toArray();
     }
 }

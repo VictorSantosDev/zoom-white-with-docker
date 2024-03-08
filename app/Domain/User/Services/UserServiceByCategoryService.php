@@ -25,12 +25,14 @@ class UserServiceByCategoryService
 
     public function list(
         int $establishmentId,
+        ?int $categoryId,
         ?string $name,
         ?int $price,
         ?int $limitPerPage
     ): array {
         return $this->serviceMain->list(
             $establishmentId,
+            $categoryId,
             $name,
             $price,
             $limitPerPage

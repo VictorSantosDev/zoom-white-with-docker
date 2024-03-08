@@ -16,6 +16,7 @@ class ListServiceRequest extends FormRequest
     {
         return [
             'establishmentId' => 'required|integer',
+            'categoryId' => 'nullable|required|integer',
             'name' => 'nullable|string',
             'price' => 'nullable|integer',
             'limitPerPage' => 'nullable|integer',

@@ -48,7 +48,8 @@ class CategoryEntity implements CategoryEntityInterface
         }
 
         $row->name = $category->getName();
-        $row->name = $category->getNumberIcon();
+        $row->number_icon = $category->getNumberIcon();
+        $row->save();
 
         return new Category(
             id: new Id($row->id),

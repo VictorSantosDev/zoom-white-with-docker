@@ -27,12 +27,14 @@ class ServiceMain
 
     public function list(
         int $establishmentId,
+        ?int $categoryId,
         ?string $name,
         ?int $price,
         ?int $limitPerPage
     ): array {
         return $this->serviceRepositoryInterface->listServiceByEstablishmentId(
             $establishmentId,
+            $categoryId,
             $name,
             $price,
             $limitPerPage

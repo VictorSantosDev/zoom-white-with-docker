@@ -65,7 +65,8 @@ class UserService
         return [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('users')->factory()->getTTL() * 60
+            'expires_in' => auth('users')->factory()->getTTL() * 60,
+            'user' => base64_encode(json_encode(auth('users')->user()->toArray())),
         ];
     }
 }
