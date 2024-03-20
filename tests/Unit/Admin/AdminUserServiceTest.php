@@ -41,33 +41,28 @@ class AdminUserServiceTest extends TestCase
     }
 
     #[DataProvider('testInvalidUserDataProvider')]
-    public function testInvalidUser(User $user, string $expectedResult)
+    public function testInvalidUser(User $userData, string $expectedResult)
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage($expectedResult);
 
-        $id = 1;
-
-        $user = $this->userEntity();
-        $userEntity = $this->createMock(UserEntity::class);
-
         $userRepository = $this->createMock(UserRepository::class);
-        $userRepository->method('cpfExist')->willReturn($this->userEntity(id: new Id($id)));
+        $userRepository->method('cpfExist')->willReturn($userData);
 
         $adminUserService = new AdminUserService(
-            $userEntity,
+            $this->createMock(UserEntity::class),
             $userRepository,
             $this->createMock(AdminSendingEmailService::class)
         );
 
-        $adminUserService->create($user);
+        $adminUserService->create($userData);
     }
 
     public static function testInvalidUserDataProvider(): array
     {
         return [
             'shouldNotCreateUserIfCpfExistWithOtherUser' => [
-                'user' => new User(
+                'userData' => new User(
                     id: null,
                     name: 'Name Test',
                     email: 'test@example.com',
