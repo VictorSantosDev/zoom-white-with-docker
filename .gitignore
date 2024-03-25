@@ -18,5 +18,6 @@ yarn-error.log
 /.idea
 /.vscode
 .docker/mysql
+.docker/mysql_local
 .docker/test_mysql
 .docker/rabbitmq

@@ -9,6 +9,7 @@ use App\Domain\Service\Infrastructure\Repository\ServiceRepositoryInterface;
 use App\Models\Service as ModelService;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ServiceRepository implements ServiceRepositoryInterface
 {
@@ -45,21 +46,36 @@ class ServiceRepository implements ServiceRepositoryInterface
         ?int $price,
         ?int $limitPerPage = 10
     ): array {
-        $row = $this->db::where('establishment_id', $establishmentId);
+        $row = DB::table('service as s')
+            ->select([
+                's.id',
+                's.establishment_id',
+                's.category_id',
+                's.name',
+                'c.name as nameCategory',
+                's.price',
+                's.active',
+                's.created_at',
+                's.updated_at',
+                's.deleted_at',
+            ])
+            ->join('category as c', 'c.id', '=', 's.category_id')
+            ->where('s.establishment_id', $establishmentId)
+            ->whereNull('s.deleted_at');
 
         if ($categoryId) {
-            $row = $row->where('category_id', $categoryId);
+            $row = $row->where('s.category_id', $categoryId);
         }
 
         if ($name) {
-            $row = $row->where('name', 'LIKE', "$name%");
+            $row = $row->where('s.name', 'LIKE', "$name%");
         }
 
         if ($price) {
-            $row = $row->where('price', 'LIKE', "$price%");
+            $row = $row->where('s.price', 'LIKE', "$price%");
         }
 
-        return $row->paginate($limitPerPage)->toArray();
+        return $row->orderBy('id', 'desc')->paginate($limitPerPage)->toArray();
     }
 
     public function getByServiceIds(array $serviceIds): Collection

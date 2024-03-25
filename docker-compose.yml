@@ -3,7 +3,7 @@ services:
     app_stepcar:
         build: ./
         ports:
-            - 9001:80
+            - 9002:80
         volumes:
             - ./:/usr/share/nginx/html
         container_name: app_stepcar
@@ -14,13 +14,13 @@ services:
     stepcar_db:
         image: mysql:8.1
         ports:
-            - 33061:3306
+            - 33088:3306
         environment:
             MYSQL_DATABASE: stepcar_db
             MYSQL_ROOT_PASSWORD: root
             MYSQL_PASSWORD: root
         volumes:
-            - .docker/mysql:/var/lib/mysql
+            - .docker/mysql_local:/var/lib/mysql
         container_name: stepcar_db
         restart: always
         networks:
@@ -29,7 +29,7 @@ services:
     stepcar_test_db:
         image: mysql:8.1
         ports:
-            - 33062:3302
+            - 33062:3306
         environment:
             MYSQL_DATABASE: stepcar_test_db
             MYSQL_ROOT_PASSWORD: root
