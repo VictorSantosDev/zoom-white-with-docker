@@ -10,6 +10,7 @@
 
 - docker container exec app-zoom-white php artisan jwt:secret
 
+- docker exec -it --user=root container-name chmod -R 777 /var/www
 ```
 
 ---
