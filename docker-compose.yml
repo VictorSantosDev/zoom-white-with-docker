@@ -1,13 +1,30 @@
-version: "3"
+version: "3.8"
 services:
     app_stepcar:
-        build: ./
-        ports:
-            - 9002:80
-        volumes:
-            - ./:/usr/share/nginx/html
-        container_name: app_stepcar
+        build:
+            context: .
+            dockerfile: Dockerfile
         restart: always
+        tty: true
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+            - ./.docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        container_name: app_stepcar
+        networks:
+            - app-network
+
+    webserver:
+        image: nginx:alpine
+        container_name: webserver
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./:/var/www
+            - .docker/nginx/conf.d/:/etc/nginx/conf.d/
         networks:
             - app-network
 
@@ -20,7 +37,7 @@ services:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_PASSWORD: root
         volumes:
-            - .docker/mysql_local:/var/lib/mysql
+            - ./.docker/mysql_local:/var/lib/mysql
         container_name: stepcar_db
         restart: always
         networks:
@@ -35,7 +52,7 @@ services:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_PASSWORD: root
         volumes:
-            - .docker/test_mysql:/var/lib/mysql
+            - ./.docker/test_mysql:/var/lib/mysql
         container_name: stepcar_test_db
         restart: always
         networks:
@@ -48,8 +65,8 @@ services:
             - 5672:5672
             - 15672:15672
         volumes:
-            - .docker/rabbitmq/data/:/var/lib/rabbitmq
-            - .docker/rabbitmq/log/:/var/log/rabbitmq
+            - ./.docker/rabbitmq/data/:/var/lib/rabbitmq
+            - ./.docker/rabbitmq/log/:/var/log/rabbitmq
         environment:
             RABBITMQ_DEFAULT_USER: root
             RABBITMQ_DEFAULT_PASS: 12345
