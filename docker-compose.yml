@@ -73,6 +73,7 @@ services:
         restart: always
         networks:
             - app-network
+        command: ["bash", "-c", "/bin/chmod 600 /var/lib/rabbitmq/.erlang.cookie && /bin/chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie && rabbitmq-server"]
 
 networks:
     app-network:

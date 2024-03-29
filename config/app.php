@@ -180,6 +180,7 @@ return [
         App\Providers\VehicleProvider::class,
         App\Providers\ServiceHasVehicleProvider::class,
         App\Providers\UserHasPermissionProvider::class,
+        App\Providers\PermissionsProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,

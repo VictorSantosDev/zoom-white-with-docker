@@ -58,6 +58,11 @@ class AdminUserService
         return $this->userRepositoryInterface->getByIdTryFrom($id);
     }
 
+    public function findUserByEmail(string $email): User
+    {
+        return $this->userRepositoryInterface->findByEmailTryFrom($email);
+    }
+
     public function delete(?int $id): bool
     {
         return $this->userEntityInterface->delete($id);
