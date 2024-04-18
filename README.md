@@ -2,13 +2,24 @@
 
 ```bash
 
-- docker-compose up -d
+- docker compose up -d
 
-- docker container exec app-zoom-white composer install
+- docker compose exec app_stepcar composer install
 
-- docker container exec app-zoom-white php artisan migrate
+- docker compose exec app_stepcar php artisan migrate
 
-- docker container exec app-zoom-white php artisan jwt:secret
+- docker compose exec app_stepcar php artisan jwt:secret
+
+- docker exec -it --user=root app_stepcar chmod -R 777 /var/www
+
+# Atribuir permissão de acesso para o usuário
+
+# Comando
+- docker compose exec php artisan user:assign-permission-to-user-command {email} {typeUser}
+
+# Descrição
+# {email} example@example.com
+# {typeUser} ADMIN, USER ou EMPLOYEE  
 
 ```
 

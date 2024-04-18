@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Admin;
 use Database\Seeders\Admin\AdminSeeder;
+use Database\Seeders\Permissions\PermissionsSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             AdminSeeder::class,
+            PermissionsSeeder::class
         ]);
     }
 }

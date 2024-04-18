@@ -23,4 +23,5 @@ interface UserRepositoryInterface
         ?string $email,
         ?string $phone
     ): void;
+    public function findByEmailTryFrom(string $email): User;
 }

@@ -185,4 +185,28 @@ class UserRepository implements UserRepositoryInterface
             throw new Exception('Número de telefone já cadastrado');
         }
     }
+
+    public function findByEmailTryFrom(string $email): User
+    {
+        $row = $this->db::where('email', $email)->first();
+
+        if (!$row) {
+            throw new Exception('E-mail não encontrado');
+        }
+
+        return new User(
+            id: new Id($row->id),
+            name: $row->name,
+            email: $row->email,
+            phone: $row->phone,
+            active: Active::tryFrom($row->active),
+            cpf: $row->cpf,
+            birthDate: $row->birthDate,
+            password: $row->password,
+            emailVerifiedAt: $row->email_verified_at,
+            createdAt: $row->created_at?->format('Y-m-d H:m:s'),
+            updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
+            deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
+        );
+    }
 }
