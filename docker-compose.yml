@@ -75,6 +75,17 @@ services:
             - app-network
         command: ["bash", "-c", "/bin/chmod 600 /var/lib/rabbitmq/.erlang.cookie && /bin/chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie && rabbitmq-server"]
 
+    prometheus:
+        image: prom/prometheus
+        container_name: prometheus
+        ports:
+            - 9090:9090
+        networks:
+            - app-network
+        volumes:
+            - ./.docker/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
+        restart: always
+
 networks:
     app-network:
         driver: bridge
