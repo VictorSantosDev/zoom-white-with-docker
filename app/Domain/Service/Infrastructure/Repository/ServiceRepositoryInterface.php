@@ -11,6 +11,7 @@ interface ServiceRepositoryInterface
     public function listServiceByEstablishmentId(
         int $establishmentId,
         ?int $categoryId,
+        ?string $categoryIds,
         ?string $name,
         ?int $price,
         ?int $limitPerPage

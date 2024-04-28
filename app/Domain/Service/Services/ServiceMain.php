@@ -28,6 +28,7 @@ class ServiceMain
     public function list(
         int $establishmentId,
         ?int $categoryId,
+        ?string $categoryIds,
         ?string $name,
         ?int $price,
         ?int $limitPerPage
@@ -35,6 +36,7 @@ class ServiceMain
         return $this->serviceRepositoryInterface->listServiceByEstablishmentId(
             $establishmentId,
             $categoryId,
+            $categoryIds,
             $name,
             $price,
             $limitPerPage

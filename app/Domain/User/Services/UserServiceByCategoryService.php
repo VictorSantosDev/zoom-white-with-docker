@@ -26,6 +26,7 @@ class UserServiceByCategoryService
     public function list(
         int $establishmentId,
         ?int $categoryId,
+        ?string $categoryIds,
         ?string $name,
         ?int $price,
         ?int $limitPerPage
@@ -33,6 +34,7 @@ class UserServiceByCategoryService
         return $this->serviceMain->list(
             $establishmentId,
             $categoryId,
+            $categoryIds,
             $name,
             $price,
             $limitPerPage

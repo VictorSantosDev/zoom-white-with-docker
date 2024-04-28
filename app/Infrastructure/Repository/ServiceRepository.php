@@ -42,6 +42,7 @@ class ServiceRepository implements ServiceRepositoryInterface
     public function listServiceByEstablishmentId(
         int $establishmentId,
         ?int $categoryId,
+        ?string $categoryIds,
         ?string $name,
         ?int $price,
         ?int $limitPerPage = 10
@@ -65,6 +66,10 @@ class ServiceRepository implements ServiceRepositoryInterface
 
         if ($categoryId) {
             $row = $row->where('s.category_id', $categoryId);
+        }
+
+        if (!$categoryId && $categoryIds) {
+            $row = $row->whereIn('s.category_id', array_map(fn ($value) => intval($value), explode(',', $categoryIds)));
         }
 
         if ($name) {
