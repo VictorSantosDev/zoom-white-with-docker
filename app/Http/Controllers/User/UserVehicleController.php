@@ -78,6 +78,23 @@ class UserVehicleController extends Controller
         }
     }
 
+    public function showFullAction(ShowVehicleRequest $request, int $id): JsonResponse
+    {
+        try {
+            DB::beginTransaction();
+            $output = $this->userVehicleService->showFull($id);
+            DB::commit();
+            return response()->json([
+                'data' => $output
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'error' => $e->getMessage()
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
     public function listAction(ListVehicleRequest $request): JsonResponse
     {
         try {

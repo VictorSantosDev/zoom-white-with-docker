@@ -7,6 +7,7 @@ use App\Domain\Vehicle\Entity\Vehicle;
 use App\Domain\Vehicle\Infrastructure\Repository\VehicleRepositoryInterface;
 use App\Models\Vehicle as ModelVehicle;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class VehicleRepository implements VehicleRepositoryInterface
 {
@@ -75,5 +76,24 @@ class VehicleRepository implements VehicleRepositoryInterface
         }
 
         return $row->paginate($limitPerPage)->toArray();
+    }
+
+    public function getVehicleJoinServices(int $id): array
+    {
+        $row = DB::table('vehicle', 'v')
+            ->select([
+                'c.name as category_name',
+                's.id as service_id',
+                's.name as service_name', 
+                's.price as service_price',
+                's.category_id as service_category_id',
+            ])
+            ->join('service_has_vehicle as sv', 'sv.vehicle_id','=','v.id')
+            ->join('service as s', 's.id','=','sv.service_id')
+            ->join('category as c', 'c.id','=','s.category_id')
+            ->where('v.id', $id)
+        ->get();
+
+        return $row->toArray();
     }
 }

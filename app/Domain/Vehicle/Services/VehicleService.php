@@ -68,6 +68,20 @@ class VehicleService
         return $this->vehicleRepositoryInterface->getByIdTryFrom($id);
     }
 
+    public function showFull(int $id): array
+    {
+        $vehicle = $this->vehicleRepositoryInterface->getByIdTryFrom($id);
+
+        $vehicleJoinServices = $this->vehicleRepositoryInterface->getVehicleJoinServices(
+            $vehicle->getId()->get()
+        );
+
+        return [
+            'vehicle' => $vehicle,
+            'services' => $vehicleJoinServices,
+        ];
+    }
+
     public function list(
         int $establishmentId,
         ?int $companyId,

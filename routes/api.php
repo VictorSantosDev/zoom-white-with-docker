@@ -104,6 +104,7 @@ Route::prefix('v1')->group(function () {
             Route::post('create', [UserVehicleController::class, 'createAction'])->name('user-vehicle-create');
             Route::put('update', [UserVehicleController::class, 'updateAction'])->name('user-vehicle-update');
             Route::get('show/{id}', [UserVehicleController::class, 'showAction'])->name('user-vehicle-show');
+            Route::get('show/full/{id}', [UserVehicleController::class, 'showFullAction'])->name('user-vehicle-show-full');
             Route::get('list', [UserVehicleController::class, 'listAction'])->name('user-vehicle-list');
             Route::delete('/delete/{id}', [UserVehicleController::class, 'deleteAction'])->name('user-vehicle-delete');
         });

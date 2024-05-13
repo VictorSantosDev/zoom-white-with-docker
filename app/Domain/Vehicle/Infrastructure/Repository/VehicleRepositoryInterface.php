@@ -17,4 +17,5 @@ interface VehicleRepositoryInterface
         ?int $price,
         int $limitPerPage
     ): array;
+    public function getVehicleJoinServices(int $id): array;
 }

@@ -27,6 +27,11 @@ class UserVehicleService
         return $this->vehicleService->show($id);
     }
 
+    public function showFull(int $id): array
+    {
+        return $this->vehicleService->showFull($id);
+    }
+
     public function list(
         int $establishmentId,
         ?int $companyId,
