@@ -12,6 +12,10 @@
 
 - docker exec -it --user=root app_stepcar chmod -R 777 /var/www
 
+#seed
+
+- docker compose exec app_stepcar php artisan db:seed
+
 # Atribuir permissão de acesso para o usuário
 
 # Comando
