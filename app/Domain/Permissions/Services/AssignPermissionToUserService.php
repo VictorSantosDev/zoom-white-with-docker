@@ -26,7 +26,7 @@ class AssignPermissionToUserService
     public function setPermissionForUser(
         string $email,
         string $typeUser,
-        OutputStyle $output
+        OutputStyle $output = null
     ): void {
         $user = $this->adminUserService->findUserByEmail($email);
         $typeUser = $this->validateTypeUser($typeUser);
@@ -39,25 +39,33 @@ class AssignPermissionToUserService
         };
     }
 
-    private function create(int $userId, Collection $collectionPermissions, OutputStyle $output): void
+    private function create(int $userId, Collection $collectionPermissions, ?OutputStyle $output): void
     {
-        $progress = $output->createProgressBar(count($collectionPermissions->toArray()));
-        $progress->start();
+        if ($output) {
+            $progress = $output->createProgressBar(count($collectionPermissions->toArray()));
+            $progress->start();
+        }
 
         foreach ($collectionPermissions->toArray() as $typePermission) {
             if ($this->checkUserHasPermission($userId, $typePermission)) {
-                $progress->advance();
-                continue;
+                if ($output) {
+                    $progress->advance();
+                    continue;
+                }
             }
 
             $permission = $this->permissionsService->findPermissionByType($typePermission);
 
             $this->userHasPermissionService->create($userId, $permission->getId()->get());
 
-            $progress->advance();
+            if ($output) {
+                $progress->advance();
+            }
         }
 
-        $progress->finish();
+        if ($output) {
+            $progress->finish();
+        }
     }
 
     private function checkUserHasPermission(int $userId, string $type): bool
@@ -69,7 +77,7 @@ class AssignPermissionToUserService
     {
 
         if (!(TypeUser::tryFrom(strtoupper($typeUser)) instanceof TypeUser)) {
-            throw new Exception('O tipo de usuário só pode ser ' . implode(', ', TypeUser::allTypeUser()));
+            throw new Exception('O tipo de usuário só pode ser ' . implode(', ', TypeUser::getEnum()));
         }
         return TypeUser::tryFrom($typeUser);
     }

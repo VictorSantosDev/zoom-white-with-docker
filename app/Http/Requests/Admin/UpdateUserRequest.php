@@ -5,9 +5,9 @@ namespace App\Http\Requests\Admin;
 use App\Domain\Admin\Entity\User;
 use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\Enum\Active;
+use App\Domain\Enum\TypeUser;
 use Illuminate\Foundation\Http\FormRequest;
 use Closure;
-use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class UpdateUserRequest extends FormRequest
@@ -32,6 +32,7 @@ class UpdateUserRequest extends FormRequest
                     Closure $fail
                 ) => $this->validateAge(attribute: $attribute, value: $value, fail: $fail)
             ],
+            'typeUser' => 'required|in:' . implode(',', TypeUser::getEnum()),
         ];
     }
 
@@ -58,6 +59,7 @@ class UpdateUserRequest extends FormRequest
             cpf: $this->input('cpf'),
             birthDate: $this->input('birthDate'),
             password: null,
+            typeUser: TypeUser::tryFrom($this->input('typeUser')),
             emailVerifiedAt: null,
             createdAt: now(),
             updatedAt: now(),

@@ -4,6 +4,7 @@ namespace App\Domain\Admin\Entity;
 
 use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\Enum\Active;
+use App\Domain\Enum\TypeUser;
 use JsonSerializable;
 
 class User implements JsonSerializable
@@ -17,6 +18,7 @@ class User implements JsonSerializable
         private ?string $cpf,
         private ?string $birthDate,
         private ?string $password,
+        private ?TypeUser $typeUser,
         private ?string $emailVerifiedAt,
         private ?string $createdAt,
         private ?string $updatedAt,
@@ -64,6 +66,11 @@ class User implements JsonSerializable
         return $this->password;
     }
 
+    public function getTypeUser(): ?TypeUser
+    {
+        return $this->typeUser;
+    }
+
     public function getEmailVerifiedAt(): ?string
     {
         return $this->emailVerifiedAt;
@@ -94,6 +101,7 @@ class User implements JsonSerializable
             'active' => $this->getActive(),
             'cpf' => $this->getCpf(),
             'birthDate' => $this->getBirthDate(),
+            'typeUser' => $this->getTypeUser()->value,
             'emailVerifiedAt' => $this->getEmailVerifiedAt(),
             'createdAt' => $this->getCreatedAt(),
             'updatedAt' => $this->getUpdatedAt(),

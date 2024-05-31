@@ -7,6 +7,8 @@ namespace App\Infrastructure\Entity;
 use App\Domain\Admin\Entity\User;
 use App\Domain\Admin\Infrastructure\Entity\UserEntityInterface;
 use App\Domain\Admin\ValueObjects\Id;
+use App\Domain\Enum\Active;
+use App\Domain\Enum\TypeUser;
 use App\Models\User as EntityUser;
 use Exception;
 
@@ -27,6 +29,7 @@ class UserEntity implements UserEntityInterface
             'cpf' => $user->getCpf(),
             'birthDate' => $user->getBirthDate(),
             'password' => password_hash($user->getPassword(), PASSWORD_DEFAULT),
+            'type_user' => $user->getTypeUser()->value,
             'emailVerifiedAt' => $user->getEmailVerifiedAt(),
             'created_at' => $user->getCreatedAt(),
             'updated_at' => $user->getUpdatedAt(),
@@ -42,6 +45,7 @@ class UserEntity implements UserEntityInterface
             cpf: $user->getCpf(),
             birthDate: $user->getBirthDate(),
             password: $user->getPassword(),
+            typeUser: $user->getTypeUser(),
             emailVerifiedAt: $user->getEmailVerifiedAt(),
             createdAt: $user->getCreatedAt(),
             updatedAt: $user->getUpdatedAt(),
@@ -59,6 +63,7 @@ class UserEntity implements UserEntityInterface
         $row->active = $user->getActive()->value;
         $row->cpf = $user->getCpf();
         $row->birthDate = $user->getBirthDate();
+        $row->type_user = $user->getTypeUser()->value;
         $row->updated_at = $user->getUpdatedAt();
         $row->save();
 
@@ -71,6 +76,7 @@ class UserEntity implements UserEntityInterface
             cpf: $user->getCpf(),
             birthDate: $user->getBirthDate(),
             password: $user->getPassword(),
+            typeUser: $user->getTypeUser(),
             emailVerifiedAt: $user->getEmailVerifiedAt(),
             createdAt: $user->getCreatedAt(),
             updatedAt: $user->getUpdatedAt(),
@@ -87,5 +93,33 @@ class UserEntity implements UserEntityInterface
         }
 
         return true;
+    }
+
+    public function updateTypeUser(int $id, TypeUser $typeUser): User
+    {
+        $row = $this->db::where('id', $id)->first();
+
+        if (!$row) {
+            throw new Exception('Usuário não encontrado');
+        }
+
+        $row->type_user = $typeUser->value;
+        $row->save();
+
+        return new User(
+            id: new Id($row->id),
+            name: $row->name,
+            email: $row->email,
+            phone: $row->phone,
+            active: Active::tryFrom($row->active),
+            cpf: $row->cpf,
+            birthDate: $row->birthDate,
+            password: $row->password,
+            typeUser: TypeUser::tryFrom($row->type_user),
+            emailVerifiedAt: $row->email_verified_at,
+            createdAt: $row->created_at?->format('Y-m-d H:m:s'),
+            updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
+            deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
+        );
     }
 }

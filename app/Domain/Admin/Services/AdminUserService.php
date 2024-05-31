@@ -5,6 +5,7 @@ namespace App\Domain\Admin\Services;
 use App\Domain\Admin\Entity\User;
 use App\Domain\Admin\Infrastructure\Entity\UserEntityInterface;
 use App\Domain\Admin\Infrastructure\Repository\UserRepositoryInterface;
+use App\Domain\Enum\TypeUser;
 use Exception;
 
 class AdminUserService
@@ -12,14 +13,17 @@ class AdminUserService
     public function __construct(
         private UserEntityInterface $userEntityInterface,
         private UserRepositoryInterface $userRepositoryInterface,
-        private AdminSendingEmailService $adminSendingEmailService
+        private AdminSendingEmailService $adminSendingEmailService,
+        private PermissionsToUserService $permissionsToUserService
     ) {
     }
 
     public function create(User $user): User
     {
+        dd(TypeUser::tryFromByName('USER'));
         $this->existUser($user);
         $userCreated = $this->userEntityInterface->create($user);
+        $this->permissionsToUserService->setPermission($userCreated->getEmail(), $userCreated->getTypeUser());
         $this->adminSendingEmailService->sendEmailUserCreated($user);
         return $userCreated;
     }
@@ -29,7 +33,7 @@ class AdminUserService
         $this->existUserForUpdate($user);
         $userCurrent = $this->userRepositoryInterface->getByIdTryFrom($user->getId()->get());
         $userUpdated = $this->userEntityInterface->update($user);
-
+        $this->permissionsToUserService->setPermission($userUpdated->getEmail(), $userUpdated->getTypeUser());
         if ($userUpdated->getEmail() !== $userCurrent->getEmail()) {
             $this->adminSendingEmailService->sendEmailUserCreated($userUpdated);
         }
@@ -71,6 +75,11 @@ class AdminUserService
     public function findUserById(?int $id): User
     {
         return $this->userRepositoryInterface->getByIdTryFrom($id);
+    }
+
+    public function updateTypeUser(int $id, TypeUser $typeUser): User
+    {
+        return $this->userEntityInterface->updateTypeUser($id, $typeUser);
     }
 
     private function existUser(User $user): void
