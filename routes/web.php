@@ -19,3 +19,4 @@ Route::get('/', function () {
 });
 
 Route::get('/metrics', [PrometheusController::class, 'metrics']);
+Route::get('/create-test', [PrometheusController::class, 'createTestOrder']);

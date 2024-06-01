@@ -30,6 +30,8 @@ class PrometheusController extends Controller
 
         // Create Order Codes
 
-        return $this->successResponse('The order has been successfully created.');
+        return response()->json([
+            'data' => 'Create Order Codes'
+        ], JsonResponse::HTTP_OK);
     }
 }

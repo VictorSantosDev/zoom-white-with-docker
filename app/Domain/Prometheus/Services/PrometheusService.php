@@ -9,18 +9,14 @@ class PrometheusService
 {
     private string $orderCategory = 'orderCategory';
 
-    private CollectorRegistry $collectorRegistry;
-
-    public function __construct(CollectorRegistry $registry)
-    {
-        $this->collectorRegistry = $registry->getDefault();
-    }
-
     public function metrics(): string
     {
+        /** @var CollectorRegistry $collectorRegistry */
+        $collectorRegistry = resolve(CollectorRegistry::class);
+
         $renderer = new RenderTextFormat();
 
-        $result = $renderer->render($this->collectorRegistry->getMetricFamilySamples());
+        $result = $renderer->render($collectorRegistry->getMetricFamilySamples());
 
         header('Content-type: ' . RenderTextFormat::MIME_TYPE);
 
@@ -32,14 +28,20 @@ class PrometheusService
      */
     public function createTestOrder($count = 1): void
     {
-        $counter = $this->collectorRegistry->getOrRegisterCounter('orders', 'count', 'Number of Orders', ['category']);
+        /** @var CollectorRegistry $collectorRegistry */
+        $collectorRegistry = resolve(CollectorRegistry::class);
+
+        $counter = $collectorRegistry->getOrRegisterCounter('orders', 'count', 'Number of Orders', ['category']);
 
         $counter->incBy($count, [$this->orderCategory]);
     }
 
     public function incrementOrder($count = 1)
     {
-        $counter = $this->collectorRegistry->getOrRegisterCounter('orders', 'count', 'Number of Orders', ['category']);
+        /** @var CollectorRegistry $collectorRegistry */
+        $collectorRegistry = resolve(CollectorRegistry::class);
+
+        $counter = $collectorRegistry->getOrRegisterCounter('orders', 'count', 'Number of Orders', ['category']);
         $counter->incBy($count + 1, [$this->orderCategory]);
     }
 }
