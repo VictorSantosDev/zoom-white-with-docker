@@ -8,6 +8,7 @@ use App\Domain\Admin\Entity\User;
 use App\Domain\Admin\Infrastructure\Repository\UserRepositoryInterface;
 use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\Enum\Active;
+use App\Domain\Enum\TypeUser;
 use App\Models\User as EntityUser;
 use Exception;
 
@@ -35,6 +36,7 @@ class UserRepository implements UserRepositoryInterface
             cpf: $row->cpf,
             birthDate: $row->birthDate,
             password: $row->password,
+            typeUser: TypeUser::tryFromByName($row->type_user),
             emailVerifiedAt: $row->email_verified_at,
             createdAt: $row->created_at?->format('Y-m-d H:m:s'),
             updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
@@ -59,6 +61,7 @@ class UserRepository implements UserRepositoryInterface
             cpf: $row->cpf,
             birthDate: $row->birthDate,
             password: $row->password,
+            typeUser: TypeUser::tryFromByName($row->type_user),
             emailVerifiedAt: $row->email_verified_at,
             createdAt: $row->created_at?->format('Y-m-d H:m:s'),
             updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
@@ -83,6 +86,7 @@ class UserRepository implements UserRepositoryInterface
             cpf: $row->cpf,
             birthDate: $row->birthDate,
             password: $row->password,
+            typeUser: TypeUser::tryFromByName($row->type_user),
             emailVerifiedAt: $row->email_verified_at,
             createdAt: $row->created_at?->format('Y-m-d H:m:s'),
             updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
@@ -142,6 +146,7 @@ class UserRepository implements UserRepositoryInterface
             cpf: $row->cpf,
             birthDate: $row->birthDate,
             password: $row->password,
+            typeUser: TypeUser::tryFromByName($row->type_user),
             emailVerifiedAt: $row->email_verified_at,
             createdAt: $row->created_at?->format('Y-m-d H:m:s'),
             updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
@@ -203,6 +208,7 @@ class UserRepository implements UserRepositoryInterface
             cpf: $row->cpf,
             birthDate: $row->birthDate,
             password: $row->password,
+            typeUser: TypeUser::tryFromByName($row->type_user),
             emailVerifiedAt: $row->email_verified_at,
             createdAt: $row->created_at?->format('Y-m-d H:m:s'),
             updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),

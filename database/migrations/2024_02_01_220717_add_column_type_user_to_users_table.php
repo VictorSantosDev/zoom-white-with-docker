@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->enum('type_user', [
+                'ADMIN',
                 'USER',
                 'EMPLOYEE'
             ])->after('remember_token')->nullable();

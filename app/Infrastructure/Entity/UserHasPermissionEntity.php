@@ -32,4 +32,15 @@ class UserHasPermissionEntity implements UserHasPermissionEntityInterface
             deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
         );
     }
+
+    public function deleteAllTryFrom(int $userId): bool
+    {
+        $delete = $this->db::where('user_id', $userId)->delete();
+
+        if ($delete === 0) {
+            return false;
+        }
+
+        return true;
+    }
 }

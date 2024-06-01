@@ -4,10 +4,10 @@ namespace App\Http\Requests\Admin;
 
 use App\Domain\Admin\Entity\User;
 use App\Domain\Enum\Active;
+use App\Domain\Enum\TypeUser;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Closure;
-use Exception;
 use Illuminate\Support\Str;
 
 class CreateUserRequest extends FormRequest
@@ -31,6 +31,7 @@ class CreateUserRequest extends FormRequest
                     Closure $fail
                 ) => $this->validateAge(attribute: $attribute, value: $value, fail: $fail)
             ],
+            'typeUser' => 'required|in:' . implode(',', TypeUser::getEnum()),
         ];
     }
 
@@ -42,6 +43,7 @@ class CreateUserRequest extends FormRequest
             'phone' => 'O campo suporta no máximo 11 caracteres',
             'cpf' => 'O documento é inválido',
             'birthDate' => 'Data de aniversário é inválida',
+            'in' => 'O campo :attribute só aceita valores :values'
         ];
     }
 
@@ -59,6 +61,7 @@ class CreateUserRequest extends FormRequest
             cpf: $this->input('cpf'),
             birthDate: $this->input('birthDate'),
             password: $password,
+            typeUser: TypeUser::tryFromByName($this->input('typeUser')),
             emailVerifiedAt: null,
             createdAt: now(),
             updatedAt: now(),

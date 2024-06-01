@@ -6,8 +6,10 @@ use PHPUnit\Framework\TestCase;
 use App\Domain\Admin\Entity\User;
 use App\Domain\Admin\Services\AdminSendingEmailService;
 use App\Domain\Admin\Services\AdminUserService;
+use App\Domain\Admin\Services\PermissionsToUserService;
 use App\Domain\Admin\ValueObjects\Id;
 use App\Domain\Enum\Active;
+use App\Domain\Enum\TypeUser;
 use App\Infrastructure\Entity\UserEntity;
 use App\Infrastructure\Repository\UserRepository;
 use Exception;
@@ -25,7 +27,8 @@ class AdminUserServiceTest extends TestCase
         $adminUserService = new AdminUserService(
             $userEntity,
             $this->createMock(UserRepository::class),
-            $this->createMock(AdminSendingEmailService::class)
+            $this->createMock(AdminSendingEmailService::class),
+            $this->createMock(PermissionsToUserService::class)
         );
 
         $output = $adminUserService->create($user);
@@ -52,7 +55,8 @@ class AdminUserServiceTest extends TestCase
         $adminUserService = new AdminUserService(
             $this->createMock(UserEntity::class),
             $userRepository,
-            $this->createMock(AdminSendingEmailService::class)
+            $this->createMock(AdminSendingEmailService::class),
+            $this->createMock(PermissionsToUserService::class)
         );
 
         $adminUserService->create($userData);
@@ -71,6 +75,7 @@ class AdminUserServiceTest extends TestCase
                     cpf: '49199169061',
                     birthDate: '1999-01-01',
                     password: 'Teste@12345',
+                    typeUser: TypeUser::USER,
                     emailVerifiedAt: null,
                     createdAt: now(),
                     updatedAt: now(),
@@ -90,6 +95,7 @@ class AdminUserServiceTest extends TestCase
         string $cpf = '49199169061',
         string $birthDate = '1999-01-01',
         string $password = 'Teste@12345',
+        TypeUser $typeUser = TypeUser::USER,
         string $emailVerifiedAt = null,
         string $createdAt = null,
         string $updatedAt = null,
@@ -104,6 +110,7 @@ class AdminUserServiceTest extends TestCase
             cpf: $cpf,
             birthDate: $birthDate,
             password: $password,
+            typeUser: $typeUser,
             emailVerifiedAt: $emailVerifiedAt,
             createdAt: $createdAt ?? now(),
             updatedAt: $updatedAt ?? now(),

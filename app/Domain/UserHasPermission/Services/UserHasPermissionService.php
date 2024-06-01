@@ -21,6 +21,11 @@ class UserHasPermissionService
         return $this->userHasPermissionEntityInterface->create($userId, $permissionId);
     }
 
+    public function deleteAll(int $userId): bool
+    {
+        return $this->userHasPermissionEntityInterface->deleteAllTryFrom($userId);
+    }
+
     public function findUserHasPermission(?int $userId, ?string $type): ?UserHasPermission
     {
         return $this->userHasPermissionRepositoryInterface->findUserHasPermission($userId, $type);
