@@ -61,7 +61,7 @@ class CreateUserRequest extends FormRequest
             cpf: $this->input('cpf'),
             birthDate: $this->input('birthDate'),
             password: $password,
-            typeUser: TypeUser::tryFrom($this->input('typeUser')),
+            typeUser: TypeUser::tryFromByName($this->input('typeUser')),
             emailVerifiedAt: null,
             createdAt: now(),
             updatedAt: now(),

@@ -9,6 +9,7 @@ use App\Domain\Enum\TypeUser;
 use Illuminate\Foundation\Http\FormRequest;
 use Closure;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -50,6 +51,9 @@ class UpdateUserRequest extends FormRequest
 
     public function data(): User
     {
+        $symbol = ['@', '#', '$', '&'];
+        $password = Str::random(4) . $symbol[rand(0, 3)] . Str::random(3);
+
         return new User(
             id: new Id($this->input('id')),
             name: $this->input('name'),
@@ -58,8 +62,8 @@ class UpdateUserRequest extends FormRequest
             active: Active::ACTIVE,
             cpf: $this->input('cpf'),
             birthDate: $this->input('birthDate'),
-            password: null,
-            typeUser: TypeUser::tryFrom($this->input('typeUser')),
+            password: $password,
+            typeUser: TypeUser::tryFromByName($this->input('typeUser')),
             emailVerifiedAt: null,
             createdAt: now(),
             updatedAt: now(),

@@ -46,6 +46,8 @@ class AssignPermissionToUserService
             $progress->start();
         }
 
+        $this->userHasPermissionService->deleteAll($userId);
+
         foreach ($collectionPermissions->toArray() as $typePermission) {
             if ($this->checkUserHasPermission($userId, $typePermission)) {
                 if ($output) {
@@ -76,9 +78,9 @@ class AssignPermissionToUserService
     private function validateTypeUser(string $typeUser): TypeUser
     {
 
-        if (!(TypeUser::tryFrom(strtoupper($typeUser)) instanceof TypeUser)) {
+        if (!(TypeUser::tryFromByName(strtoupper($typeUser)) instanceof TypeUser)) {
             throw new Exception('O tipo de usuário só pode ser ' . implode(', ', TypeUser::getEnum()));
         }
-        return TypeUser::tryFrom($typeUser);
+        return TypeUser::tryFromByName($typeUser);
     }
 }

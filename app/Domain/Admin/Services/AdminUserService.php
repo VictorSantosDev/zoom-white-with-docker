@@ -20,7 +20,6 @@ class AdminUserService
 
     public function create(User $user): User
     {
-        dd(TypeUser::tryFromByName('USER'));
         $this->existUser($user);
         $userCreated = $this->userEntityInterface->create($user);
         $this->permissionsToUserService->setPermission($userCreated->getEmail(), $userCreated->getTypeUser());
@@ -33,8 +32,13 @@ class AdminUserService
         $this->existUserForUpdate($user);
         $userCurrent = $this->userRepositoryInterface->getByIdTryFrom($user->getId()->get());
         $userUpdated = $this->userEntityInterface->update($user);
+
         $this->permissionsToUserService->setPermission($userUpdated->getEmail(), $userUpdated->getTypeUser());
         if ($userUpdated->getEmail() !== $userCurrent->getEmail()) {
+            $userUpdated = $this->userEntityInterface->updatePassword(
+                $userUpdated->getId(),
+                $user->getPassword()
+            );
             $this->adminSendingEmailService->sendEmailUserCreated($userUpdated);
         }
 

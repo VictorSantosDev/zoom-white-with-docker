@@ -84,6 +84,34 @@ class UserEntity implements UserEntityInterface
         );
     }
 
+    public function updatePassword(?int $id, string $password): User
+    {
+        $row = $this->db::where('id', $id)->first();
+
+        if (!$row) {
+            return 'Usuário não encontrado';
+        }
+
+        $row->password = $password;
+        $row->save();
+
+        return new User(
+            id: new Id($row->id),
+            name: $row->name,
+            email: $row->email,
+            phone: $row->phone,
+            active: Active::tryFrom($row->active),
+            cpf: $row->cpf,
+            birthDate: $row->birthDate,
+            password: $password,
+            typeUser: TypeUser::tryFromByName($row->type_user),
+            emailVerifiedAt: $row->email_verified_at,
+            createdAt: $row->created_at?->format('Y-m-d H:m:s'),
+            updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
+            deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
+        );
+    }
+
     public function delete(int $id): bool
     {
         $delete = $this->db::where('id', $id)->delete();
@@ -115,7 +143,7 @@ class UserEntity implements UserEntityInterface
             cpf: $row->cpf,
             birthDate: $row->birthDate,
             password: $row->password,
-            typeUser: TypeUser::tryFrom($row->type_user),
+            typeUser: TypeUser::tryFromByName($row->type_user),
             emailVerifiedAt: $row->email_verified_at,
             createdAt: $row->created_at?->format('Y-m-d H:m:s'),
             updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
