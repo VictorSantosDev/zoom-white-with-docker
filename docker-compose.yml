@@ -105,13 +105,21 @@ services:
         restart: always
         depends_on:
             - redis
+        extra_hosts:
+            host.docker.internal: 192.168.32.1
 
     grafana:
         image: grafana/grafana:10.2.2
+        container_name: grafana
         ports:
             - 3000:3000
+        environment:
+            GF_SECURITY_ADMIN_USER: stepcar.suporte@outlook.com
+            GF_SECURITY_ADMIN_PASSWORD: admin
+        restart: always
         networks:
             - app-network
+
 networks:
     app-network:
         driver: bridge
