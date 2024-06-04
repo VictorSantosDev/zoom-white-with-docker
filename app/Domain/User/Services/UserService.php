@@ -2,6 +2,7 @@
 
 namespace App\Domain\User\Services;
 
+use App\Utils\PublishMetrics\PublishMetrics;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
@@ -17,6 +18,8 @@ class UserService
         if (!$token = auth('users')->attempt($credentials)) {
             throw new Exception('Não autorizado', JsonResponse::HTTP_UNAUTHORIZED);
         }
+
+        PublishMetrics::incrementAuth();
 
         return $this->respondWithToken($token);
     }

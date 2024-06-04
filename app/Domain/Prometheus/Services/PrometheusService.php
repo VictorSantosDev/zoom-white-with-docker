@@ -4,22 +4,21 @@ namespace App\Domain\Prometheus\Services;
 
 use Prometheus\CollectorRegistry;
 use Prometheus\RenderTextFormat;
+use Prometheus\Storage\InMemory;
 
 class PrometheusService
 {
     private string $orderCategory = 'orderCategory';
 
-    private CollectorRegistry $collectorRegistry;
-
-    public function __construct(CollectorRegistry $registry)
-    {
-        $this->collectorRegistry = $registry->getDefault();
+    public function __construct(
+        private CollectorRegistry $collectorRegistry
+    ) {
     }
 
     public function metrics(): string
     {
-        $renderer = new RenderTextFormat();
 
+        $renderer = new RenderTextFormat();
         $result = $renderer->render($this->collectorRegistry->getMetricFamilySamples());
 
         header('Content-type: ' . RenderTextFormat::MIME_TYPE);
@@ -40,6 +39,6 @@ class PrometheusService
     public function incrementOrder($count = 1)
     {
         $counter = $this->collectorRegistry->getOrRegisterCounter('orders', 'count', 'Number of Orders', ['category']);
-        $counter->incBy($count + 1, [$this->orderCategory]);
+        $counter->incBy($count, [$this->orderCategory]);
     }
 }
