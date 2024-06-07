@@ -1,4 +1,4 @@
-# version: "3.8"
+version: "3"
 services:
     app_stepcar:
         build:
@@ -22,8 +22,7 @@ services:
         restart: unless-stopped
         tty: true
         ports:
-            - "80:80"
-            - "443:443"
+            - "8000:80"
         volumes:
             - ./:/var/www
             - .docker/nginx/conf.d/:/etc/nginx/conf.d/
@@ -62,6 +61,18 @@ services:
         networks:
             - app-network
 
+    redis:
+        image: redis
+        container_name: redis
+        restart: always
+        ports:
+            - 6379:6379
+        command: redis-server --save 60 1 --loglevel warning
+        volumes:
+            - ./.docker/redis:/data
+        networks:
+            - app-network
+
     rabbitmq:
         image: rabbitmq:3-management-alpine
         container_name: rabbitmq
@@ -81,18 +92,6 @@ services:
         depends_on:
             - redis
 
-    redis:
-        image: redis
-        container_name: redis
-        restart: always
-        ports:
-            - 6379:6379
-        command: redis-server --save 60 1 --loglevel warning
-        volumes:
-            - ./.docker/redis:/data
-        networks:
-            - app-network
-
     prometheus:
         image: prom/prometheus
         container_name: prometheus
@@ -106,7 +105,7 @@ services:
         depends_on:
             - redis
         extra_hosts:
-            host.docker.internal: 192.168.32.1
+            - "host.docker.internal:191.252.193.185" # definir o ip da maquina
 
     grafana:
         image: grafana/grafana:10.2.2

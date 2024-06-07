@@ -2,7 +2,11 @@
 
 ```bash
 
-- docker compose up -d
+## Dependendo da verão do docker instalado utilize o "docker-compose" com traço
+
+- docker compose -f dockerComposeDevelopment.yml
+
+# COMANDO EM PRODUÇÃO: docker compose -f dockerComposeProduction.yml
 
 - docker compose exec app_stepcar composer install
 

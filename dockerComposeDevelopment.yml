@@ -1,0 +1,124 @@
+version: "3"
+services:
+    app_stepcar:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: always
+        tty: true
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+            - ./.docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        container_name: app_stepcar
+        networks:
+            - app-network
+        depends_on:
+            - redis
+
+    webserver:
+        image: nginx:alpine
+        container_name: webserver
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "8000:80"
+        volumes:
+            - ./:/var/www
+            - .docker/nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - app-network
+        depends_on:
+            - redis
+
+    stepcar_db:
+        image: mysql:8.1
+        ports:
+            - 33088:3306
+        environment:
+            MYSQL_DATABASE: stepcar_db
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_PASSWORD: root
+        volumes:
+            - ./.docker/mysql_local:/var/lib/mysql
+        container_name: stepcar_db
+        restart: always
+        networks:
+            - app-network
+
+    stepcar_test_db:
+        image: mysql:8.1
+        ports:
+            - 33062:3306
+        environment:
+            MYSQL_DATABASE: stepcar_test_db
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_PASSWORD: root
+        volumes:
+            - ./.docker/test_mysql:/var/lib/mysql
+        container_name: stepcar_test_db
+        restart: always
+        networks:
+            - app-network
+
+    redis:
+        image: redis
+        container_name: redis
+        restart: always
+        ports:
+            - 6379:6379
+        command: redis-server --save 60 1 --loglevel warning
+        volumes:
+            - ./.docker/redis:/data
+        networks:
+            - app-network
+
+    rabbitmq:
+        image: rabbitmq:3-management-alpine
+        container_name: rabbitmq
+        ports:
+            - 5672:5672
+            - 15672:15672
+        volumes:
+            - ./.docker/rabbitmq/data/:/var/lib/rabbitmq
+            - ./.docker/rabbitmq/log/:/var/log/rabbitmq
+        environment:
+            RABBITMQ_DEFAULT_USER: root
+            RABBITMQ_DEFAULT_PASS: 12345
+        restart: always
+        networks:
+            - app-network
+        command: ["bash", "-c", "/bin/chmod 600 /var/lib/rabbitmq/.erlang.cookie && /bin/chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie && rabbitmq-server"]
+        depends_on:
+            - redis
+
+    prometheus:
+        image: prom/prometheus
+        container_name: prometheus
+        ports:
+            - 9090:9090
+        networks:
+            - app-network
+        volumes:
+            - ./.docker/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
+        restart: always
+        depends_on:
+            - redis
+        extra_hosts:
+            - "host.docker.internal:192.168.32.1" # definir o ip da maquina
+
+    grafana:
+        image: grafana/grafana:10.2.2
+        container_name: grafana
+        ports:
+            - 3000:3000
+        environment:
+            GF_SECURITY_ADMIN_USER: stepcar.suporte@outlook.com
+            GF_SECURITY_ADMIN_PASSWORD: admin
+        restart: always
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
