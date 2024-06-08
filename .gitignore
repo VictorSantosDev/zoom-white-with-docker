@@ -22,3 +22,4 @@ yarn-error.log
 .docker/test_mysql
 .docker/rabbitmq
 .docker/redis
+.docker/redis/dump.rdb

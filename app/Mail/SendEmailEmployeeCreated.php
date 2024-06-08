@@ -48,7 +48,7 @@ class SendEmailEmployeeCreated extends Mailable
                 'registration' => $this->registration,
                 'name' => $this->name,
                 'password' => $this->password,
-                'url' => config('app.url', 'https://zoomwhite.com.br/'),
+                'url' => env('URL_FRONT'),
             ],
         );
     }
