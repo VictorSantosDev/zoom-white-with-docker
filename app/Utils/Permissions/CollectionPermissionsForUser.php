@@ -32,6 +32,7 @@ class CollectionPermissionsForUser
             'api_list_vehicle',
             'api_delete_vehicle',
             'api_list_establishment_user',
+            'api_update_password_logged',
         ]);
     }
 
@@ -61,6 +62,7 @@ class CollectionPermissionsForUser
             'api_list_vehicle',
             'api_delete_vehicle',
             'api_list_establishment_user',
+            'api_update_password_logged',
         ]);
     }
 
@@ -72,6 +74,7 @@ class CollectionPermissionsForUser
             'api_show_vehicle',
             'api_list_vehicle',
             'api_delete_vehicle',
+            'api_update_password_logged',
         ]);
     }
 }

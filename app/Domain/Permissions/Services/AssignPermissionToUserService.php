@@ -58,6 +58,10 @@ class AssignPermissionToUserService
 
             $permission = $this->permissionsService->findPermissionByType($typePermission);
 
+            if (!$permission) {
+                throw new Exception("Permissão '$typePermission' não encontrada, registre essa permissão em 'permissions'");
+            }
+
             $this->userHasPermissionService->create($userId, $permission->getId()->get());
 
             if ($output) {

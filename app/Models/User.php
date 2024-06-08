@@ -27,6 +27,8 @@ class User extends Authenticatable implements JWTSubject
         'cpf',
         'birthDate',
         'email_verified_at',
+        'hash_password_reset',
+        'reset_expiration',
         'password',
         'type_user',
         'created_at',

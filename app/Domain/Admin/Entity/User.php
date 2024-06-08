@@ -18,6 +18,8 @@ class User implements JsonSerializable
         private ?string $cpf,
         private ?string $birthDate,
         private ?string $password,
+        private ?string $hashPasswordReset,
+        private ?string $resetExpiration,
         private ?TypeUser $typeUser,
         private ?string $emailVerifiedAt,
         private ?string $createdAt,
@@ -64,6 +66,16 @@ class User implements JsonSerializable
     public function getPassword(): ?string
     {
         return $this->password;
+    }
+
+    public function getHashPasswordReset(): ?string
+    {
+        return $this->hashPasswordReset;
+    }
+
+    public function getResetExpiration(): ?string
+    {
+        return $this->resetExpiration;
     }
 
     public function getTypeUser(): ?TypeUser

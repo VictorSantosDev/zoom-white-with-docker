@@ -45,6 +45,8 @@ class UserEntity implements UserEntityInterface
             cpf: $user->getCpf(),
             birthDate: $user->getBirthDate(),
             password: $user->getPassword(),
+            hashPasswordReset: $user->getHashPasswordReset(),
+            resetExpiration: $user->getResetExpiration(),
             typeUser: $user->getTypeUser(),
             emailVerifiedAt: $user->getEmailVerifiedAt(),
             createdAt: $user->getCreatedAt(),
@@ -76,6 +78,8 @@ class UserEntity implements UserEntityInterface
             cpf: $user->getCpf(),
             birthDate: $user->getBirthDate(),
             password: $user->getPassword(),
+            hashPasswordReset: $user->getHashPasswordReset(),
+            resetExpiration: $user->getResetExpiration(),
             typeUser: $user->getTypeUser(),
             emailVerifiedAt: $user->getEmailVerifiedAt(),
             createdAt: $user->getCreatedAt(),
@@ -92,7 +96,9 @@ class UserEntity implements UserEntityInterface
             return 'Usuário não encontrado';
         }
 
-        $row->password = $password;
+        $row->password = password_hash($password, PASSWORD_DEFAULT);
+        $row->hash_password_reset = null;
+        $row->reset_expiration = null;
         $row->save();
 
         return new User(
@@ -104,6 +110,8 @@ class UserEntity implements UserEntityInterface
             cpf: $row->cpf,
             birthDate: $row->birthDate,
             password: $password,
+            hashPasswordReset: $row->hash_password_reset,
+            resetExpiration: $row->reset_expiration,
             typeUser: TypeUser::tryFromByName($row->type_user),
             emailVerifiedAt: $row->email_verified_at,
             createdAt: $row->created_at?->format('Y-m-d H:m:s'),
@@ -143,11 +151,28 @@ class UserEntity implements UserEntityInterface
             cpf: $row->cpf,
             birthDate: $row->birthDate,
             password: $row->password,
+            hashPasswordReset: $row->hash_password_reset,
+            resetExpiration: $row->reset_expiration,
             typeUser: TypeUser::tryFromByName($row->type_user),
             emailVerifiedAt: $row->email_verified_at,
             createdAt: $row->created_at?->format('Y-m-d H:m:s'),
             updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
             deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
         );
+    }
+
+    public function updateHashPasswordReset(?int $id, string $hash): bool
+    {
+        $row = $this->db::where('id', $id)->first();
+
+        if (!$row) {
+            throw new Exception('Usuário não encontrado');
+        }
+
+        $row->hash_password_reset = $hash;
+        $row->reset_expiration = now();
+        $row->save();
+
+        return true;
     }
 }
