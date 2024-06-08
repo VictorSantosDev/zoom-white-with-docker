@@ -36,6 +36,8 @@ class UserRepository implements UserRepositoryInterface
             cpf: $row->cpf,
             birthDate: $row->birthDate,
             password: $row->password,
+            hashPasswordReset: $row->hash_password_reset,
+            resetExpiration: $row->reset_expiration,
             typeUser: TypeUser::tryFromByName($row->type_user),
             emailVerifiedAt: $row->email_verified_at,
             createdAt: $row->created_at?->format('Y-m-d H:m:s'),
@@ -61,6 +63,8 @@ class UserRepository implements UserRepositoryInterface
             cpf: $row->cpf,
             birthDate: $row->birthDate,
             password: $row->password,
+            hashPasswordReset: $row->hash_password_reset,
+            resetExpiration: $row->reset_expiration,
             typeUser: TypeUser::tryFromByName($row->type_user),
             emailVerifiedAt: $row->email_verified_at,
             createdAt: $row->created_at?->format('Y-m-d H:m:s'),
@@ -86,6 +90,8 @@ class UserRepository implements UserRepositoryInterface
             cpf: $row->cpf,
             birthDate: $row->birthDate,
             password: $row->password,
+            hashPasswordReset: $row->hash_password_reset,
+            resetExpiration: $row->reset_expiration,
             typeUser: TypeUser::tryFromByName($row->type_user),
             emailVerifiedAt: $row->email_verified_at,
             createdAt: $row->created_at?->format('Y-m-d H:m:s'),
@@ -146,6 +152,8 @@ class UserRepository implements UserRepositoryInterface
             cpf: $row->cpf,
             birthDate: $row->birthDate,
             password: $row->password,
+            hashPasswordReset: $row->hash_password_reset,
+            resetExpiration: $row->reset_expiration,
             typeUser: TypeUser::tryFromByName($row->type_user),
             emailVerifiedAt: $row->email_verified_at,
             createdAt: $row->created_at?->format('Y-m-d H:m:s'),
@@ -193,7 +201,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function findByEmailTryFrom(string $email): User
     {
-        $row = $this->db::where('email', $email)->first();
+        $row = $this->db::where('email', $email)->where('active', Active::ACTIVE->value)->first();
 
         if (!$row) {
             throw new Exception('E-mail não encontrado');
@@ -208,6 +216,35 @@ class UserRepository implements UserRepositoryInterface
             cpf: $row->cpf,
             birthDate: $row->birthDate,
             password: $row->password,
+            hashPasswordReset: $row->hash_password_reset,
+            resetExpiration: $row->reset_expiration,
+            typeUser: TypeUser::tryFromByName($row->type_user),
+            emailVerifiedAt: $row->email_verified_at,
+            createdAt: $row->created_at?->format('Y-m-d H:m:s'),
+            updatedAt: $row->updated_at?->format('Y-m-d H:m:s'),
+            deletedAt: $row->deleted_at?->format('Y-m-d H:m:s'),
+        );
+    }
+
+    public function findUserByHash(string $hash): User
+    {
+        $row = $this->db::where('hash_password_reset', $hash)->where('active', Active::ACTIVE->value)->first();
+
+        if (!$row) {
+            throw new Exception('Hash inválido');
+        }
+
+        return new User(
+            id: new Id($row->id),
+            name: $row->name,
+            email: $row->email,
+            phone: $row->phone,
+            active: Active::tryFrom($row->active),
+            cpf: $row->cpf,
+            birthDate: $row->birthDate,
+            password: $row->password,
+            hashPasswordReset: $row->hash_password_reset,
+            resetExpiration: $row->reset_expiration,
             typeUser: TypeUser::tryFromByName($row->type_user),
             emailVerifiedAt: $row->email_verified_at,
             createdAt: $row->created_at?->format('Y-m-d H:m:s'),

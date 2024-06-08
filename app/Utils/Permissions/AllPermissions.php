@@ -99,6 +99,10 @@ class AllPermissions
                 'type' => 'api_list_establishment_user',
                 'description' => 'Listar estabelecimentos'
             ],
+            [
+                'type' => 'api_update_password_logged',
+                'description' => 'Atualizar a senha com usuário logado',
+            ],
         ];
     }
 }

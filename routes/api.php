@@ -6,13 +6,13 @@ use App\Http\Controllers\Admin\AdminCouponsController;
 use App\Http\Controllers\Admin\AdminEstablishmentController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Employee\EmployeeAuthController;
-use App\Http\Controllers\Employee\EmployeeVehicleController;
 use App\Http\Controllers\Employee\EmployeeWashingVehicleController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\UserCategoryController;
 use App\Http\Controllers\User\UserCompanyController;
 use App\Http\Controllers\User\UserEstablishmentController;
 use App\Http\Controllers\User\UserParkingPriceController;
+use App\Http\Controllers\User\UserPasswordController;
 use App\Http\Controllers\User\UserServiceController;
 use App\Http\Controllers\User\UserVehicleController;
 use App\Http\Controllers\User\UserWashingController;
@@ -56,6 +56,13 @@ Route::prefix('v1')->group(function () {
             Route::middleware('auth:users')->post('logout', [UserAuthController::class, 'logout'])->name('users-auth-logout');
             Route::middleware('auth:users')->post('refresh', [UserAuthController::class, 'refresh'])->name('users-auth-refresh');
             Route::middleware('auth:users')->post('me', [UserAuthController::class, 'me'])->name('users-auth-me');
+        });
+
+        Route::prefix('password')->group(function () {
+            Route::post('new', [UserPasswordController::class, 'newPasswordAction'])->name('new-password');
+            Route::post('forgot', [UserPasswordController::class, 'forgotPasswordAction'])->name('forgot-password');
+
+            Route::post('new-logged', [UserPasswordController::class, 'newPasswordLoggedAction'])->middleware('auth:users')->name('new-logged-password');
         });
 
         Route::prefix('establishment')->middleware('auth:users')->group(function () {

@@ -36,7 +36,7 @@ class AdminUserService
         $this->permissionsToUserService->setPermission($userUpdated->getEmail(), $userUpdated->getTypeUser());
         if ($userUpdated->getEmail() !== $userCurrent->getEmail()) {
             $userUpdated = $this->userEntityInterface->updatePassword(
-                $userUpdated->getId(),
+                $userUpdated->getId()?->get(),
                 $user->getPassword()
             );
             $this->adminSendingEmailService->sendEmailUserCreated($userUpdated);
@@ -71,6 +71,11 @@ class AdminUserService
         return $this->userRepositoryInterface->findByEmailTryFrom($email);
     }
 
+    public function findUserByHash(string $hash): User
+    {
+        return $this->userRepositoryInterface->findUserByHash($hash);
+    }
+
     public function delete(?int $id): bool
     {
         return $this->userEntityInterface->delete($id);
@@ -81,9 +86,19 @@ class AdminUserService
         return $this->userRepositoryInterface->getByIdTryFrom($id);
     }
 
-    public function updateTypeUser(int $id, TypeUser $typeUser): User
+    public function updateTypeUser(?int $id, TypeUser $typeUser): User
     {
         return $this->userEntityInterface->updateTypeUser($id, $typeUser);
+    }
+
+    public function updateHashPasswordReset(int $id, string $hash): bool
+    {
+        return $this->userEntityInterface->updateHashPasswordReset($id, $hash);
+    }
+
+    public function updatePassword(?int $id, string $password): User
+    {
+        return $this->userEntityInterface->updatePassword($id, $password);
     }
 
     private function existUser(User $user): void

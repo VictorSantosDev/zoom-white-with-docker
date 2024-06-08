@@ -63,6 +63,8 @@ class UpdateUserRequest extends FormRequest
             cpf: $this->input('cpf'),
             birthDate: $this->input('birthDate'),
             password: $password,
+            hashPasswordReset: null,
+            resetExpiration: null,
             typeUser: TypeUser::tryFromByName($this->input('typeUser')),
             emailVerifiedAt: null,
             createdAt: now(),
