@@ -44,7 +44,7 @@ class AdminUserServiceTest extends TestCase
     }
 
     #[DataProvider('testInvalidUserDataProvider')]
-    public function testInvalidUser(User $userData, string $expectedResult)
+    public function testInvalidUser(User $userData, string $expectedResult): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage($expectedResult);
@@ -62,7 +62,7 @@ class AdminUserServiceTest extends TestCase
         $adminUserService->create($userData);
     }
 
-    public static function testInvalidUserDataProvider(): array
+    public static function invalidUserDataProvider(): array
     {
         return [
             'shouldNotCreateUserIfCpfExistWithOtherUser' => [
@@ -83,7 +83,7 @@ class AdminUserServiceTest extends TestCase
                     updatedAt: now(),
                     deletedAt: null
                 ),
-                'expectedResult' => 'Já existe um usuário cadastrado com esse CPF'
+                'expectedResult' => 'Já existe um usuário cadastrado com esse CPF',
             ]
         ];
     }
