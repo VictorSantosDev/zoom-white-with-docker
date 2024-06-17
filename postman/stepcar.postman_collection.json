@@ -1,0 +1,2653 @@
+{
+	"info": {
+		"_postman_id": "d15c1101-3c4c-428f-ac20-0d3c5af7b935",
+		"name": "stepcar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "20805824",
+		"_collection_link": "https://red-firefly-202086.postman.co/workspace/STEPCAR~201d1f10-ae51-46b7-9fd5-9a05e0b3d195/collection/20805824-d15c1101-3c4c-428f-ac20-0d3c5af7b935?action=share&source=collection_link&creator=20805824"
+	},
+	"item": [
+		{
+			"name": "Gestão",
+			"item": [
+				{
+					"name": "Autenticação",
+					"item": [
+						{
+							"name": "Logar",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"pm.environment.set(\"authorization_admin\", `Bearer ${response.data.access_token}`);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"example@example.com\",\r\n    \"password\": \"password\"\r\n}"
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/auth/login"
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"pm.environment.set(\"authorization_admin\", `Bearer ${response?.data?.access_token}`);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2FwaS92MS9hZG1pbi9hdXRoL2xvZ2luIiwiaWF0IjoxNzE3MTEyMDk1LCJleHAiOjE3MTcxMTU2OTUsIm5iZiI6MTcxNzExMjA5NSwianRpIjoiTUVlSkhIekxpRld3elMxRSIsInN1YiI6IjEiLCJwcnYiOiJkZjg4M2RiOTdiZDA1ZWY4ZmY4NTA4MmQ2ODZjNDVlODMyZTU5M2E5In0.4ZCLhIgeMyVTdbhGAGuWZLy3c-NnQEhXdRRbqfZXvr4"
+									}
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/auth/refresh"
+							},
+							"response": []
+						},
+						{
+							"name": "Me",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/auth/me"
+							},
+							"response": []
+						},
+						{
+							"name": "Deslogar",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/auth/logout"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Usuário",
+					"item": [
+						{
+							"name": "Criar Usuário",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Example User\",\r\n    \"email\": \"teste@example.com\",\r\n    \"phone\": \"11964786455\",\r\n    \"cpf\": \"48606695840\",\r\n    \"birthDate\": \"2001-01-01\",\r\n    \"typeUser\": \"USER\" // ADMIN, USER ou EMPLOYEE\r\n}"
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/user/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar Usuário",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 2,\r\n    \"name\": \"Example User 54544 \",\r\n    \"email\": \"tes55555555555544444444@example.com\",\r\n    \"phone\": \"11964786111\",\r\n    \"cpf\": \"48606695840\",\r\n    \"birthDate\": \"2001-01-01\",\r\n    \"typeUser\": \"USER\" // ADMIN, USER ou EMPLOYEE\r\n}"
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/user/update"
+							},
+							"response": []
+						},
+						{
+							"name": "Lista de Usuários",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{url_zoom_white}}/api/v1/admin/user/list?active=1",
+									"host": [
+										"{{url_zoom_white}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"user",
+										"list"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "email",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "phone",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "cpf",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Pegar um usuário",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/user/show/1"
+							},
+							"response": []
+						},
+						{
+							"name": "Excluir usuário",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/user/delete/1"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Estabelecimento Do Usuário",
+					"item": [
+						{
+							"name": "Criar Estabelecimento de Usuário",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 1,\r\n    \"nameByCompany\": \"Style\",\r\n    \"document\": \"04513930000108\",\r\n    \"type\": \"CAR_WASH_AND_PARKING\", /* 1 LAVA RAPIDO 2 ESTACIONAMENTO 3 LAVA RAPIDO E ESTACIONAMENTO */\r\n    \"corSystem\": \"#01A9DB\",\r\n    \"address\": {\r\n        \"postalcode\": \"09950020\",\r\n        \"street\": \"Rua\",\r\n        \"neighborhood\": \"Vila\",\r\n        \"state\": \"SP\",\r\n        \"city\": \"DIADEMA\",\r\n        \"number\": \"3SI\",\r\n        \"complement\": \"Casa\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/establishment/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar Estabelecimento de Usuário",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"establishmentId\": 1,\r\n    \"nameByCompany\": \"Style\",\r\n    \"document\": \"04513930000108\",\r\n    \"type\": \"CAR_WASH_AND_PARKING\", /* 1 LAVA RAPIDO 2 ESTACIONAMENTO 3 LAVA RAPIDO E ESTACIONAMENTO */\r\n    \"corSystem\": \"#01A9DB\",\r\n    \"address\": {\r\n        \"postalcode\": \"09950020\",\r\n        \"street\": \"Rua\",\r\n        \"neighborhood\": \"Vila\",\r\n        \"state\": \"SP\",\r\n        \"city\": \"DIADEMA\",\r\n        \"number\": \"3SI\",\r\n        \"complement\": \"Casa\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/establishment/update"
+							},
+							"response": []
+						},
+						{
+							"name": "Listar Estabelecimento de Usuário",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 1,\r\n    \"nameByCompany\": \"Style 1\",\r\n    \"document\": \"04513930000108\",\r\n    \"type\": \"CAR_WASH_AND_PARKING\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/establishment/list-by-user"
+							},
+							"response": []
+						},
+						{
+							"name": "Pegar Estabelecimento",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/establishment/show/1"
+							},
+							"response": []
+						},
+						{
+							"name": "Excluir Estabelecimento",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/establishment/delete/1"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Cupom Do Estabelecimento",
+					"item": [
+						{
+							"name": "Criar Cupom",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"establishmentId\": 1,\r\n    \"nameByCompany\": \"Test 1\",\r\n    \"openingHoursStart\": \"08:00\",\r\n    \"openingHoursEnd\": \"19:00\",\r\n    \"daysOfTheWeekStart\": \"THIRD\",\r\n    \"daysOfTheWeekEnd\": \"SATURDAY\",\r\n    \"info\": \"Não nos responsabilizamos por quaisquer objetos perdidos ou esquecidos no veículo. Sugerimos que você analise o veículo antes de deixá-lo para lavagem.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/coupons/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar Cupom",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"couponsId\": 1,\r\n    \"nameByCompany\": \"Test 2\",\r\n    \"openingHoursStart\": \"08:02\",\r\n    \"openingHoursEnd\": \"19:02\",\r\n    \"daysOfTheWeekStart\": \"SATURDAY\",\r\n    \"daysOfTheWeekEnd\": \"THIRD\",\r\n    \"info\": \"Não nos responsabilizamos por quaisquer objetos perdidos ou esquecidos no veículo. Sugerimos que você analise o veículo antes de deixá-lo para lavagem.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/coupons/update"
+							},
+							"response": []
+						},
+						{
+							"name": "Desabilitar Cupom",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"couponsId\": 5,\r\n    \"active\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url_zoom_white}}/api/v1/admin/coupons/enable-or-disable"
+							},
+							"response": []
+						},
+						{
+							"name": "Pegar Cupom",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_admin}}",
+										"type": "text"
+									}
+								],
+								"url": "{{url_zoom_white}}/api/v1/admin/coupons/show/5"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Usuário",
+			"item": [
+				{
+					"name": "Autenticação usuário",
+					"item": [
+						{
+							"name": "Logar",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"pm.environment.set(\"authorization_user\", `Bearer ${response.data.access_token}`);\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"teste@example.com\",\r\n    \"password\": \"0bS4@U6Z\"\r\n}"
+								},
+								"url": "{{url_zoom_white}}/api/v1/user/auth/login"
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"pm.environment.set(\"authorization_user\", `Bearer ${response?.data?.access_token}`);\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{authorization_user}}"
+									}
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_user}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "{{url_zoom_white}}/api/v1/user/auth/refresh"
+							},
+							"response": []
+						},
+						{
+							"name": "Me",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{authorization_user}}"
+									}
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_user}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "{{url_zoom_white}}/api/v1/user/auth/me"
+							},
+							"response": []
+						},
+						{
+							"name": "Deslogar",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{authorization_user}}"
+									}
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_user}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "{{url_zoom_white}}/api/v1/user/auth/logout"
+							},
+							"response": []
+						},
+						{
+							"name": "Nova senha - USUÁRIO LOGADO",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{authorization_user}}"
+									}
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_user}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"oldPassword\": \"Mudar@12345\",\r\n    \"password\": \"Mudar@12345\", // A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e símbolos.\r\n    \"repeatPassword\": \"Mudar@12345\" // Deve ser a mesma senha que a de cima\r\n}"
+								},
+								"url": "{{url_zoom_white}}/api/v1/user/password/new-logged"
+							},
+							"response": []
+						},
+						{
+							"name": "Esqueceu a senha",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{authorization_user}}"
+									}
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_user}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"suporte.stepcar@gmail.com\"\r\n}"
+								},
+								"url": "{{url_zoom_white}}/api/v1/user/password/forgot"
+							},
+							"response": []
+						},
+						{
+							"name": "Nova senhas",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": ""
+									}
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"hash\": \"4845454-12sadasd-we4w6q5e4\", // hash de segurança\r\n    \"password\": \"Mudar@12345\", // A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e símbolos.\r\n    \"repeatPassword\": \"Mudar@12345\" // Deve ser a mesma senha que a de cima\r\n}"
+								},
+								"url": "{{url_zoom_white}}/api/v1/user/password/new"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Estabelecimento",
+					"item": [
+						{
+							"name": "Lavagem * Descontinuado *",
+							"item": [
+								{
+									"name": "CRUD",
+									"item": [
+										{
+											"name": "Criar Lavagem",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"establishmentId\": 1,\r\n    \"name\": \"Lavagem Cera\",\r\n    \"price\": 2500\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": "{{url_zoom_white}}/api/v1/user/washing/create"
+											},
+											"response": []
+										},
+										{
+											"name": "Pegar Lavagem",
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Authorization",
+														"value": "{{authorization_user}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": "{{url_zoom_white}}/api/v1/user/washing/show/1"
+											},
+											"response": []
+										},
+										{
+											"name": "Listar Lavagem",
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url_zoom_white}}/api/v1/user/washing/list?establishmentId=1",
+													"host": [
+														"{{url_zoom_white}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"user",
+														"washing",
+														"list"
+													],
+													"query": [
+														{
+															"key": "establishmentId",
+															"value": "1"
+														},
+														{
+															"key": "name",
+															"value": "Lavagem Cera",
+															"disabled": true
+														},
+														{
+															"key": "active",
+															"value": "1",
+															"disabled": true
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Excluir Lavagem",
+											"request": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Authorization",
+														"value": "{{authorization_user}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": "{{url_zoom_white}}/api/v1/user/washing/delete/1"
+											},
+											"response": []
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Categoria do serviço",
+							"item": [
+								{
+									"name": "Criar Categoria",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{authorization_user}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"establishmentId\": 1,\r\n    \"name\": \"Polimento\",\r\n    \"numberIcon\": 2\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url_zoom_white}}/api/v1/user/category/create"
+									},
+									"response": []
+								},
+								{
+									"name": "Atualizar Categoria",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{authorization_user}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Polimento ATUAL\",\r\n    \"numberIcon\": 2\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url_zoom_white}}/api/v1/user/category/update"
+									},
+									"response": []
+								},
+								{
+									"name": "Pegar Categoria",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{authorization_user}}",
+												"type": "text"
+											}
+										],
+										"url": "{{url_zoom_white}}/api/v1/user/category/show/1"
+									},
+									"response": []
+								},
+								{
+									"name": "Listar Categorias",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{authorization_user}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url_zoom_white}}/api/v1/user/category/list?establishmentId=1&page=2",
+											"host": [
+												"{{url_zoom_white}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"user",
+												"category",
+												"list"
+											],
+											"query": [
+												{
+													"key": "name",
+													"value": "Lava",
+													"disabled": true
+												},
+												{
+													"key": "establishmentId",
+													"value": "1"
+												},
+												{
+													"key": "page",
+													"value": "2"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Excluir Categoria",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{authorization_user}}",
+												"type": "text"
+											}
+										],
+										"url": "{{url_zoom_white}}/api/v1/user/category/delete/1"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Serviço",
+							"item": [
+								{
+									"name": "CRUD",
+									"item": [
+										{
+											"name": "Criar Serviço",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Authorization",
+														"value": "{{authorization_user}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"establishmentId\": 1,\r\n    \"categoryId\": 1,\r\n    \"name\": \"Lavagem Cera\",\r\n    \"price\": 2500\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": "{{url_zoom_white}}/api/v1/user/service/create"
+											},
+											"response": []
+										},
+										{
+											"name": "Pegar Serviço",
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Authorization",
+														"value": "{{authorization_user}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": "{{url_zoom_white}}/api/v1/user/service/show/1"
+											},
+											"response": []
+										},
+										{
+											"name": "Listar Serviços",
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Authorization",
+														"value": "{{authorization_user}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url_zoom_white}}/api/v1/user/service/list?establishmentId=1&categoryIds[]=1,2,3,4",
+													"host": [
+														"{{url_zoom_white}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"user",
+														"service",
+														"list"
+													],
+													"query": [
+														{
+															"key": "establishmentId",
+															"value": "1"
+														},
+														{
+															"key": "categoryId",
+															"value": "1",
+															"disabled": true
+														},
+														{
+															"key": "categoryIds[]",
+															"value": "1,2,3,4"
+														},
+														{
+															"key": "name",
+															"value": "L",
+															"disabled": true
+														},
+														{
+															"key": "price",
+															"value": "2",
+															"disabled": true
+														},
+														{
+															"key": "limitPerPage",
+															"value": "1",
+															"disabled": true
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Excluir Serviço",
+											"request": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Authorization",
+														"value": "{{authorization_user}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": "{{url_zoom_white}}/api/v1/user/service/delete/1"
+											},
+											"response": []
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Estacionamento (PENDENTE)",
+							"item": [
+								{
+									"name": "CRUD",
+									"item": [
+										{
+											"name": "Criar Preço do Estacionamento",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Authorization",
+														"value": "{{authorization_user}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"establishmentId\": 1,\r\n    \"priceDaily\": 5000,\r\n    \"priceByHour\": 2500,\r\n    \"chargeEveryHour\": 1,\r\n    \"pricePerHour\": 300,\r\n    \"hasOtherNightPrice\": true, /** if it is true, the fields are mandatory nighttime_supplement, start_of_additional and end_of_additional */\r\n    \"priceByHourNight\": 4500,\r\n    \"startOfAdditional\": \"18:00\",\r\n    \"endOfAdditional\": \"09:00\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": "{{url_zoom_white}}/api/v1/user/parking-price/create"
+											},
+											"response": []
+										},
+										{
+											"name": "Atualizar Preço do Estacionamento",
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Authorization",
+														"value": "{{authorization_user}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"establishmentId\": 1,\r\n    \"priceDaily\": 5200,\r\n    \"priceByHour\": 2200,\r\n    \"chargeEveryHour\": 2,\r\n    \"pricePerHour\": 220,\r\n    \"hasOtherNightPrice\": 0 /** if it is true, the fields are mandatory nighttime_supplement, start_of_additional and end_of_additional */\r\n    // \"priceByHourNight\": 200,\r\n    // \"startOfAdditional\": \"18:00\",\r\n    // \"endOfAdditional\": \"09:00\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": "{{url_zoom_white}}/api/v1/user/parking-price/update"
+											},
+											"response": []
+										},
+										{
+											"name": "Pegar Preço do Estacionamento",
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Authorization",
+														"value": "{{authorization_user}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url_zoom_white}}/api/v1/user/parking-price/show?establishmentId=1",
+													"host": [
+														"{{url_zoom_white}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"user",
+														"parking-price",
+														"show"
+													],
+													"query": [
+														{
+															"key": "establishmentId",
+															"value": "1"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Empresa",
+							"item": [
+								{
+									"name": "CRUD",
+									"item": [
+										{
+											"name": "Criar Empresa",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Authorization",
+														"value": "{{authorization_user}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"establishmentId\": 1,\r\n    \"companyName\": \"Nome da empresa 1\",\r\n    \"fantasyName\": \"Nome fantasia da empresa 1\",\r\n    \"document\": \"48606695840\",\r\n    \"phone\": \"11964780920\",\r\n    \"email\": \"victor@gmail.com\",\r\n    \"closingDate\": 31,\r\n    \"address\": {\r\n        \"postalcode\": \"09950020\",\r\n        \"street\": \"Rua\",\r\n        \"neighborhood\": \"Vila\",\r\n        \"state\": \"SP\",\r\n        \"city\": \"DIADEMA\",\r\n        \"number\": \"3SI\",\r\n        \"complement\": \"Casa\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": "{{url_zoom_white}}/api/v1/user/company/create"
+											},
+											"response": []
+										},
+										{
+											"name": "Atualizar Empresa",
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Authorization",
+														"value": "{{authorization_user}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"companyId\": 2,\r\n    \"companyName\": \"Nome da empresa 1\",\r\n    \"fantasyName\": \"Nome fantasia da empresa 1\",\r\n    \"document\": \"48606695840\",\r\n    \"phone\": \"11964780920\",\r\n    \"email\": \"victor@gmail.com\",\r\n    \"closingDate\": 31,\r\n    \"address\": {\r\n        \"postalcode\": \"09950020\",\r\n        \"street\": \"Rua\",\r\n        \"neighborhood\": \"Vila\",\r\n        \"state\": \"SP\",\r\n        \"city\": \"DIADEMA\",\r\n        \"number\": \"3SI\",\r\n        \"complement\": \"Casa\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": "{{url_zoom_white}}/api/v1/user/company/update"
+											},
+											"response": []
+										},
+										{
+											"name": "Pegar Empresa",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": "{{url_zoom_white}}/api/v1/user/company/show/1"
+											},
+											"response": []
+										},
+										{
+											"name": "Listar Empresas",
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Authorization",
+														"value": "{{authorization_user}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url_zoom_white}}/api/v1/user/company/list?establishmentId=1&companyName&fantasyName&document&phone&email&limitPerPage",
+													"host": [
+														"{{url_zoom_white}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"user",
+														"company",
+														"list"
+													],
+													"query": [
+														{
+															"key": "establishmentId",
+															"value": "1"
+														},
+														{
+															"key": "companyName",
+															"value": null
+														},
+														{
+															"key": "fantasyName",
+															"value": null
+														},
+														{
+															"key": "document",
+															"value": null
+														},
+														{
+															"key": "phone",
+															"value": null
+														},
+														{
+															"key": "email",
+															"value": null
+														},
+														{
+															"key": "limitPerPage",
+															"value": null
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Excluir Empresas",
+											"request": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Authorization",
+														"value": "{{authorization_user}}",
+														"type": "text"
+													}
+												],
+												"url": "{{url_zoom_white}}/api/v1/user/company/delete/3"
+											},
+											"response": []
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Estabelecimento",
+							"item": [
+								{
+									"name": "Listar estabelecimentos do usuário logado",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{authorization_user}}",
+												"type": "text"
+											}
+										],
+										"url": "{{url_zoom_white}}/api/v1/user/establishment/list-establishment-user"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Funcionario (PENDENTE)",
+							"item": [
+								{
+									"name": "Criar Funcionario",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{url_zoom_white}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Example User Employee\",\r\n    \"email\": \"teste-employee@example.com\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url_zoom_white}}/api/v1/user/employee/create"
+									},
+									"response": []
+								},
+								{
+									"name": "Atualizar Funcionario",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{url_zoom_white}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Example User Employee Update\",\r\n    \"email\": \"teste-employee-update@example.com\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url_zoom_white}}/api/v1/user/employee/update"
+									},
+									"response": []
+								},
+								{
+									"name": "Pegar Funcionario",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{url_zoom_white}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url_zoom_white}}/api/v1/user/employee/show/1"
+									},
+									"response": []
+								},
+								{
+									"name": "Listar Funcionarios",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{url_zoom_white}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url_zoom_white}}/api/v1/user/employee/list?name=Example User Employee&email=teste-employee@example.com",
+											"host": [
+												"{{url_zoom_white}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"user",
+												"employee",
+												"list"
+											],
+											"query": [
+												{
+													"key": "name",
+													"value": "Example User Employee"
+												},
+												{
+													"key": "email",
+													"value": "teste-employee@example.com"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Excluir Funcionario",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{url_zoom_white}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url_zoom_white}}/api/v1/user/employee/delete/1"
+									},
+									"response": []
+								}
+							],
+							"description": "Usuário do tipo EMPLOYEE"
+						}
+					]
+				},
+				{
+					"name": "Veiculo",
+					"item": [
+						{
+							"name": "CRUD",
+							"item": [
+								{
+									"name": "Criar veiculo",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{authorization_user}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"establishmentId\": 1,\r\n    // \"companyId\": 1,\r\n    \"serviceIds\": [\r\n        3\r\n    ],\r\n    \"plate\": \"ets8455\",\r\n    \"model\": \"Lancer\",\r\n    \"color\": \"Vermelho\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url_zoom_white}}/api/v1/user/vehicle/create"
+									},
+									"response": []
+								},
+								{
+									"name": "Atualizar veiculo",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{authorization_user}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"vehicleId\": 1,\r\n    \"serviceIds\": [\r\n        2,\r\n        3\r\n    ],\r\n    \"plate\": \"fvx8478\",\r\n    \"model\": \"New Fiesta\",\r\n    \"color\": \"Preto\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url_zoom_white}}/api/v1/user/vehicle/update"
+									},
+									"response": []
+								},
+								{
+									"name": "Pegar veiculo",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{authorization_user}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url_zoom_white}}/api/v1/user/vehicle/show/2"
+									},
+									"response": []
+								},
+								{
+									"name": "Pegar veiculo completo",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{authorization_user}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url_zoom_white}}/api/v1/user/vehicle/show/2"
+									},
+									"response": []
+								},
+								{
+									"name": "Todos os veiculo",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{authorization_user}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url_zoom_white}}/api/v1/user/vehicle/list?establishmentId=1",
+											"host": [
+												"{{url_zoom_white}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"user",
+												"vehicle",
+												"list"
+											],
+											"query": [
+												{
+													"key": "establishmentId",
+													"value": "1"
+												},
+												{
+													"key": "userId",
+													"value": "1",
+													"disabled": true
+												},
+												{
+													"key": "companyId",
+													"value": "1",
+													"disabled": true
+												},
+												{
+													"key": "plate",
+													"value": "fv",
+													"disabled": true
+												},
+												{
+													"key": "model",
+													"value": "new",
+													"disabled": true
+												},
+												{
+													"key": "color",
+													"value": "preto",
+													"disabled": true
+												},
+												{
+													"key": "price",
+													"value": "50",
+													"disabled": true
+												},
+												{
+													"key": "limitPerPage",
+													"value": "10",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Excluir veiculo",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{authorization_user}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url_zoom_white}}/api/v1/user/vehicle/delete/1"
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Funcionario * Descontinuado *",
+			"item": [
+				{
+					"name": "Autenticação funcionário * Descontinuado *",
+					"item": [
+						{
+							"name": "Logar",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"pm.environment.set(\"authorization_employee\", `Bearer ${response.data.access_token}`);\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"registration\": \"6724047\",\r\n    \"password\": \"RuIS@zKP\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url_zoom_white}}/api/v1/employee/auth/login"
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"pm.environment.set(\"authorization_employee\", `Bearer ${response.data.access_token}`);\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_employee}}",
+										"type": "text"
+									}
+								],
+								"url": "{{url_zoom_white}}/api/v1/employee/auth/refresh"
+							},
+							"response": []
+						},
+						{
+							"name": "Me",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_employee}}",
+										"type": "text"
+									}
+								],
+								"url": "{{url_zoom_white}}/api/v1/employee/auth/me"
+							},
+							"response": []
+						},
+						{
+							"name": "Deslogar",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url_zoom_white}}/api/v1/employee/auth/logout?Accept=application/json&Content-Type=application/json&Authorization={{authorization_employee}}",
+									"host": [
+										"{{url_zoom_white}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"employee",
+										"auth",
+										"logout"
+									],
+									"query": [
+										{
+											"key": "Accept",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Authorization",
+											"value": "{{authorization_employee}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Lavagem Veiculo * Descontinuado *",
+					"item": [
+						{
+							"name": "Criar lavagem",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_employee}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"estableshimentId\": 1,\r\n    \"washingIds\": [\r\n        2,\r\n        3,\r\n        4\r\n    ],\r\n    \"plate\": \"ets8796\",\r\n    \"model\": \"Lancer\",\r\n    \"color\": \"Preto\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url_zoom_white}}/api/v1/employee/washing-vehicle/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Atualziar lavagem",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_employee}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"washingVehicleId\": 6,\r\n    \"washingIds\": [\r\n        2,\r\n        3,\r\n        4,\r\n        7,\r\n        6\r\n    ],\r\n    \"plate\": \"ets8799\",\r\n    \"model\": \"Lancer\",\r\n    \"color\": \"Preto\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url_zoom_white}}/api/v1/employee/washing-vehicle/update"
+							},
+							"response": []
+						},
+						{
+							"name": "Pegar lavagem",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_employee}}",
+										"type": "text"
+									}
+								],
+								"url": "{{url_zoom_white}}/api/v1/employee/washing-vehicle/show/7"
+							},
+							"response": []
+						},
+						{
+							"name": "Todas lavagem",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_employee}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url_zoom_white}}/api/v1/employee/washing-vehicle/list?establishmentId=21",
+									"host": [
+										"{{url_zoom_white}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"employee",
+										"washing-vehicle",
+										"list"
+									],
+									"query": [
+										{
+											"key": "establishmentId",
+											"value": "21"
+										},
+										{
+											"key": "companyId",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "plate",
+											"value": "ft",
+											"disabled": true
+										},
+										{
+											"key": "model",
+											"value": "new",
+											"disabled": true
+										},
+										{
+											"key": "color",
+											"value": "preto",
+											"disabled": true
+										},
+										{
+											"key": "price",
+											"value": "25",
+											"disabled": true
+										},
+										{
+											"key": "limitPerPage",
+											"value": "10",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Excluir lavagem",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{authorization_employee}}",
+										"type": "text"
+									}
+								],
+								"url": "{{url_zoom_white}}/api/v1/employee/washing-vehicle/delete/6"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "url_zoom_white",
+			"value": "localhost:9001"
+		}
+	]
+}
